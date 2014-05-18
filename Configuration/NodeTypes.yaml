@@ -1,0 +1,30 @@
+'Flowpack.Snippets:Plugin':
+  superTypes: ['TYPO3.Neos:Plugin']
+  ui:
+    label: 'Snippets Plugin'
+    icon: 'icon-code'
+    group: 'plugins'
+  options:
+    pluginViews:
+      List:
+        label: 'List'
+        controllerActions:
+          Flowpack\Snippets\Controller\PostController: ['index']
+      New:
+        label: 'New'
+        controllerActions:
+          Flowpack\Snippets\Controller\PostController: ['new']
+
+'Flowpack.Snippets:List':
+  superTypes: ['TYPO3.Neos:Plugin']
+  ui:
+    label: 'Snippets List'
+    icon: 'icon-code'
+    group: 'plugins'
+
+'Flowpack.Snippets:New':
+  superTypes: ['TYPO3.Neos:Plugin']
+  ui:
+    label: 'Snippets New'
+    icon: 'icon-code'
+    group: 'plugins'

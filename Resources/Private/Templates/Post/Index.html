@@ -1,0 +1,60 @@
+    <f:if condition="{posts}">
+        <f:then>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Category</th>
+                        <th>Date</th>
+                        <th>Views</th>
+                        <th>Rating</th>
+                        <th>State</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <f:for each="{posts}" key="flowidentifier" as="post">
+                    <tr>
+                        <td><f:link.action action="show" arguments="{post: post}">{post.title}</f:link.action></td>
+                        <td>{post.category}</td>
+                        <td><f:format.date format="d.m.Y - H:i:s">{post.date}</f:format.date></td>
+                        <td>{post.views}</td>
+                        <td>{post.rating}</td>
+                        <td>
+                            <f:if condition="{post.active}">
+                                <f:then>
+                                    <span class="success round label">Active</span>
+                                </f:then>
+                                <f:else>
+                                    <span class="alert round label">Inactive</span>
+                                </f:else>
+                            </f:if>
+                        </td>
+                        <td>
+                            <f:link.action action="show" arguments="{post: post}"><i class="fa fa-caret-square-o-right fa-fw"></i></f:link.action>
+                            <f:if condition="{post.active}">
+                                <f:else>
+                                    <f:link.action action="edit" arguments="{post: post}"><i class="fa fa-pencil fa-fw"></i></f:link.action>
+                                    <a href="#" data-reveal-id="Modal{flowidentifier}"><i class="fa fa-trash-o fa-fw"></i></a>
+                                    <div id="Modal{flowidentifier}" class="reveal-modal" data-reveal>
+                                        <h2>Delete Post</h2>
+                                        <p>Do you really want to delete post "{post.title}"?</p>
+                                        <f:form action="delete" arguments="{post: post}">
+                                            <button type="submit" title="Delete Post">
+                                                Yes, delete the post
+                                            </button>
+                                        </f:form>
+                                        <a class="close-reveal-modal">&#215;</a>
+                                    </div>
+                                </f:else>
+                            </f:if>
+                        </td>
+                    </tr>
+                    </f:for>
+                </tbody>
+            </table>
+        </f:then>
+        <f:else>
+            <p>You have no posts</p>
+        </f:else>
+    </f:if>

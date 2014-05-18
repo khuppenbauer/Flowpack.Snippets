@@ -1,0 +1,25 @@
+<f:layout name="Default" />
+
+<f:section name="Title">
+    <h2>New Tag</h2>
+</f:section>
+
+<f:section name="Content">
+    <f:form action="create" name="newTag">
+        <div class="neos-row-fluid neos-module-container">
+            <fieldset class="neos-span5">
+                <legend>Tag {name}</legend>
+                <div class="neos-control-group">
+                    <label class="neos-control-label" for="name">Tag Name</label>
+                    <div class="neos-controls">
+                        <f:form.textfield property="name" id="name" class="neos-span12" />
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <div class="neos-footer">
+            <f:link.action action="index" class="neos-button">Cancel</f:link.action>
+            <f:form.submit value="Save Tag" class="neos-button neos-button-primary" />
+        </div>
+    </f:form>
+</f:section>

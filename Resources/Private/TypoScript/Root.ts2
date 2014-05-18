@@ -1,0 +1,40 @@
+page.head {
+	stylesheets.select = TYPO3.TypoScript:Template {
+		@position = 'end'
+		templatePath = 'resource://Flowpack.Snippets/Private/Templates/Page/Default.html'
+		sectionName = 'stylesheets'
+	}
+
+	javascripts.select = TYPO3.TypoScript:Template {
+		@position = 'end'
+		templatePath = 'resource://Flowpack.Snippets/Private/Templates/Page/Default.html'
+		sectionName = 'scripts'
+	}
+}
+
+##
+# "New" element, extending "Plugin"
+#
+prototype(Flowpack.Snippets:Plugin) < prototype(TYPO3.Neos:Plugin) {
+	package = 'Flowpack.Snippets'
+	controller = 'Post'
+	action = 'index'
+}
+
+##
+# "New" element, extending "Plugin"
+#
+prototype(Flowpack.Snippets:New) < prototype(TYPO3.Neos:Plugin) {
+	package = 'Flowpack.Snippets'
+	controller = 'Post'
+	action = 'new'
+}
+
+##
+# "List" element, extending "Plugin"
+#
+prototype(Flowpack.Snippets:List) < prototype(TYPO3.Neos:Plugin) {
+	package = 'Flowpack.Snippets'
+	controller = 'Post'
+	action = 'index'
+}

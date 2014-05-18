@@ -1,0 +1,18 @@
+{namespace markdown=MapSeven\Markdown\ViewHelpers}
+<f:format.date format="d.m.Y - H:i:s">{post.date}</f:format.date>
+Title: {post.title}<br />
+Description: {post.description}<br />
+Content: <f:if condition="{post.content}">
+    <f:then>
+        {post.content -> markdown:parsedown()}
+    </f:then>
+    <f:else>
+        {post.url}
+    </f:else>
+    </f:if><br />
+Views: {post.views}<br />
+Rating: {post.rating}<br />
+Category: {post.category}<br />
+Tags<br />
+Comments<br />
+    <f:link.action action="index">Back</f:link.action>

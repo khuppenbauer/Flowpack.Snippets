@@ -1,0 +1,119 @@
+{namespace markdown=MapSeven\Markdown\ViewHelpers}
+<f:layout name="Default" />
+
+<f:section name="subtitle">
+	<h2>Details for Post: {post.title}</h2>
+</f:section>
+<f:section name="Content">
+	<div class="neos-row-fluid neos-module-container">
+		<div class="neos-span5">
+			<legend>Post</legend>
+
+			<table class="neos-info-table">
+				<tbody>
+                    <tr>
+                        <th>Date</th>
+                        <td><f:format.date format="d.m.Y - H:i:s">{post.date}</f:format.date></td>
+                    </tr>
+                    <tr>
+                        <th>Author</th>
+                        <td>{post.author.name.alias}</td>
+                    </tr>
+					<tr>
+						<th>Title</th>
+						<td>{post.title}</td>
+					</tr>
+					<tr>
+						<th>Description</th>
+						<td>{post.description}</td>
+					</tr>
+                    <f:if condition="{post.content}">
+                        <f:then>
+                            <tr>
+                                <th>Content</th>
+                                <td>{post.content}</td>
+                            </tr>
+                        </f:then>
+                        <f:else>
+                            <tr>
+                                <th>Url</th>
+                                <td><f:uri.external uri="{post.url}" /></td>
+                            </tr>
+                        </f:else>
+                    </f:if>
+                    <tr>
+                        <th>Category</th>
+                        <td>{post.category.name}</td>
+                    </tr>
+                    <tr>
+                        <th>Tags</th>
+                        <td>
+                            <f:for each="{post.tags}" as="tag" iteration="iterator">
+                                {tag}{f:if(condition:iterator.isLast, then: '', else: ',')}
+                            </f:for>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Options</th>
+                        <td>
+                            <f:for each="{post.options}" key="label" as="option" iteration="iterator">
+                                {label}: {f:if(condition:option, then: 'yes', else: 'no')}{f:if(condition:iterator.isLast, then: '', else: '<br />')}
+                            </f:for>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Views</th>
+                        <td>{post.views}</td>
+                    </tr>
+                    <tr>
+                        <th>Rating</th>
+                        <td>{post.rating}</td>
+                    </tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+    <div class="neos-footer">
+        <f:link.action action="index" class="neos-button">Back</f:link.action>
+        <f:if condition="{post.active} == 1">
+            <f:then>
+                <f:form action="deactivate" arguments="{post: post}" class="neos-inline">
+                    <button class="neos-button neos-button-warning" title="Click to deactivate">
+                        <i class="icon-minus-sign icon-white"></i> Deactivate Post
+                    </button>
+                </f:form>
+            </f:then>
+            <f:else>
+                <f:form action="activate" arguments="{post: post}" class="neos-inline">
+                    <button class="neos-button neos-button-success" title="Click to activate">
+                        <i class="icon-plus-sign icon-white"></i> Activate Post
+                    </button>
+                </f:form>
+            </f:else>
+        </f:if>
+        <button class="neos-button neos-button-danger" title="Click here to delete this user" data-toggle="modal" href="#delete">
+            <i class="icon-trash icon-white"></i> Delete Post
+        </button>
+        <f:link.action action="edit" arguments="{post: post}" class="neos-button">
+            <i class="icon-pencil icon-white"></i> Edit Post
+        </f:link.action>
+        <div class="neos-hide" id="delete">
+            <div class="neos-modal">
+                <div class="neos-modal-header">
+                    <button type="button" class="neos-close neos-button" data-dismiss="modal"></button>
+                    <div class="neos-header">Do you really want to delete post "{post.title}"?</div>
+                </div>
+                <div class="neos-modal-footer">
+                    <a href="#" class="neos-button" data-dismiss="modal">Cancel</a>
+                    <f:form action="delete" arguments="{post: post}" class="neos-inline">
+                        <button type="submit" class="neos-button neos-button-danger" title="Delete Post">
+                            Yes, delete the post
+                        </button>
+                    </f:form>
+                </div>
+            </div>
+            <div class="neos-modal-backdrop neos-in"></div>
+        </div>
+    </div>
+</f:section>

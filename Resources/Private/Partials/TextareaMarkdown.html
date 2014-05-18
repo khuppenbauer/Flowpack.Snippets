@@ -1,0 +1,4 @@
+{namespace snippets=Flowpack\Snippets\ViewHelpers}
+<f:render partial="Errors" arguments="{property: property}" />
+<label for="{property}">{label}:</label>
+<snippets:render partial="Markdown" arguments="{property: property, rows: 10, preview: true, class: 'form-control'}" package="MapSeven.Markdown" />

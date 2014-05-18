@@ -1,0 +1,18 @@
+{namespace snippets=Flowpack\Snippets\ViewHelpers}
+<f:render partial="Errors" arguments="{property: property}" />
+<label for="{property}">{label}:</label>
+<f:form.hidden id="{property}" name="{property}" style="width:300px;" value="{options -> snippets:tags()}" />
+<script>
+    $(document).ready(function () <![CDATA[{]]>
+        $("#{property}").select2(<![CDATA[{]]>
+            createSearchChoice:function(term, data) { if ($(data).filter(function() { return this.text.localeCompare(term)===0; }).length===0) {return {id:term, text:term};} },
+            multiple: true,
+            data: [
+                <f:for each="{properties}" as="tag" iteration="iterator">
+                    <![CDATA[{]]>id: "{tag -> f:format.identifier()}", text: "{tag.name}"}{f:if(condition:iterator.isLast, then: '', else: ',')}
+                </f:for>
+            ],
+            tokenSeparators: [",", " "]
+        });
+    });
+</script>

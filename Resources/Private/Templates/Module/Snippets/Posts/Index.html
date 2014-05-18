@@ -1,0 +1,86 @@
+<f:layout name="Default" />
+
+<f:section name="Content">
+    <div class="neos-row-fluid">
+        <table class="neos-table">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Author</th>
+                <th>Category</th>
+                <th>Date</th>
+                <th>Views</th>
+                <th>Rating</th>
+                <th>State</th>
+                <th>&nbsp;</th>
+            </tr>
+            </thead>
+            <f:for each="{posts}" key="flowidentifier" as="post">
+                <tr>
+                    <td><i class="icon-file icon-white"></i>{post.title}</td>
+                    <td>{post.author.name.alias}</td>
+                    <td>{post.category}</td>
+                    <td><f:format.date format="d.m.Y - H:i:s">{post.date}</f:format.date></td>
+                    <td>{post.views}</td>
+                    <td>{post.rating}</td>
+                    <td>
+                        <f:if condition="{post.active}">
+                            <f:then>
+                                <span class="neos-badge neos-badge-success">Active</span>
+                            </f:then>
+                            <f:else>
+                                <span class="neos-badge neos-badge-important">Inactive</span>
+                            </f:else>
+                        </f:if>
+                    </td>
+                    <td class="neos-action">
+                        <div class="neos-pull-right">
+                            <f:link.action action="show" arguments="{post: post}" class="neos-button neos-button-primary" title="View post">
+                                <i class="icon-info-sign icon-white"></i>
+                            </f:link.action>
+                            <f:link.action action="edit" arguments="{post: post}" class="neos-button neos-button-primary" title="Edit post">
+                                <i class="icon-pencil icon-white"></i>
+                            </f:link.action>
+                            <f:if condition="{post.active} == 1">
+                                <f:then>
+                                    <f:form action="deactivate" arguments="{post: post}" class="neos-inline">
+                                        <button class="neos-button neos-button-warning" title="Click to deactivate">
+                                            <i class="icon-minus-sign icon-white"></i>
+                                        </button>
+                                    </f:form>
+                                </f:then>
+                                <f:else>
+                                    <f:form action="activate" arguments="{post: post}" class="neos-inline">
+                                        <button class="neos-button neos-button-success" title="Click to activate">
+                                            <i class="icon-plus-sign icon-white"></i>
+                                        </button>
+                                    </f:form>
+                                </f:else>
+                            </f:if>
+                            <button class="neos-button neos-button-danger" title="Click to delete" data-toggle="modal" href="#{flowidentifier}">
+                                <i class="icon-trash icon-white"></i>
+                            </button>
+                            <div class="neos-hide" id="{flowidentifier}">
+                                <div class="neos-modal">
+                                    <div class="neos-modal-header">
+                                        <button type="button" class="neos-close neos-button" data-dismiss="modal"></button>
+                                        <div class="neos-header">Do you really want to delete post "{post.title}"?</div>
+                                    </div>
+                                    <div class="neos-modal-footer">
+                                        <a href="#" class="neos-button" data-dismiss="modal">Cancel</a>
+                                        <f:form action="delete" arguments="{post: post}" class="neos-inline">
+                                            <button type="submit" class="neos-button neos-button-danger" title="Delete Post">
+                                                Yes, delete the post
+                                            </button>
+                                        </f:form>
+                                    </div>
+                                </div>
+                                <div class="neos-modal-backdrop neos-in"></div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </f:for>
+        </table>
+    </div>
+</f:section>

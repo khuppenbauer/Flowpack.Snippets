@@ -1,0 +1,49 @@
+TYPO3:
+
+  Neos:
+    typoScript:
+      autoInclude:
+          # auto-include "Private/Resources/TypoScript/Root.ts2" from this package!
+        'Flowpack.Snippets': TRUE
+
+    modules:
+      snippets:
+        label: Snippets
+        controller: \Flowpack\Snippets\Controller\Module\SnippetsController
+        description: 'Manage Snippets'
+        icon: icon-code
+        resource: 'Flowpack_Snippets_Backend_Module_Snippets'
+        submodules:
+          posts:
+            label: Post
+            controller: \Flowpack\Snippets\Controller\Module\Snippets\PostsController
+            description: 'Manage Posts'
+            icon: icon-file
+            resource: 'Flowpack_Snippets_Backend_Module_Snippets_Posts'
+            widgetTemplatePathAndFileName: 'resource://TYPO3.Neos/Private/Templates/Module/Widget.html'
+            actions:
+              index:
+                label: 'Manage Posts'
+                title: 'Manage Posts'
+          categories:
+            label: Category
+            controller: \Flowpack\Snippets\Controller\Module\Snippets\CategoriesController
+            description: 'Manage Categories'
+            icon: icon-folder-open
+            resource: 'Flowpack_Snippets_Backend_Module_Snippets_Categories'
+            widgetTemplatePathAndFileName: 'resource://TYPO3.Neos/Private/Templates/Module/Widget.html'
+            actions:
+              index:
+                label: 'Manage Categories'
+                title: 'Manage Categories'
+          tags:
+            label: Tag
+            controller: \Flowpack\Snippets\Controller\Module\Snippets\TagsController
+            description: 'Manage Tags'
+            icon: icon-folder-open
+            resource: 'Flowpack_Snippets_Backend_Module_Snippets_Tags'
+            widgetTemplatePathAndFileName: 'resource://TYPO3.Neos/Private/Templates/Module/Widget.html'
+            actions:
+              index:
+                label: 'Manage Tags'
+                title: 'Manage Tags'

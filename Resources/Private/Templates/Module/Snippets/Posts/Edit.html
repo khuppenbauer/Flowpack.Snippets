@@ -1,0 +1,106 @@
+{namespace markdown=MapSeven\Markdown\ViewHelpers}
+<f:layout name="Default" />
+
+<f:section name="subtitle">
+	<h2>Details for Post: {post.title}</h2>
+</f:section>
+<f:section name="Content">
+    <f:form action="update" object="{post}" objectName="post" method="POST">
+        <fieldset>
+            <div class="neos-row-fluid">
+                <fieldset class="neos-span5">
+                    <legend>Post</legend>
+                    <div class="neos-control-group">
+                        <label class="neos-control-label" for="title">Title</label>
+                        <div class="neos-controls">
+                            <f:form.textfield property="title" id="title" class="neos-span12" />
+                        </div>
+                    </div>
+                    <div class="neos-control-group">
+                        <label class="neos-control-label" for="description">Description</label>
+                        <div class="neos-controls">
+                            <f:form.textarea property="description" id="description" class="neos-span12" />
+                        </div>
+                    </div>
+                    <f:if condition="{post.content}">
+                        <f:then>
+                            <div class="neos-control-group">
+                                <label class="neos-control-label" for="description">Content</label>
+                                <div class="neos-controls">
+                                    <f:form.textarea property="content" id="content" class="neos-span12" />
+                                </div>
+                            </div>
+                        </f:then>
+                        <f:else>
+                            <div class="neos-control-group">
+                                <label class="neos-control-label" for="description">Content</label>
+                                <div class="neos-controls">
+                                    {post.url}
+                                </div>
+                            </div>
+                        </f:else>
+                    </f:if>
+                    <div class="neos-control-group">
+                        <label class="neos-control-label" for="category">Category</label>
+                        <div class="neos-controls">
+                            <f:form.select id="category" property="category" options="{categories}" optionLabelField="name" class="neos-span12" />
+                        </div>
+                    </div>
+                    <div class="neos-control-group">
+                        <label class="neos-control-label" for="tags">Tags</label>
+                        <div class="neos-controls">
+                            <f:form.select id="tags" property="tags" options="{tags}" optionLabelField="name" multiple="1" size="6" class="neos-span12" /><br />
+                        </div>
+                    </div>
+                    <div class="neos-control-group">
+                        <label class="neos-control-label" for="tags">Options</label>
+                        <div class="neos-controls">
+                            <f:for each="{post.options}" key="label" as="option">
+                                <label class="neos-checkbox neos-inline">
+                                    <f:form.checkbox id="options.{label}" property="options.{label}" value="TRUE" class="neos-span12" /><span></span>
+                                    {label}
+                                </label>
+                            </f:for>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+
+            <div class="neos-footer">
+                <f:link.action action="index" class="neos-button">Cancel</f:link.action>
+                <f:if condition="{post.active} == 1">
+                    <f:then>
+                        <button form="postHelper" formaction="{f:uri.action(action: 'deactivate', arguments: '{post: post}')}" type="submit" class="neos-button neos-button-warning" title="Click to deactivate">
+                            <i class="icon-minus-sign icon-white"></i> Deactivate Post
+                        </button>
+                    </f:then>
+                    <f:else>
+                        <button form="postHelper" formaction="{f:uri.action(action: 'activate', arguments: '{post: post}')}" type="submit" class="neos-button neos-button-success" title="Click to activate">
+                            <i class="icon-plus-sign icon-white"></i> Activate Post
+                        </button>
+                    </f:else>
+                </f:if>
+                <button class="neos-button neos-button-danger" title="Click here to delete this user" data-toggle="modal" href="#delete">
+                    <i class="icon-trash icon-white"></i> Delete Post
+                </button>
+                <f:form.submit value="Save Post" class="neos-button neos-button-primary" />
+                <div class="neos-hide" id="delete">
+                    <div class="neos-modal">
+                        <div class="neos-modal-header">
+                            <button type="button" class="neos-close neos-button" data-dismiss="modal"></button>
+                            <div class="neos-header">Do you really want to delete post "{post.title}"?</div>
+                        </div>
+                        <div class="neos-modal-footer">
+                            <a href="#" class="neos-button" data-dismiss="modal">Cancel</a>
+                            <button form="postHelper" formaction="{f:uri.action(action: 'delete', arguments: '{post: post}')}" type="submit" class="neos-button neos-button-danger" title="Delete Post">
+                                Yes, delete the post
+                            </button>
+                        </div>
+                    </div>
+                    <div class="neos-modal-backdrop neos-in"></div>
+                </div>
+            </div>
+        </fieldset>
+    </f:form>
+    <f:form action="index" id="postHelper" method="post"></f:form>
+</f:section>

@@ -1,0 +1,17 @@
+{namespace snippets=Flowpack\Snippets\ViewHelpers}
+<div class="neos-content neos-indented neos-fluid-container">
+    <f:render section="Subtitle" optional="1" />
+
+    <snippets:render partial="Module/FlashMessages" package="TYPO3.Neos" />
+    <f:form.validationResults>
+        <f:if condition="{validationResults.flattenedErrors}">
+            <ul class="neos-error">
+                <f:for each="{validationResults.flattenedErrors}" key="propertyPath" as="errors">
+                    <li>{propertyPath}: <f:for each="{errors}" as="error">{error}</f:for></li>
+                </f:for>
+            </ul>
+        </f:if>
+    </f:form.validationResults>
+
+    <f:render section="Content" />
+</div>
