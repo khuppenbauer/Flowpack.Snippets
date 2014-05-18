@@ -3,7 +3,11 @@
     "type": "typo3-flow-plugin",
     "description": "Add description here",
     "require": {
-        "typo3/neos": "*"
+        "typo3/neos": "*",
+        "flowpack/elasticsearch": "*"
+    },
+    "require-dev": {
+        "fabpot/goutte": "~1.0.6"
     },
     "autoload": {
         "psr-0": {

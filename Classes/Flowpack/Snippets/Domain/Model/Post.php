@@ -45,6 +45,8 @@ class Post {
 	 * The post author
 	 *
 	 * @var User
+	 * @ElasticSearch\Transform(type="\Flowpack\Snippets\Indexer\Transform\ObjectAccessTransformer", options={"propertyPath"="name.alias"})
+	 * @ElasticSearch\Indexable
 	 * @ORM\ManyToOne
 	 */
 	protected $author;
@@ -81,6 +83,8 @@ class Post {
 	 *
 	 * @var string
 	 * @Flow\Validate(type="StringLength", options={"maximum"=2000})
+	 * @ElasticSearch\Transform("\Flowpack\Snippets\Indexer\Transform\UrlCrawlerTransformer")
+	 * @ElasticSearch\Indexable
 	 * @ORM\Column(length=2000, nullable=true)
 	 */
 	protected $url;
