@@ -1,24 +1,24 @@
-page.head {
-	stylesheets.select = TYPO3.TypoScript:Template {
-		@position = 'end'
-		templatePath = 'resource://Flowpack.Snippets/Private/Templates/Page/Default.html'
-		sectionName = 'stylesheets'
-	}
+page {
+	head {
+		stylesheets.snippets = TYPO3.TypoScript:Template {
+			@position = 'end'
+			templatePath = 'resource://Flowpack.Snippets/Private/Templates/Page/Default.html'
+			sectionName = 'stylesheets'
+		}
 
-	javascripts.select = TYPO3.TypoScript:Template {
-		@position = 'end'
-		templatePath = 'resource://Flowpack.Snippets/Private/Templates/Page/Default.html'
-		sectionName = 'scripts'
+		javascripts.snippets = TYPO3.TypoScript:Template {
+			@position = 'end'
+			templatePath = 'resource://Flowpack.Snippets/Private/Templates/Page/Default.html'
+			sectionName = 'scripts'
+		}
 	}
-}
-
-##
-# "New" element, extending "Plugin"
-#
-prototype(Flowpack.Snippets:Plugin) < prototype(TYPO3.Neos:Plugin) {
-	package = 'Flowpack.Snippets'
-	controller = 'Post'
-	action = 'index'
+	body {
+		javascripts.site = TypoScript:Template {
+			@position = 'end'
+			templatePath = 'resource://Flowpack.Snippets/Private/Templates/Page/Default.html'
+			sectionName = 'bodyScripts'
+		}
+	}
 }
 
 ##
@@ -37,4 +37,10 @@ prototype(Flowpack.Snippets:List) < prototype(TYPO3.Neos:Plugin) {
 	package = 'Flowpack.Snippets'
 	controller = 'Post'
 	action = 'index'
+}
+
+prototype(Flowpack.Snippets:Search) < prototype(TYPO3.Neos:Plugin) {
+	package = 'Flowpack.Snippets'
+	controller = 'Search'
+	action = 'search'
 }

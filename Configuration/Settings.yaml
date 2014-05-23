@@ -44,7 +44,7 @@ TYPO3:
             label: Tag
             controller: \Flowpack\Snippets\Controller\Module\Snippets\TagsController
             description: 'Manage Tags'
-            icon: icon-folder-open
+            icon: icon-tags
             resource: 'Flowpack_Snippets_Backend_Module_Snippets_Tags'
             widgetTemplatePathAndFileName: 'resource://TYPO3.Neos/Private/Templates/Module/Widget.html'
             actions:
