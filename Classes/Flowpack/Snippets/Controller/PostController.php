@@ -75,6 +75,12 @@ class PostController extends ActionController {
 	 * @return void
 	 */
 	public function showAction(Post $post) {
+		$author = $this->securityContext->getPartyByType('TYPO3\Neos\Domain\Model\User');
+		if ($author !== $post->getAuthor()) {
+			$views = $post->getViews() + 1;
+			$post->setViews($views);
+			$this->postRepository->update($post);
+		}
 		$this->view->assign('post', $post);
 	}
 
