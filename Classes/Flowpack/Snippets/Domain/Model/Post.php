@@ -73,6 +73,7 @@ class Post {
 	 * The post content
 	 *
 	 * @var string
+	 * @ElasticSearch\Transform("\Flowpack\Snippets\Indexer\Transform\MarkdownReferenceCrawlerTransformer")
 	 * @ElasticSearch\Indexable
 	 * @ORM\Column(type="text", nullable=true)
 	 */
