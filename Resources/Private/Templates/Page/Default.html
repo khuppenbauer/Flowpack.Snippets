@@ -4,4 +4,32 @@
 
 <f:section name="scripts">
     <script src="{f:uri.resource(path: 'Scripts/select2.min.js', package: 'Flowpack.Snippets')}"></script>
+    <script src="{f:uri.resource(path: 'Scripts/jquery.socialshareprivacy.min.js', package: 'Flowpack.Snippets')}"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function($)<![CDATA[{]]>
+            if($('#socialshareprivacy').length > 0)<![CDATA[{]]>
+                $('#socialshareprivacy').socialSharePrivacy(<![CDATA[{]]>
+                    services : <![CDATA[{]]>
+                        facebook : <![CDATA[{]]>
+                            'sharer' : <![CDATA[{]]>
+                                'status'    : 'on',
+                                'dummy_img' : "{f:uri.resource(path: 'Images/dummy_facebook_share_en.png', package: 'Flowpack.Snippets')}",
+                                'img'       : "{f:uri.resource(path: 'Images/facebook_share_en.png', package: 'Flowpack.Snippets')}"
+                            }
+                        },
+                        twitter : <![CDATA[{]]>
+                            'dummy_img' : "{f:uri.resource(path: 'Images/dummy_twitter.png', package: 'Flowpack.Snippets')}"
+
+                        },
+                        gplus : <![CDATA[{]]>
+                            'dummy_img' : "{f:uri.resource(path: 'Images/dummy_gplus.png', package: 'Flowpack.Snippets')}"
+                        }
+                    },
+                    "css_path"  : "{f:uri.resource(path: 'Styles/socialshareprivacy.css', package: 'Flowpack.Snippets')}",
+                    "lang_path" : "{f:uri.resource(path: 'Translations/', package: 'Flowpack.Snippets')}",
+                    "language"  : "de"
+                });
+            }
+        });
+    </script>
 </f:section>
