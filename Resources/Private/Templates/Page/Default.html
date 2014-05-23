@@ -1,10 +1,13 @@
 <f:section name="stylesheets">
     <link rel="stylesheet" href="{f:uri.resource(path: 'Styles/select2.css', package: 'Flowpack.Snippets')}" media="all" />
+    <link rel="stylesheet" href="http://yandex.st/highlightjs/8.0/styles/default.min.css">
 </f:section>
 
 <f:section name="scripts">
     <script src="{f:uri.resource(path: 'Scripts/select2.min.js', package: 'Flowpack.Snippets')}"></script>
     <script src="{f:uri.resource(path: 'Scripts/jquery.socialshareprivacy.min.js', package: 'Flowpack.Snippets')}"></script>
+    <script src="http://yandex.st/highlightjs/8.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
     <script type="text/javascript">
         jQuery(document).ready(function($)<![CDATA[{]]>
             if($('#socialshareprivacy').length > 0)<![CDATA[{]]>
