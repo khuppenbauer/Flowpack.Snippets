@@ -1,30 +1,56 @@
 {namespace markdown=MapSeven\Markdown\ViewHelpers}
-<f:format.date format="d.m.Y - H:i:s">{post.date}</f:format.date>
-{post.title}<br />
-{post.description}<br />
-<f:if condition="{post.content}">
-    <f:then>
-        {post.content -> markdown:parsedown()}
-    </f:then>
-    <f:else>
-        {post.url}
-    </f:else>
-    </f:if><br />
-Views: {post.views}<br />
-Rating: <i class="fa fa-chevron-up"></i> <i class="fa fa-chevron-down"></i><br />
-Category: {post.category}<br />
-Tags: <f:for each="{post.tags}" as="tag" iteration="iterator">{tag}{f:if(condition:iterator.isLast, then: '', else: ',')}</f:for> <br />
-    <f:if condition="{post.options.share}"><div id="socialshareprivacy"></div></f:if>
-    <f:if condition="{post.options.comment}">
-        <div id="disqus_thread"></div>
-        <script type="text/javascript">
-            var disqus_shortname = 'snippit'; // required: replace example with your forum shortname
-            (function() {
-                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-            })();
-        </script>
-        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+<article>
+    <h3>{post.title}</h3>
+    <h6>by <a href="#">{post.author.name.alias}</a> on <f:format.date format="d.m.Y - H:i:s">{post.date}</f:format.date></h6>
+
+    <f:if condition="{post.url}">
+        <div class="row">
+            <div class="large-12 columns">
+                <p>{post.description}</p>
+            </div>
+        </div>
     </f:if>
+
+    <div class="row">
+        <div class="small-12 columns">
+            {post.content -> markdown:parsedown()}
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="small-12 columns">
+            <h6>Posted in <a href="#">{post.category}</a> | {post.views} views | <i class="fa fa-chevron-up"></i> <i class="fa fa-chevron-down"></i></h6>
+            <f:for each="{post.tags}" as="tag">
+                <span class="secondary radius label">{tag}</span>
+            </f:for>
+        </div>
+    </div>
+
+    <f:if condition="{post.options.share}">
+        <hr />
+        <div class="row">
+            <div class="small-12 columns">
+                <div id="socialshareprivacy"></div>
+            </div>
+        </div>
+    </f:if>
+
+    <f:if condition="{post.options.comment}">
+        <hr />
+        <div class="row">
+            <div class="small-12 columns">
+                <div id="disqus_thread"></div>
+                <script type="text/javascript">
+                    var disqus_shortname = 'snippit'; // required: replace example with your forum shortname
+                    (function() {
+                        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                    })();
+                </script>
+                <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+            </div>
+        </div>
+    </f:if>
+</article>

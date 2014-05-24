@@ -5,6 +5,7 @@
         <dd><a href="#link">Link</a></dd>
     </dl>
     <div class="tabs-content">
+        <br />
         <f:render partial="Textfield" arguments="{label: 'Title', property: 'title', object: 'post'}" />
         <f:render partial="Textarea" arguments="{label: 'Description', property: 'description', rows:3}" />
         <div class="content active" id="text">
@@ -13,10 +14,14 @@
         <div class="content" id="link">
             <f:render partial="Textfield" arguments="{label: 'Url', property: 'url'}" />
         </div>
-        <f:render partial="Select" arguments="{label: 'Category', property: 'category', properties: categories}" />
+        <f:render partial="Select" arguments="{label: 'Category', property: 'category', properties: categories}" /><br />
+        <f:render partial="Tags" arguments="{label: 'Tags', property: 'tags', properties: tags, size: 3}"/><br />
         <f:render partial="Checkbox" arguments="{label: 'Comments', property: 'options.comment'}" />
         <f:render partial="Checkbox" arguments="{label: 'Share', property: 'options.share'}" />
-        <f:render partial="Tags" arguments="{label: 'Tags', property: 'tags', properties: tags, size: 3}"/>
-        <f:form.submit value="Create Post" class="button" />
+        <div class="row">
+            <div class="small-12 columns">
+                <f:form.submit value="Create Post" class="button" />
+            </div>
+        </div>
     </div>
 </f:form>
