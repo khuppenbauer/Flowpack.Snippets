@@ -7,9 +7,6 @@
         "flowpack/elasticsearch": "*",
         "mapseven/markdown": "*"
     },
-    "require-dev": {
-        "fabpot/goutte": "~1.0.6"
-    },
     "autoload": {
         "psr-0": {
             "Flowpack\\Snippets": "Classes"
