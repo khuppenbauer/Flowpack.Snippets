@@ -1,7 +1,7 @@
 {namespace markdown=MapSeven\Markdown\ViewHelpers}
 <article>
     <h3>{post.title}</h3>
-    <h6>by <a href="#">{post.author.name.alias}</a> on <f:format.date format="d.m.Y - H:i:s">{post.date}</f:format.date></h6>
+    <h6><i class="fa fa-user fa-fw"></i> <a href="#">{post.author.name.alias}</a> <i class="fa fa-calendar fa-fw"></i> <f:format.date format="d.m.Y">{post.date}</f:format.date></h6>
 
     <f:if condition="{post.url}">
         <div class="row">
@@ -19,7 +19,7 @@
     <hr />
     <div class="row">
         <div class="small-12 columns">
-            <h6>Posted in <a href="#">{post.category}</a> | {post.views} views | <i class="fa fa-chevron-up"></i> <i class="fa fa-chevron-down"></i></h6>
+            <h6><i class="fa fa-folder-open"></i> <a href="#">{post.category}</a> | {post.views} views | <i class="fa fa-chevron-up"></i> <i class="fa fa-chevron-down"></i></h6>
             <f:for each="{post.tags}" as="tag">
                 <span class="secondary radius label">{tag}</span>
             </f:for>
