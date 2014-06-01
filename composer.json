@@ -1,11 +1,12 @@
 {
     "name": "flowpack/snippets",
     "type": "typo3-flow-plugin",
-    "description": "Add description here",
+    "description": "TYPO3 Neos Plugin for Snippets",
     "require": {
         "typo3/neos": "*",
         "flowpack/elasticsearch": "*",
-        "mapseven/markdown": "*"
+        "mapseven/markdown": "*",
+        "mapseven/disqus": "*"
     },
     "autoload": {
         "psr-0": {
