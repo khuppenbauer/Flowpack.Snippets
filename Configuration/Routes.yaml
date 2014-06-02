@@ -1,0 +1,66 @@
+#                                                                        #
+# subroutes configuration for the Flowpack Snippets package              #
+#                                                                        #
+
+-
+  name: 'Single Post Search Show'
+  uriPattern: '{node}/{--flowpack_snippets-search.post}.html'
+  defaults:
+    '@package': 'TYPO3.Neos'
+    '@controller': 'Frontend\Node'
+    '@format': 'html'
+    '@action': 'show'
+    '--flowpack_snippets-search':
+      '@package': 'Flowpack.Snippets'
+      '@controller': 'Post'
+      '@action': 'show'
+      '@format': 'html'
+  routeParts:
+    node:
+      handler: TYPO3\Neos\Routing\FrontendNodeRoutePartHandler
+    '--flowpack_snippets-search.post':
+      objectType: '\Flowpack\Snippets\Domain\Model\Post'
+      uriPattern: '{date:Y}/{date:m}/{date:d}/{title}'
+  appendExceedingArguments: TRUE
+
+-
+  name: 'Single Post List Show'
+  uriPattern: '{node}/{--flowpack_snippets-list.post}'
+  defaults:
+    '@package': 'TYPO3.Neos'
+    '@controller': 'Frontend\Node'
+    '@format': 'html'
+    '@action': 'show'
+    '--flowpack_snippets-list':
+      '@package': 'Flowpack.Snippets'
+      '@controller': 'Post'
+      '@action': 'show'
+      '@format': 'html'
+  routeParts:
+    node:
+      handler: TYPO3\Neos\Routing\FrontendNodeRoutePartHandler
+    '--flowpack_snippets-list.post':
+      objectType: '\Flowpack\Snippets\Domain\Model\Post'
+      uriPattern: '{date:Y}/{date:m}/{date:d}/{title}'
+  appendExceedingArguments: TRUE
+
+-
+  name: 'Single Post List Edit'
+  uriPattern: '{node}/{--flowpack_snippets-list.post}/edit'
+  defaults:
+    '@package': 'TYPO3.Neos'
+    '@controller': 'Frontend\Node'
+    '@format': 'html'
+    '@action': 'show'
+    '--flowpack_snippets-list':
+      '@package': 'Flowpack.Snippets'
+      '@controller': 'Post'
+      '@action': 'edit'
+      '@format': 'html'
+  routeParts:
+    node:
+      handler: TYPO3\Neos\Routing\FrontendNodeRoutePartHandler
+    '--flowpack_snippets-list.post':
+      objectType: '\Flowpack\Snippets\Domain\Model\Post'
+      uriPattern: '{date:Y}/{date:m}/{date:d}/{title}'
+  appendExceedingArguments: TRUE
