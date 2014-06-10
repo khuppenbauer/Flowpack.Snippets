@@ -51,3 +51,8 @@ TYPO3:
               index:
                 label: 'Manage Tags'
                 title: 'Manage Tags'
+
+Flowpack:
+  ElasticSearch:
+    realtimeIndexing:
+      enabled: FALSE

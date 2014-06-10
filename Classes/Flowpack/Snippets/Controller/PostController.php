@@ -149,6 +149,11 @@ class PostController extends ActionController {
 
 		$this->postRepository->update($post);
 		$this->addFlashMessage('Updated the post.');
+		if ($post->isActive() === TRUE) {
+			$this->emitPostUpdated($post);
+		} else {
+			$this->emitPostRemoved($post);
+		}
 		$this->redirect('index');
 	}
 
@@ -160,7 +165,27 @@ class PostController extends ActionController {
 		$post->removeTags();
 		$this->postRepository->remove($post);
 		$this->addFlashMessage('Deleted a post.');
+		$this->emitPostRemoved($post);
 		$this->redirect('index');
 	}
 
+	/**
+	 * Signals that a post was updated.
+	 *
+	 * @Flow\Signal
+	 * @param Post $post
+	 * @return void
+	 */
+	protected function emitPostUpdated(Post $post) {
+	}
+
+	/**
+	 * Signals that a post was removed.
+	 *
+	 * @Flow\Signal
+	 * @param Post $post
+	 * @return void
+	 */
+	protected function emitPostRemoved(Post $post) {
+	}
 }
