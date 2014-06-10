@@ -84,7 +84,7 @@ class Post {
 	 *
 	 * @var string
 	 * @Flow\Validate(type="StringLength", options={"maximum"=2000})
-	 * @ElasticSearch\Transform("\Flowpack\Snippets\Indexer\Transform\UrlCrawlerTransformer")
+	 * @ElasticSearch\Transform("\Flowpack\Snippets\Indexer\Transform\EmbedTransformer")
 	 * @ElasticSearch\Indexable
 	 * @ORM\Column(length=2000, nullable=true)
 	 */

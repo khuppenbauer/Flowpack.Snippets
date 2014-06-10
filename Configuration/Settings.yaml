@@ -3,6 +3,7 @@ TYPO3:
     object:
       excludeClasses:
         'fabpot.*' : ['.*']
+        'embed.*' : ['.*']
 
   Neos:
     typoScript:
@@ -56,3 +57,12 @@ Flowpack:
   ElasticSearch:
     realtimeIndexing:
       enabled: FALSE
+
+  Snippets:
+    embed:
+      provider:
+        'OEmbed': TRUE
+        'OpenGraph': TRUE
+        'TwitterCards': FALSE
+        'Facebook': FALSE
+        'Html': FALSE
