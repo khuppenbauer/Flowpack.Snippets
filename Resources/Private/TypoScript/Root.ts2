@@ -12,13 +12,6 @@ page {
 			sectionName = 'scripts'
 		}
 	}
-	body {
-		javascripts.site = TypoScript:Template {
-			@position = 'end'
-			templatePath = 'resource://Flowpack.Snippets/Private/Templates/Page/Default.html'
-			sectionName = 'bodyScripts'
-		}
-	}
 }
 
 ##

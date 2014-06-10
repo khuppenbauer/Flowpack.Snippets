@@ -90,10 +90,10 @@ class RenderViewHelper extends AbstractViewHelper {
 		if ($partial !== NULL) {
 			if ($package !== NULL) {
 				try {
-					$partialRootpaths = $this->viewHelperVariableContainer->getView()->getOption('partialRootPaths');
+					$partialRootPaths = $this->viewHelperVariableContainer->getView()->getOption('partialRootPaths');
 					$this->viewHelperVariableContainer->getView()->setOption('partialRootPaths', array('resource://' . $package . '/Private/Partials'));
 					$content = $this->viewHelperVariableContainer->getView()->renderPartial($partial, $section, $arguments);
-					$this->viewHelperVariableContainer->getView()->setOption('partialRootPaths', $partialRootpaths);
+					$this->viewHelperVariableContainer->getView()->setOption('partialRootPaths', $partialRootPaths);
 					return $content;
 				} catch(Exception $exception) {
 					return $this->viewHelperVariableContainer->getView()->renderPartial($partial, $section, $arguments);
