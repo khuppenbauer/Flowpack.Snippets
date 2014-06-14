@@ -4,6 +4,7 @@ TYPO3:
       excludeClasses:
         'fabpot.*' : ['.*']
         'embed.*' : ['.*']
+        'ruflin.*' : ['.*']
 
   Neos:
     typoScript:

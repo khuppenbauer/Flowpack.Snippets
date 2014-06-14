@@ -134,6 +134,55 @@ class Post {
 	protected $rating = 0;
 
 	/**
+	 * The embed type
+	 *
+	 * @var string
+	 * @Flow\Transient
+	 */
+	protected $type;
+
+	/**
+	 * The embed image
+	 *
+	 * @var string
+	 * @Flow\Transient
+	 */
+	protected $image;
+
+	/**
+	 * The embed code
+	 *
+	 * @var string
+	 * @Flow\Transient
+	 */
+	protected $code;
+
+	/**
+	 * The embed providerName
+	 *
+	 * @var string
+	 * @Flow\Transient
+	 */
+	protected $providerName;
+
+	/**
+	 * The embed providerUrl
+	 *
+	 * @var string
+	 * @Flow\Transient
+	 */
+	protected $providerUrl;
+
+	/**
+	 * The embed providerIcon
+	 *
+	 * @var string
+	 * @Flow\Transient
+	 */
+	protected $providerIcon;
+
+
+	/**
 	 * Constructs this post
 	 */
 	public function __construct() {
@@ -335,6 +384,99 @@ class Post {
 	 */
 	public function setRating($rating) {
 		$this->rating = $rating;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getType() {
+		return $this->type;
+	}
+
+	/**
+	 * @param string $type
+	 * @return void
+	 */
+	public function setType($type) {
+		$this->type = $type;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getImage() {
+		return $this->image;
+	}
+
+	/**
+	 * @param string $image
+	 * @return void
+	 */
+	public function setImage($image) {
+		$this->image = $image;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getCode() {
+		return $this->code;
+	}
+
+	/**
+	 * @param string $code
+	 * @return void
+	 */
+	public function setCode($code) {
+		$this->code = $code;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getProviderName() {
+		return $this->providerName;
+	}
+
+	/**
+	 * @param string $providerName
+	 * @return void
+	 */
+	public function setProviderName($providerName) {
+		$this->providerName = $providerName;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getProviderUrl() {
+		return $this->providerUrl;
+	}
+
+	/**
+	 * @param string $providerUrl
+	 * @return void
+	 */
+	public function setProviderUrl($providerUrl) {
+		$this->providerUrl = $providerUrl;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getProviderIcon() {
+		return $this->providerIcon;
+	}
+
+	/**
+	 * @param string $providerIcon
+	 * @return void
+	 */
+	public function setProviderIcon($providerIcon) {
+		$this->providerIcon = $providerIcon;
 	}
 
 }

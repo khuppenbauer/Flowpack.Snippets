@@ -8,7 +8,8 @@
         "mapseven/markdown": "*",
         "mapseven/disqus": "*",
         "fabpot/goutte": "~1.0.6",
-        "embed/embed": "*"
+        "embed/embed": "*",
+        "ruflin/Elastica": "dev-master"
     },
     "autoload": {
         "psr-0": {

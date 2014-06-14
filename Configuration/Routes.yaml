@@ -25,7 +25,7 @@
 
 -
   name: 'Single Post List Show'
-  uriPattern: '{node}/{--flowpack_snippets-list.post}'
+  uriPattern: '{node}/post/{--flowpack_snippets-list.post}'
   defaults:
     '@package': 'TYPO3.Neos'
     '@controller': 'Frontend\Node'
@@ -46,7 +46,7 @@
 
 -
   name: 'Single Post List Edit'
-  uriPattern: '{node}/{--flowpack_snippets-list.post}/edit'
+  uriPattern: '{node}/post/{--flowpack_snippets-list.post}/edit'
   defaults:
     '@package': 'TYPO3.Neos'
     '@controller': 'Frontend\Node'
@@ -63,4 +63,58 @@
     '--flowpack_snippets-list.post':
       objectType: '\Flowpack\Snippets\Domain\Model\Post'
       uriPattern: '{date:Y}/{date:m}/{date:d}/{title}'
+  appendExceedingArguments: TRUE
+
+-
+  name: 'Category Show'
+  uriPattern: '{node}/category/{--flowpack_snippets-search.category}'
+  defaults:
+    '@package': 'TYPO3.Neos'
+    '@controller': 'Frontend\Node'
+    '@format': 'html'
+    '@action': 'show'
+    '--flowpack_snippets-search':
+      '@package': 'Flowpack.Snippets'
+      '@controller': 'Search'
+      '@action': 'search'
+      '@format': 'html'
+  routeParts:
+    node:
+      handler: TYPO3\Neos\Routing\FrontendNodeRoutePartHandler
+  appendExceedingArguments: TRUE
+
+-
+  name: 'Tag Show'
+  uriPattern: '{node}/tag/{--flowpack_snippets-search.tag}'
+  defaults:
+    '@package': 'TYPO3.Neos'
+    '@controller': 'Frontend\Node'
+    '@format': 'html'
+    '@action': 'show'
+    '--flowpack_snippets-search':
+      '@package': 'Flowpack.Snippets'
+      '@controller': 'Search'
+      '@action': 'search'
+      '@format': 'html'
+  routeParts:
+    node:
+      handler: TYPO3\Neos\Routing\FrontendNodeRoutePartHandler
+  appendExceedingArguments: TRUE
+
+-
+  name: 'Author Show'
+  uriPattern: '{node}/author/{--flowpack_snippets-search.author}'
+  defaults:
+    '@package': 'TYPO3.Neos'
+    '@controller': 'Frontend\Node'
+    '@format': 'html'
+    '@action': 'show'
+    '--flowpack_snippets-search':
+      '@package': 'Flowpack.Snippets'
+      '@controller': 'Search'
+      '@action': 'search'
+      '@format': 'html'
+  routeParts:
+    node:
+      handler: TYPO3\Neos\Routing\FrontendNodeRoutePartHandler
   appendExceedingArguments: TRUE
