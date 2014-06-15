@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file original="" source-language="en" datatype="plaintext">
+		<body>
+			<trans-unit id="category">
+				<source>Category</source>
+				<target>Kategorie</target>
+			</trans-unit>
+			<trans-unit id="type">
+				<source>Type</source>
+				<target>Typ</target>
+			</trans-unit>
+			<trans-unit id="tags">
+				<source>Tags</source>
+				<target>Tags</target>
+			</trans-unit>
+			<trans-unit id="providerName">
+				<source>Provider</source>
+				<target>Provider</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

@@ -1,7 +1,7 @@
 resources:
   methods:
     Flowpack_Snippets_Post: 'method(Flowpack\Snippets\Controller\PostController->(index|show|new|create|edit|update|delete)Action())'
-    Flowpack_Snippets_Search: 'method(Flowpack\Snippets\Controller\SearchController->(search)Action())'
+    Flowpack_Snippets_Search: 'method(Flowpack\Snippets\Controller\SearchController->(search|searchCategory|searchTag|searchAuthor)Action())'
     Flowpack_Snippets_Backend_Module_Snippets: 'method(Flowpack\Snippets\Controller\Module\SnippetsController->indexAction())'
     Flowpack_Snippets_Backend_Module_Snippets_Posts: 'method(Flowpack\Snippets\Controller\Module\Snippets\PostsController->(activate|deactivate|index|show|delete|edit|update)Action())'
     Flowpack_Snippets_Backend_Module_Snippets_Categories: 'method(Flowpack\Snippets\Controller\Module\Snippets\CategoriesController->(index|new|create|edit|update|delete|show)Action())'

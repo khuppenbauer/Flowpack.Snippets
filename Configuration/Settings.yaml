@@ -67,3 +67,9 @@ Flowpack:
         'TwitterCards': FALSE
         'Facebook': FALSE
         'Html': FALSE
+    elasticSearch:
+      index: snippets
+      type: post
+      hitsPerPage: 5
+      filteredQuery: TRUE
+      facets: [category, tags, type, providerName]

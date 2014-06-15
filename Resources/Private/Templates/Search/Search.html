@@ -1,5 +1,5 @@
-<f:render partial="SearchField"/>
-
+<f:render partial="SearchField" arguments="{search: search, facets: facets, filter: filter}"/>
+Total Hits: {totalHits}
 <f:for each="{posts}" key="identifier" as="post" iteration="postIterator">
     <f:render partial="Post" arguments="{post: post, identifier: identifier}"/>
     {f:if(condition:postIterator.isLast, then: '', else: '<hr/>')}
