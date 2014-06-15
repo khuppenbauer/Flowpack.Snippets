@@ -24,6 +24,23 @@ class SearchController extends ActionController {
 	protected $searchService;
 
 	/**
+	 * @var integer
+	 */
+	protected $currentPage = 1;
+
+	/**
+	 * @var string
+	 */
+	protected $settings;
+
+	/**
+	 * @param array $settings
+	 */
+	public function injectSettings(array $settings) {
+		$this->settings = $settings['elasticSearch'];
+	}
+
+	/**
 	 * @param array $search
 	 * @return void
 	 */
@@ -39,14 +56,23 @@ class SearchController extends ActionController {
 	 * @param array $search
 	 */
 	protected function search($query, $filter = array(), $search = array()) {
-		$resultSet = $this->searchService->search($query, $filter);
+		if (!empty($search['currentPage'])) {
+			$this->currentPage = (integer)$search['currentPage'];
+		}
+		$offset = $this->searchService->calculateOffset($this->currentPage);
+		$resultSet = $this->searchService->search($query, $filter, $offset);
 		$facets = $this->searchService->transformFacets($resultSet->getFacets());
 		$posts = $this->searchService->transformResult($resultSet->getResults());
+		$last = $offset + count($posts);
+		$pagination = $this->searchService->buildPagination($this->currentPage, $resultSet->getTotalHits());
 		$this->view->assign('totalHits', $resultSet->getTotalHits());
+		$this->view->assign('first', $offset + 1);
+		$this->view->assign('last', $last);
 		$this->view->assign('search', $search);
 		$this->view->assign('posts', $posts);
 		$this->view->assign('facets', $facets);
 		$this->view->assign('filter', $filter);
+		$this->view->assign('pagination', $pagination);
 	}
 
 }

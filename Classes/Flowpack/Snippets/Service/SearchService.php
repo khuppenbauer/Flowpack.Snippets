@@ -39,6 +39,16 @@ class SearchService {
 	protected $postRepository;
 
 	/**
+	 * @var integer
+	 */
+	protected $displayRangeStart;
+
+	/**
+	 * @var integer
+	 */
+	protected $displayRangeEnd;
+
+	/**
 	 * @param array $settings
 	 */
 	public function injectSettings(array $settings) {
@@ -48,13 +58,16 @@ class SearchService {
 	/**
 	 * @param string $query
 	 * @param array $filter
+	 * @param integer $offset
 	 * @return ResultSet
 	 */
-	public function search($query = '*', $filter = array()) {
+	public function search($query = '*', $filter = array(), $offset = 0) {
 		$elasticaClient = new Client();
 		$elasticaIndex = $elasticaClient->getIndex($this->settings['index']);
 		$elasticaType = $elasticaIndex->getType($this->settings['type']);
 		$elasticaQuery = new Query();
+		$elasticaQuery->setFrom($offset);
+		$elasticaQuery->setSize($this->settings['hitsPerPage']);
 
 		// querystring
 		$elasticaQueryString  = new QueryString();
@@ -133,5 +146,78 @@ class SearchService {
 			}
 		}
 		return $options;
+	}
+
+	/**
+	 * @param $currentPage
+	 * @return integer
+	 */
+	public function calculateOffset($currentPage) {
+		if ($currentPage < 1) {
+			$currentPage = 1;
+		} elseif ($currentPage > $this->settings['maximumNumberOfPages']) {
+			$currentPage = $this->settings['maximumNumberOfPages'];
+		}
+		$offset = $this->settings['hitsPerPage'] * ($currentPage - 1);
+		return $offset;
+	}
+
+	/**
+	 * If a certain number of links should be displayed, adjust before and after
+	 * amounts accordingly.
+	 *
+	 * @param integer $currentPage
+	 * @param integer $numberOfPages
+	 * @param integer $totalHits
+	 * @return void
+	 */
+	protected function calculateDisplayRange($currentPage, $numberOfPages, $totalHits) {
+		$maximumNumberOfPages = $this->settings['maximumNumberOfPages'];
+		if ($maximumNumberOfPages > $numberOfPages) {
+			$maximumNumberOfPages = $numberOfPages;
+		}
+		$delta = floor($maximumNumberOfPages / 2);
+		$this->displayRangeStart = $currentPage - $delta;
+		$this->displayRangeEnd = $currentPage + $delta + ($maximumNumberOfPages % 2 === 0 ? 1 : 0);
+		if ($this->displayRangeStart < 1) {
+			$this->displayRangeEnd -= $this->displayRangeStart - 1;
+		}
+		if ($this->displayRangeEnd > $numberOfPages) {
+			$this->displayRangeStart -= ($this->displayRangeEnd - $numberOfPages);
+		}
+		$this->displayRangeStart = (integer)max($this->displayRangeStart, 1);
+		$this->displayRangeEnd = (integer)min($this->displayRangeEnd, $numberOfPages);
+	}
+
+	/**
+	 * Returns an array with the keys "pages", "current", "numberOfPages", "nextPage" & "previousPage"
+	 *
+	 * @param integer $currentPage
+	 * @param integer $totalHits
+	 * @return array
+	 */
+	public function buildPagination($currentPage, $totalHits) {
+		$numberOfPages = ceil($totalHits / $this->settings['hitsPerPage']);
+		$this->calculateDisplayRange($currentPage, $numberOfPages, $totalHits);
+		$pages = array();
+		for ($i = $this->displayRangeStart; $i <= $this->displayRangeEnd; $i++) {
+			$pages[] = array('number' => $i, 'isCurrent' => ($i === $currentPage));
+		}
+		$pagination = array(
+				'pages' => $pages,
+				'current' => $currentPage,
+				'numberOfPages' => $numberOfPages,
+				'displayRangeStart' => $this->displayRangeStart,
+				'displayRangeEnd' => $this->displayRangeEnd,
+				'hasLessPages' => $this->displayRangeStart > 2,
+				'hasMorePages' => $this->displayRangeEnd + 1 < $numberOfPages
+		);
+		if ($currentPage < $numberOfPages) {
+			$pagination['nextPage'] = $currentPage + 1;
+		}
+		if ($currentPage > 1) {
+			$pagination['previousPage'] = $currentPage - 1;
+		}
+		return $pagination;
 	}
 }

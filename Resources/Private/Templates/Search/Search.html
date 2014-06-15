@@ -1,6 +1,194 @@
-<f:render partial="SearchField" arguments="{search: search, facets: facets, filter: filter}"/>
-Total Hits: {totalHits}
+{namespace snippets=Flowpack\Snippets\ViewHelpers}
+<f:form action="search" id="search" name="search" method="POST" object="{search}" objectName="search">
+
+    <f:form.hidden property="currentPage" id="currentpage" class="jq-hidden" />
+    <f:form.hidden property="filter.author" id="author" class="jq-hidden" />
+
+    <div class="row">
+        <div class="small-6 columns">
+            <div class="row collapse">
+                <div class="small-10 columns">
+                    <f:form.textfield property="query" id="query" placeholder="search" />
+                </div>
+                <div class="small-2 columns">
+                    <f:form.button value="Search" class="button postfix">Go</f:form.button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <dl class="accordion" data-accordion>
+        <dd>
+            <a href="#filter"><i class="fa fa-filter fa-fw"></i> Filter</a>
+            <div id="filter" class="active content panel">
+                <div class="row">
+                    <f:for each="{facets}" key="facetName" as="facet">
+                        <div class="small-3 columns">
+                            <f:form.select id="{facetName}" property="filter.{facetName}" options="{facet}" prependOptionLabel="- {f:translate(id: facetName)} -" class="select2 small-12 jq-select" />
+                            <script>
+                                $("#{facetName}").select2();
+                            </script>
+                        </div>
+                    </f:for>
+                </div>
+                <div class="row">
+                    <div class="small-3 columns">
+                        <a href="#" class="jq-filter-reset button tiny"><i class="fa fa-times fa-fw"></i> reset all Filter</a>
+                    </div>
+                </div>
+            </div>
+        </dd>
+    </dl>
+</f:form>
+Show {first} - {last} of {totalHits}
 <f:for each="{posts}" key="identifier" as="post" iteration="postIterator">
-    <f:render partial="Post" arguments="{post: post, identifier: identifier}"/>
+    <article>
+        <div class="row">
+            <div class="small-12 columns">
+                <h3>
+                    <f:if condition="{post.url}">
+                        <f:then>
+                            <f:link.external uri="{post.url}" target="_blank">{post.title}</f:link.external>
+                        </f:then>
+                        <f:else>
+                            <f:link.action action="show" controller="post" arguments="{post: post}">{post.title}</f:link.action>
+                        </f:else>
+                    </f:if>
+                </h3>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="small-12 columns">
+                <h6>
+                    <i class="fa fa-user fa-fw"></i> <a href="#" data-author="{post.author.name.alias -> snippets:strtolower()}">{post.author.name.alias}</a>
+                    <i class="fa fa-calendar fa-fw"></i> <f:format.date format="d.m.Y">{post.date}</f:format.date>
+                </h6>
+            </div>
+        </div>
+
+        <f:if condition="{post.description}">
+            <div class="row">
+                <div class="small-12 columns">
+                    <p>{post.description}</p>
+                </div>
+            </div>
+        </f:if>
+
+        <f:if condition="{post.url}">
+            <div class="row">
+                <div class="small-12 columns">
+                    <div class="panel radius">
+                        Originally Posted on <f:link.external uri="{post.providerUrl}" target="_blank"><img src="{post.providerIcon}" /> {post.providerName}</f:link.external><br /><br />
+                        <f:link.external uri="{post.url}" target="_blank"><i class="fa fa-external-link-square"></i> {post.url}</f:link.external><br /><br />
+                        <f:if condition="{post.code}">
+                            <f:if condition="{post.code -> snippets:strpos(needle: 'iframe')}">
+                                <a href="#" data-reveal-id="Modal-{identifier}" class="label">Preview</a>
+                                <div id="Modal-{identifier}" class="reveal-modal small" data-reveal>
+                                    <h2>{post.title}</h2>
+                                    <div class="flex-video">
+                                        <f:format.raw>{post.code}</f:format.raw>
+                                    </div>
+                                    <a class="close-reveal-modal">&#215;</a>
+                                </div>
+                            </f:if>
+                        </f:if>
+                    </div>
+                </div>
+            </div>
+        </f:if>
+
+        <div class="row">
+            <div class="small-12 columns">
+                <h6>
+                    <i class="fa fa-folder-open fa-fw"></i>  <a href="#" data-category="{post.category.name -> snippets:strtolower()}">{post.category.name}</a>
+                    <f:if condition="{post.content}">
+                        | {post.views} views |
+                        <i class="fa fa-chevron-up"></i>
+                        <i class="fa fa-chevron-down"></i>
+                    </f:if>
+                </h6>
+           </div>
+        </div>
+
+        <div class="row">
+            <div class="small-12 columns">
+                <f:for each="{post.tags}" as="tag">
+                    <a href="#" data-tags="{tag.name -> snippets:strtolower()}"><span class="secondary radius label">{tag.name}</span></a>
+                </f:for>
+            </div>
+        </div>
+    </article>
     {f:if(condition:postIterator.isLast, then: '', else: '<hr/>')}
 </f:for>
+<f:if condition="{pagination.numberOfPages} > 1">
+    <div class="pagination-centered">
+        <ul class="pagination">
+            <f:if condition="{pagination.previousPage}">
+                <f:then>
+                    <li class="arrow"><a href="#" data-currentPage="{pagination.previousPage}">&laquo;</a></li>
+                </f:then>
+                <f:else>
+                    <li class="arrow unavailable"><a href="#">&laquo;</a></li>
+                </f:else>
+            </f:if>
+            <f:for each="{pagination.pages}" as="page">
+                <f:if condition="{page.isCurrent}">
+                    <f:then>
+                        <li class="current"><a href="#">{page.number}</a></li>
+                    </f:then>
+                    <f:else>
+                        <li><a href="#" data-currentPage="{page.number}">{page.number}</a></li>
+                    </f:else>
+                </f:if>
+            </f:for>
+
+            <f:if condition="{pagination.nextPage}">
+                <f:then>
+                    <li class="arrow"><a href="#" data-currentPage="{pagination.nextPage}">&raquo;</a></li>
+                </f:then>
+                <f:else>
+                    <li class="arrow unavailable"><a href="#">&raquo;</a></li>
+                </f:else>
+            </f:if>
+        </ul>
+    </div>
+</f:if>
+<script>
+    //reset all settings when new search is performed
+    $("#search").submit(function() {
+        var oldValue = "{search.query}";
+        var newValue = $("input#query").val();
+        if (oldValue != newValue) {
+            $("select.jq-select").val('');
+            $("input.jq-hidden").val('');
+        }
+    });
+
+    //submit form when filter has changed
+    $("select.jq-select").change(function() {
+        $("input.jq-hidden").val('');
+        this.form.submit();
+    });
+
+    //reset all filter and submit form
+    $(".jq-filter-reset").click(function() {
+        $("select.jq-select").val('');
+        $("input.jq-hidden").val('');
+        $("#search").submit();
+    });
+
+    //set filter from links with data attribute
+    $('a').click(function(){
+        var attributes = $(this).data();
+        $.each(attributes, function(k,v) {
+            if (k != 'currentpage') {
+                $("select.jq-select").val('');
+                $("input.jq-hidden").val('');
+                $("input#query").val('');
+            }
+            $('#'+k).val(v);
+            $("#search").submit();
+        });
+    });
+
+</script>
