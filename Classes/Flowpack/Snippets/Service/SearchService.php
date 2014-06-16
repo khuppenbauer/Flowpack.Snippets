@@ -62,7 +62,7 @@ class SearchService {
 	 * @return ResultSet
 	 */
 	public function search($query = '*', $filter = array(), $offset = 0) {
-		$elasticaClient = new Client();
+		$elasticaClient = $this->createClient();
 		$elasticaIndex = $elasticaClient->getIndex($this->settings['index']);
 		$elasticaType = $elasticaIndex->getType($this->settings['type']);
 		$elasticaQuery = new Query();
@@ -219,5 +219,34 @@ class SearchService {
 			$pagination['previousPage'] = $currentPage - 1;
 		}
 		return $pagination;
+	}
+
+	/**
+	 * @return Client
+	 */
+	public function createClient() {
+		$client = $this->settings['client'];
+		if (!empty($client['username'])) {
+			$client['password'] = isset($client['password']) ? $client['password'] : '';
+			$authHeaderValue = 'Basic ' . $this->encodeAuth($client['username'], $client['password']) . '==';
+			$authHeader = array('Authorization'=>$authHeaderValue);
+			$config['headers'] = $authHeader;
+		}
+
+		$config['host'] = $client['host'];
+		$config['port'] = $client['port'];
+		$config['transport'] = $client['scheme'];
+
+		return new Client($config);
+	}
+
+	/**
+	 * @param $userName
+	 * @param $password
+	 * @return string
+	 */
+	function encodeAuth($userName, $password){
+		$encodedAuth = base64_encode($userName.':'.$password);
+		return $encodedAuth;
 	}
 }

@@ -68,6 +68,10 @@ Flowpack:
         'Facebook': FALSE
         'Html': FALSE
     elasticSearch:
+      client:
+        scheme: http
+        host: localhost
+        port: 9200
       index: snippets
       type: post
       hitsPerPage: 20
