@@ -6,18 +6,18 @@
     </dl>
     <div class="tabs-content">
         <br />
-        <f:render partial="Textfield" arguments="{label: 'Title', property: 'title', object: 'post'}" />
-        <f:render partial="Textarea" arguments="{label: 'Description', property: 'description', rows:3}" />
+        <f:render partial="Textfield" arguments="{label: 'Title', property: 'title', object: 'newPost'}" />
+        <f:render partial="Textarea" arguments="{label: 'Description', property: 'description', object: 'newPost', rows:3}" />
         <div class="content active" id="text">
-            <f:render partial="TextareaMarkdown" arguments="{label: 'Content', property: 'content', rows: 10, preview: true, class: 'form-control'}" />
-            <f:render partial="Checkbox" arguments="{label: 'Comments', property: 'options.comment'}" />
-            <f:render partial="Checkbox" arguments="{label: 'Share', property: 'options.share'}" />
+            <f:render partial="TextareaMarkdown" arguments="{label: 'Content', property: 'content', object: 'newPost', rows: 10, preview: true, class: 'form-control'}" />
+            <f:render partial="Checkbox" arguments="{label: 'Comments', property: 'options.comment', object: 'newPost'}" />
+            <f:render partial="Checkbox" arguments="{label: 'Share', property: 'options.share', object: 'newPost'}" />
         </div>
         <div class="content" id="link">
-            <f:render partial="Textfield" arguments="{label: 'Url', property: 'url'}" />
+            <f:render partial="Textfield" arguments="{label: 'Url', property: 'url', object: 'newPost'}" />
         </div>
-        <f:render partial="Select" arguments="{label: 'Category', property: 'category', properties: categories}" /><br />
-        <f:render partial="Tags" arguments="{label: 'Tags', property: 'tags', properties: tags, size: 3}"/><br />
+        <f:render partial="Select" arguments="{label: 'Category', property: 'category', object: 'newPost', properties: categories}" /><br />
+        <f:render partial="Tags" arguments="{label: 'Tags', property: 'tags', object: 'newPost', properties: tags, size: 3}"/><br />
         <div class="row">
             <div class="small-12 columns">
                 <f:form.submit value="Create Post" class="button" />

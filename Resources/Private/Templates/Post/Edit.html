@@ -1,20 +1,23 @@
 <f:form action="update" object="{post}" objectName="post" method="POST" additionalAttributes="{role:'form'}">
     <f:flashMessages class="flashmessages" />
     <div class="tabs-content">
+        <br />
         <f:render partial="Textfield" arguments="{label: 'Title', property: 'title', object: 'post'}" />
-        <f:render partial="Textarea" arguments="{label: 'Description', property: 'description', rows:3}" />
-        <f:if condition="{post.content}">
-            <f:then>
-                <f:render partial="TextareaMarkdown" arguments="{label: 'Content', property: 'content', rows: 10, preview: true, class: 'form-control'}" />
-            </f:then>
-            <f:else>
-                <f:render partial="Textfield" arguments="{label: 'Url', property: 'url'}" />
-            </f:else>
-        </f:if>
-        <f:render partial="Select" arguments="{label: 'Category', property: 'category', properties: categories}" />
-        <f:render partial="Checkbox" arguments="{label: 'Comments', property: 'options.comment'}" />
-        <f:render partial="Checkbox" arguments="{label: 'Share', property: 'options.share'}" />
-        <f:render partial="Tags" arguments="{label: 'Tags', property: 'tags', options: post.tags properties: tags, size: 3}"/>
-        <f:form.submit value="Update Post" class="button" />
+        <f:render partial="Textarea" arguments="{label: 'Description', property: 'description', object: 'post', rows:3}" />
+        <div class="content active" id="text">
+            <f:render partial="TextareaMarkdown" arguments="{label: 'Content', property: 'content', object: 'post', rows: 10, preview: true, class: 'form-control'}" />
+            <f:render partial="Checkbox" arguments="{label: 'Comments', property: 'options.comment', object: 'post'}" />
+            <f:render partial="Checkbox" arguments="{label: 'Share', property: 'options.share', object: 'post'}" />
+        </div>
+        <div class="content" id="link">
+            <f:render partial="Textfield" arguments="{label: 'Url', property: 'url', object: 'post'}" />
+        </div>
+        <f:render partial="Select" arguments="{label: 'Category', property: 'category', object: 'post', properties: categories}" /><br />
+        <f:render partial="Tags" arguments="{label: 'Tags', property: 'tags', object: 'post', options: post.tags, properties: tags, size: 3}"/><br />
+        <div class="row">
+            <div class="small-12 columns">
+                <f:form.submit value="Update Post" class="button" />
+            </div>
+        </div>
     </div>
 </f:form>

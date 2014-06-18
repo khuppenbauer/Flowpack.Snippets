@@ -26,7 +26,7 @@ class Post {
 	 * The post title
 	 *
 	 * @var string
-	 * @Flow\Validate(type="StringLength", options={"minimum"=1, "maximum"=255})
+	 * @Flow\Validate(type="notEmpty")
 	 * @ElasticSearch\Indexable
 	 * @ORM\Column(length=255)
 	 */
@@ -105,6 +105,7 @@ class Post {
 	 * The post tags
 	 *
 	 * @var Collection<\Flowpack\Snippets\Domain\Model\Tag>
+	 * @Flow\Validate(type="notEmpty")
 	 * @ElasticSearch\Transform("CollectionStringCast")
 	 * @ElasticSearch\Indexable
 	 * @ORM\ManyToMany(inversedBy="posts")
@@ -305,7 +306,7 @@ class Post {
 	 * @param Category $category
 	 * @return void
 	 */
-	public function setCategory(Category $category) {
+	public function setCategory(Category $category = NULL) {
 		$this->category = $category;
 	}
 

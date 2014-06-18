@@ -6,7 +6,6 @@ namespace Flowpack\Snippets\Controller;
  *                                                                        *
  *                                                                        */
 
-use Doctrine\Common\Collections\ArrayCollection;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Mvc\Controller\ActionController;
 use TYPO3\Flow\Security\Context;
@@ -63,6 +62,59 @@ class PostController extends ActionController {
 	}
 
 	/**
+	 * converts tags from select2 library
+	 */
+	public function initializeCreateAction() {
+		$newPost = $this->request->getArgument('newPost');
+		$tags = $this->convertTags();
+		if (!empty($tags)) {
+			$newPost['tags'] = $tags;
+			$this->request->setArgument('newPost', $newPost);
+			$this->arguments['newPost']->getPropertyMappingConfiguration()->allowProperties('tags');
+			$this->arguments['newPost']->getPropertyMappingConfiguration()->setTypeConverterOption('TYPO3\Flow\Property\TypeConverter\PersistentObjectConverter', \TYPO3\Flow\Property\TypeConverter\PersistentObjectConverter::CONFIGURATION_CREATION_ALLOWED, TRUE);
+			$this->arguments['newPost']->getPropertyMappingConfiguration()->forProperty('tags')->allowAllProperties();
+			$this->arguments['newPost']->getPropertyMappingConfiguration()->allowModificationForSubProperty('tags');
+		}
+	}
+
+	/**
+	 * converts tags from select2 library
+	 */
+	public function initializeUpdateAction() {
+		$post = $this->request->getArgument('post');
+		$tags = $this->convertTags();
+		if (!empty($tags)) {
+			$post['tags'] = $tags;
+		} else {
+			$post['tags'] = '';
+		}
+		$this->request->setArgument('post', $post);
+		$this->arguments['post']->getPropertyMappingConfiguration()->allowProperties('tags');
+		$this->arguments['post']->getPropertyMappingConfiguration()->setTypeConverterOption('TYPO3\Flow\Property\TypeConverter\PersistentObjectConverter', \TYPO3\Flow\Property\TypeConverter\PersistentObjectConverter::CONFIGURATION_MODIFICATION_ALLOWED, TRUE);
+		$this->arguments['post']->getPropertyMappingConfiguration()->forProperty('tags')->allowAllProperties();
+		$this->arguments['post']->getPropertyMappingConfiguration()->allowModificationForSubProperty('tags');
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function convertTags() {
+		$tags = $this->request->getArgument('tags');
+		if (!empty($tags)) {
+			$tagsArray = explode(',', $tags);
+			foreach ($tagsArray as $key => $tag) {
+				if (!((preg_match('/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/', $tag)) ||
+						(preg_match('/[0-9a-f]{40}/', $tag)))) {
+					$tagObject = new Tag($tag);
+					$this->tagRepository->add($tagObject);
+					$tagsArray[$key] = $this->persistenceManager->getIdentifierByObject($tagObject);
+				}
+			}
+			return $tagsArray;
+		}
+	}
+
+	/**
 	 * @return void
 	 */
 	public function indexAction() {
@@ -100,23 +152,10 @@ class PostController extends ActionController {
 	 * @return void
 	 */
 	public function createAction(Post $newPost, $tags) {
-		$tagsCollection = new ArrayCollection();
-		$tags = explode(',', $tags);
-		foreach ($tags as $tag) {
-			try {
-				$tagObject = $this->propertyMapper->convert($tag, 'Flowpack\Snippets\Domain\Model\Tag');
-			} catch (\Exception $exception) {
-				$tagObject = $this->propertyMapper->convert(array('name' => $tag), 'Flowpack\Snippets\Domain\Model\Tag');
-			}
-			$tagsCollection->add($tagObject);
-		}
-		$newPost->setTags($tagsCollection);
-
 		$author = $this->securityContext->getPartyByType('TYPO3\Neos\Domain\Model\User');
 		$newPost->setAuthor($author);
-
 		$this->postRepository->add($newPost);
-		$this->addFlashMessage('Created a new post.');
+		$this->emitPostUpdated($newPost);
 	}
 
 	/**
@@ -135,20 +174,7 @@ class PostController extends ActionController {
 	 * @return void
 	 */
 	public function updateAction(Post $post, $tags) {
-		$tagsCollection = new ArrayCollection();
-		$tags = explode(',', $tags);
-		foreach ($tags as $tag) {
-			try {
-				$tagObject = $this->propertyMapper->convert($tag, 'Flowpack\Snippets\Domain\Model\Tag');
-			} catch (\Exception $exception) {
-				$tagObject = $this->propertyMapper->convert(array('name' => $tag), 'Flowpack\Snippets\Domain\Model\Tag');
-			}
-			$tagsCollection->add($tagObject);
-		}
-		$post->setTags($tagsCollection);
-
 		$this->postRepository->update($post);
-		$this->addFlashMessage('Updated the post.');
 		if ($post->isActive() === TRUE) {
 			$this->emitPostUpdated($post);
 		} else {
@@ -164,7 +190,6 @@ class PostController extends ActionController {
 	public function deleteAction(Post $post) {
 		$post->removeTags();
 		$this->postRepository->remove($post);
-		$this->addFlashMessage('Deleted a post.');
 		$this->emitPostRemoved($post);
 		$this->redirect('index');
 	}
@@ -187,5 +212,12 @@ class PostController extends ActionController {
 	 * @return void
 	 */
 	protected function emitPostRemoved(Post $post) {
+	}
+
+	/**
+	 * @return boolean Disable the default error flash message
+	 */
+	protected function getErrorFlashMessage() {
+		return FALSE;
 	}
 }

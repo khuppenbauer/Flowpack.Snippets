@@ -34,6 +34,7 @@ class TagsViewHelper extends AbstractViewHelper {
 		if (empty($options)) {
 			return '';
 		}
+		$optionArray = array();
 		foreach ($options as $option) {
 			$optionArray[] = $this->persistenceManager->getIdentifierByObject($option);
 		}
