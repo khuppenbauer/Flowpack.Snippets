@@ -16,30 +16,39 @@
             </div>
         </div>
     </div>
-    <dl class="accordion" data-accordion>
-        <dd>
-            <a href="#filter"><i class="fa fa-filter fa-fw"></i> Filter</a>
-            <div id="filter" class="active content panel">
-                <div class="row">
-                    <f:for each="{facets}" key="facetName" as="facet">
+    <f:if condition="{totalHits} > 0">
+        <dl class="accordion" data-accordion>
+            <dd>
+                <a href="#filter"><i class="fa fa-filter fa-fw"></i> Filter</a>
+                <div id="filter" class="active content panel">
+                    <div class="row">
+                        <f:for each="{facets}" key="facetName" as="facet">
+                            <div class="small-3 columns">
+                                <f:form.select id="{facetName}" property="filter.{facetName}" options="{facet}" prependOptionLabel="- {f:translate(id: facetName)} -" class="select2 small-12 jq-select" />
+                                <script>
+                                    $("#{facetName}").select2();
+                                </script>
+                            </div>
+                        </f:for>
+                    </div>
+                    <div class="row">
                         <div class="small-3 columns">
-                            <f:form.select id="{facetName}" property="filter.{facetName}" options="{facet}" prependOptionLabel="- {f:translate(id: facetName)} -" class="select2 small-12 jq-select" />
-                            <script>
-                                $("#{facetName}").select2();
-                            </script>
+                            <a href="#" class="jq-filter-reset button tiny"><i class="fa fa-times fa-fw"></i> reset all Filter</a>
                         </div>
-                    </f:for>
-                </div>
-                <div class="row">
-                    <div class="small-3 columns">
-                        <a href="#" class="jq-filter-reset button tiny"><i class="fa fa-times fa-fw"></i> reset all Filter</a>
                     </div>
                 </div>
-            </div>
-        </dd>
-    </dl>
+            </dd>
+        </dl>
+    </f:if>
 </f:form>
-Show {first} - {last} of {totalHits}
+<f:if condition="{totalHits} > 0">
+    <f:then>
+        Show {first} - {last} of {totalHits}
+    </f:then>
+    <f:else>
+        No posts found
+    </f:else>
+</f:if>
 <f:for each="{posts}" key="identifier" as="post" iteration="postIterator">
     <article>
         <div class="row">
