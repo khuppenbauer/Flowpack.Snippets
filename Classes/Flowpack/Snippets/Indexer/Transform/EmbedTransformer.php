@@ -30,6 +30,7 @@ class EmbedTransformer implements TransformerInterface {
 	 * @param array $settings
 	 */
 	public function injectSettings(array $settings) {
+		$this->elasticSearch = $settings['elasticSearch'];
 		$this->provider = $settings['embed']['provider'];
 	}
 
@@ -39,27 +40,31 @@ class EmbedTransformer implements TransformerInterface {
 	 * @return array
 	 */
 	public function transformByAnnotation($source, \Flowpack\ElasticSearch\Annotations\Transform $annotation) {
-		$embed = Embed::create($source);
-
 		$data = array();
-		$data['content'] = $this->getContent($source);
-		$data['url'] = $source;
-		$data['type'] = $embed->getType();
-		$data['image'] = $embed->getImage();
-		$data['code'] = $embed->getCode();
-		$data['providerName'] = $embed->getProviderName();
-		$data['providerUrl'] = $embed->getProviderUrl();
-		$data['providerIcon'] = $embed->getProviderIcon();
-		$data['_embed_title'] = $embed->getTitle();
-		$data['_embed_description'] = $embed->getDescription();
-		$data['_embed_authorName'] = $embed->getAuthorName();
-		$data['_embed_authorUrl'] = $embed->getAuthorUrl();
+		if (empty($source)) {
+			$data['type'] = $this->elasticSearch['type'];
+			$data['providerName'] = $this->elasticSearch['index'];
+		} else {
+			$embed = Embed::create($source);
+			$data['content'] = $this->getContent($source);
+			$data['url'] = $source;
+			$data['type'] = $embed->getType();
+			$data['image'] = $embed->getImage();
+			$data['code'] = $embed->getCode();
+			$data['providerName'] = $embed->getProviderName();
+			$data['providerUrl'] = $embed->getProviderUrl();
+			$data['providerIcon'] = $embed->getProviderIcon();
+			$data['_embed_title'] = $embed->getTitle();
+			$data['_embed_description'] = $embed->getDescription();
+			$data['_embed_authorName'] = $embed->getAuthorName();
+			$data['_embed_authorUrl'] = $embed->getAuthorUrl();
 
-		foreach($embed->providers as $key => $value) {
-			if (isset($this->provider[$key]) && $this->provider[$key] === TRUE) {
-				$params = $value->get();
-				foreach ($params as $k => $v) {
-					$data['_' . $key][$k] = $v;
+			foreach($embed->providers as $key => $value) {
+				if (isset($this->provider[$key]) && $this->provider[$key] === TRUE) {
+					$params = $value->get();
+					foreach ($params as $k => $v) {
+						$data['_' . $key][$k] = $v;
+					}
 				}
 			}
 		}
