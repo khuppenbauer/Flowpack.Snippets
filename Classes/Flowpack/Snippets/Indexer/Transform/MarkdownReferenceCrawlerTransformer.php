@@ -8,6 +8,7 @@ namespace Flowpack\Snippets\Indexer\Transform;
 
 use TYPO3\Flow\Annotations as Flow;
 use Goutte\Client as Goutte;
+use Guzzle\Http\Client as Guzzle;
 use Flowpack\ElasticSearch\Indexer\Object\Transform\TransformerInterface;
 
 /**
@@ -21,7 +22,14 @@ class MarkdownReferenceCrawlerTransformer implements TransformerInterface {
 	 * @return string
 	 */
 	public function getTargetMappingType() {
-		return 'string';
+		return 'array';
+	}
+
+	/**
+	 * @param array $settings
+	 */
+	public function injectSettings(array $settings) {
+		$this->elasticSearch = $settings['elasticSearch'];
 	}
 
 	/**
@@ -30,28 +38,36 @@ class MarkdownReferenceCrawlerTransformer implements TransformerInterface {
 	 * @return string
 	 */
 	public function transformByAnnotation($source, \Flowpack\ElasticSearch\Annotations\Transform $annotation) {
-		return $source;
-		try {
-			$parsedown = new \Parsedown();
-			$text = $parsedown->text($source);
-			$references = $parsedown->getReferences();
-			if (!empty($references)) {
-				$client = new Goutte();
-				$sourceArray = array(strip_tags($source));
-				foreach ($references as $reference) {
-					$url  = $reference['url'];
-					$crawler = $client->request('GET', $url);
-					$statusCode = $client->getResponse()->getStatus();
-					if ($statusCode === 200) {
-						$sourceArray[] = trim($crawler->filterXPath('html/body')->text());
+		$data = array();
+		$data['type'] = $this->elasticSearch['type'];
+		$data['providerName'] = $this->elasticSearch['index'];
+		if (!empty($source)) {
+			try {
+				$parsedown = new \Parsedown();
+				$parsedown->text($source);
+				$references = $parsedown->getReferences();
+				if (!empty($references)) {
+					$client = new Goutte();
+					$guzzle = new Guzzle();
+					$guzzle->setDefaultOption('verify', FALSE);
+					$client->setClient($guzzle);
+					$sourceArray = array(strip_tags($source));
+					foreach ($references as $reference) {
+						$url  = $reference['url'];
+						$crawler = $client->request('GET', $url);
+						$statusCode = $client->getResponse()->getStatus();
+						if ($statusCode === 200) {
+							$sourceArray[] = trim($crawler->filterXPath('html/body')->text());
+						}
 					}
+					$source = implode(' ', $sourceArray);
 				}
-				$source = implode(' ', $sourceArray);
+				$data['content'] = $source;
+			} catch (\Exception $e) {
+				$data['content'] = $source;
 			}
-			return $source;
-		} catch (\Exception $e) {
-			return $source;
 		}
+		return $data;
 	}
 
 }

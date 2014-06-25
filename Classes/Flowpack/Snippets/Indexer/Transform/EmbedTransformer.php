@@ -9,6 +9,7 @@ namespace Flowpack\Snippets\Indexer\Transform;
 use Embed\Embed;
 use Embed\Request;
 use Goutte\Client as Goutte;
+use Guzzle\Http\Client as Guzzle;
 use TYPO3\Flow\Annotations as Flow;
 use Flowpack\ElasticSearch\Indexer\Object\Transform\TransformerInterface;
 
@@ -77,6 +78,9 @@ class EmbedTransformer implements TransformerInterface {
 	 */
 	public function getContent($source) {
 		$client = new Goutte();
+		$guzzle = new Guzzle();
+		$guzzle->setDefaultOption('verify', FALSE);
+		$client->setClient($guzzle);
 		$crawler = $client->request('GET', $source);
 		$statusCode = $client->getResponse()->getStatus();
 		if ($statusCode === 200) {
