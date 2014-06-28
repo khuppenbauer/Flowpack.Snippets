@@ -27,6 +27,7 @@ class Package extends BasePackage {
 		$dispatcher->connect('Flowpack\Snippets\Controller\PostController', 'postUpdated', 'Flowpack\ElasticSearch\Indexer\Object\ObjectIndexer', 'indexObject');
 		$dispatcher->connect('Flowpack\Snippets\Controller\PostController', 'postRemoved', 'Flowpack\ElasticSearch\Indexer\Object\ObjectIndexer', 'removeObject');
 
+		require(__DIR__ . '/../../../Resources/Private/PHP/Parsedown.php');
 	}
 
 }

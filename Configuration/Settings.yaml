@@ -60,6 +60,59 @@ Flowpack:
       enabled: FALSE
 
   Snippets:
+    editorButtons:
+      -
+        - name: bold
+          title: Bold - Ctrl+B
+          icon: fa fa-bold
+          active: TRUE
+        - name: italic
+          title: Italic - Ctrl+I
+          icon: fa fa-italic
+          active: TRUE
+      -
+        - name: link
+          title: Link - Ctrl+L
+          icon: fa fa-link
+          active: TRUE
+        - name: image
+          title: Image - Ctrl+G
+          icon: fa fa-picture-o
+          active: TRUE
+        - name: quote
+          title: Blockquote - Ctrl+Q
+          icon: fa fa-quote-right
+          active: TRUE
+        - name: code
+          title: Code Sample - Ctrl+K
+          icon: fa fa-code
+          active: TRUE
+      -
+        - name: olist
+          title: Numbered List <ol> Ctrl+O
+          icon: fa fa-list-ol
+          active: TRUE
+        - name: ulist
+          title: Bulleted List <ul> Ctrl+U
+          icon: fa fa-list-ul
+          active: TRUE
+        - name: heading
+          title: Heading <h1>/<h2> Ctrl+H
+          icon: fa fa-header
+          active: TRUE
+        - name: hr
+          title: Horizontal Rule <hr> Ctrl+R
+          icon: fa fa-ellipsis-h
+          active: TRUE
+      -
+        - name: undo
+          title: Undo - Ctrl+Z
+          icon: fa fa-undo
+          active: TRUE
+        - name: redo
+          title: Redo - Ctrl+Y
+          icon: fa fa-repeat
+          active: TRUE
     embed:
       provider:
         'OEmbed': TRUE

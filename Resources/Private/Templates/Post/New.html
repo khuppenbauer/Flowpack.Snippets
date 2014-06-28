@@ -9,7 +9,7 @@
         <f:render partial="Textfield" arguments="{label: 'Title', property: 'title', object: 'newPost'}" />
         <f:render partial="Textarea" arguments="{label: 'Description', property: 'description', object: 'newPost', rows:3}" />
         <div class="content active" id="text">
-            <f:render partial="TextareaMarkdown" arguments="{label: 'Content', property: 'content', object: 'newPost', rows: 10, preview: true, class: 'form-control'}" />
+            <f:render partial="TextareaMarkdown" arguments="{label: 'Content', property: 'content', object: 'newPost', rows: 10, preview: true}" />
             <f:render partial="Checkbox" arguments="{label: 'Comments', property: 'options.comment', object: 'newPost'}" />
             <f:render partial="Checkbox" arguments="{label: 'Share', property: 'options.share', object: 'newPost'}" />
         </div>
