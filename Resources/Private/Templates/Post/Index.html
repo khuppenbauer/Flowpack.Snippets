@@ -8,7 +8,6 @@
                         <th>Date</th>
                         <th>Views</th>
                         <th>Rating</th>
-                        <th>State</th>
                         <th>&nbsp;</th>
                     </tr>
                 </thead>
@@ -21,33 +20,19 @@
                         <td>{post.views}</td>
                         <td>{post.rating}</td>
                         <td>
-                            <f:if condition="{post.active}">
-                                <f:then>
-                                    <span class="success round label">Active</span>
-                                </f:then>
-                                <f:else>
-                                    <span class="alert round label">Inactive</span>
-                                </f:else>
-                            </f:if>
-                        </td>
-                        <td>
-                            <f:link.action action="show" arguments="{post: post}"><i class="fa fa-caret-square-o-right fa-fw"></i></f:link.action>
-                            <f:if condition="{post.active}">
-                                <f:else>
-                                    <f:link.action action="edit" arguments="{post: post}"><i class="fa fa-pencil fa-fw"></i></f:link.action>
-                                    <a href="#" data-reveal-id="Modal{flowidentifier}"><i class="fa fa-trash-o fa-fw"></i></a>
-                                    <div id="Modal{flowidentifier}" class="reveal-modal" data-reveal>
-                                        <h2>Delete Post</h2>
-                                        <p>Do you really want to delete post "{post.title}"?</p>
-                                        <f:form action="delete" arguments="{post: post}">
-                                            <button type="submit" title="Delete Post">
-                                                Yes, delete the post
-                                            </button>
-                                        </f:form>
-                                        <a class="close-reveal-modal">&#215;</a>
-                                    </div>
-                                </f:else>
-                            </f:if>
+                            <f:link.action action="show" arguments="{post: post}"><i class="fa fa-eye fa-fw"></i></f:link.action>
+                            <f:link.action action="edit" arguments="{post: post}"><i class="fa fa-pencil fa-fw"></i></f:link.action>
+                            <a href="#" data-reveal-id="Modal{flowidentifier}"><i class="fa fa-trash-o fa-fw"></i></a>
+                            <div id="Modal{flowidentifier}" class="reveal-modal" data-reveal>
+                                <h2>Delete Post</h2>
+                                <p>Do you really want to delete post "{post.title}"?</p>
+                                <f:form action="delete" arguments="{post: post}">
+                                    <button type="submit" title="Delete Post">
+                                        Yes, delete the post
+                                    </button>
+                                </f:form>
+                                <a class="close-reveal-modal">&#215;</a>
+                            </div>
                         </td>
                     </tr>
                     </f:for>

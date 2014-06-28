@@ -57,7 +57,7 @@ class Post {
 	 * @var boolean
 	 * @ElasticSearch\Indexable
 	 */
-	protected $active = FALSE;
+	protected $active = TRUE;
 
 	/**
 	 * The post description
