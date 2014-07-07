@@ -224,7 +224,7 @@ class Post {
 	 * @param User $author
 	 * @return void
 	 */
-	public function setAuthor(User $author) {
+	public function setAuthor(User $author = NULL) {
 		$this->author = $author;
 	}
 

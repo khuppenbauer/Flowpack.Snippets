@@ -1,56 +1,72 @@
 {namespace snippets=Flowpack\Snippets\ViewHelpers}
-<f:form action="search" id="search" name="search" method="POST" object="{search}" objectName="search">
-
-    <f:form.hidden property="currentPage" id="currentpage" class="jq-hidden" />
-    <f:form.hidden property="filter.author" id="author" class="jq-hidden" />
-
+<section class="dark-gray">
     <div class="row">
-        <div class="small-6 columns">
-            <div class="row collapse">
-                <div class="small-10 columns">
-                    <f:form.textfield property="query" id="query" placeholder="search" />
-                </div>
-                <div class="small-2 columns">
-                    <f:form.button value="Search" class="button postfix">Go</f:form.button>
+        <div class="small-12 columns">
+            <h3>Snippets</h3>
+        </div>
+    </div>
+
+    <f:form action="search" id="search" name="search" method="POST" object="{search}" objectName="search">
+
+        <f:form.hidden property="currentPage" id="currentpage" class="jq-hidden" />
+        <f:form.hidden property="filter.author" id="author" class="jq-hidden" />
+
+        <div class="row">
+            <div class="small-6 columns">
+                <div class="row collapse">
+                    <div class="small-10 columns">
+                        <f:form.textfield property="query" id="query" placeholder="search" />
+                    </div>
+                    <div class="small-2 columns">
+                        <f:form.button value="Search" class="button postfix">Go</f:form.button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <f:if condition="{totalHits} > 0">
-        <dl class="accordion" data-accordion>
-            <dd>
-                <a href="#filter"><i class="fa fa-filter fa-fw"></i> Filter</a>
-                <div id="filter" class="active content panel">
-                    <div class="row">
-                        <f:for each="{facets}" key="facetName" as="facet">
-                            <div class="small-3 columns">
-                                <f:form.select id="{facetName}" property="filter.{facetName}" options="{facet}" prependOptionLabel="- {f:translate(id: facetName)} -" class="select2 small-12 jq-select" />
-                                <script>
-                                    $("#{facetName}").select2();
-                                </script>
+        <f:if condition="{totalHits} > 0">
+            <div class="row">
+                <div class="small-12 columns">
+                    <dl class="accordion" data-accordion>
+                        <dd>
+                            <a href="#filter"><i class="fa fa-filter fa-fw"></i> Filter</a>
+                            <div id="filter" class="active content panel">
+                                <div class="row">
+                                    <f:for each="{facets}" key="facetName" as="facet">
+                                        <div class="small-3 columns">
+                                            <f:form.select id="{facetName}" property="filter.{facetName}" options="{facet}" prependOptionLabel="- {f:translate(id: facetName)} -" class="select2 small-12 jq-select" />
+                                            <script>
+                                                $("#{facetName}").select2();
+                                            </script>
+                                        </div>
+                                    </f:for>
+                                </div>
+                                <div class="row">
+                                    <div class="small-3 columns">
+                                        <a href="#" class="jq-filter-reset button tiny"><i class="fa fa-times fa-fw"></i> reset all Filter</a>
+                                    </div>
+                                </div>
                             </div>
-                        </f:for>
-                    </div>
-                    <div class="row">
-                        <div class="small-3 columns">
-                            <a href="#" class="jq-filter-reset button tiny"><i class="fa fa-times fa-fw"></i> reset all Filter</a>
-                        </div>
-                    </div>
+                        </dd>
+                    </dl>
                 </div>
-            </dd>
-        </dl>
-    </f:if>
-</f:form>
-<f:if condition="{totalHits} > 0">
-    <f:then>
-        Show {first} - {last} of {totalHits}
-    </f:then>
-    <f:else>
-        No posts found
-    </f:else>
-</f:if>
+            </div>
+        </f:if>
+    </f:form>
+    <div class="row">
+        <div class="small-12 columns">
+            <f:if condition="{totalHits} > 0">
+                <f:then>
+                    Show {first} - {last} of {totalHits}
+                </f:then>
+                <f:else>
+                    No posts found
+                </f:else>
+            </f:if>
+        </div>
+    </div>
+</section>
 <f:for each="{posts}" key="identifier" as="post" iteration="postIterator">
-    <article>
+    <section class="{f:if(condition:postIterator.isEven, then: 'gray', else: 'light-gray')}">
         <div class="row">
             <div class="small-12 columns">
                 <h3>
@@ -68,10 +84,10 @@
 
         <div class="row">
             <div class="small-12 columns">
-                <h6>
-                    <i class="fa fa-user fa-fw"></i> <a href="#" data-author="{post.author.name.alias -> snippets:strtolower()}">{post.author.name.alias}</a>
+                <h5>
+                    <f:if condition="{post.author.name.alias}"><i class="fa fa-user fa-fw"></i> <a href="#" data-author="{post.author.name.alias -> snippets:strtolower()}">{post.author.name.alias}</a></f:if>
                     <i class="fa fa-calendar fa-fw"></i> <f:format.date format="d.m.Y">{post.date}</f:format.date>
-                </h6>
+                </h5>
             </div>
         </div>
 
@@ -79,6 +95,14 @@
             <div class="row">
                 <div class="small-12 columns">
                     <p>{post.description}</p>
+                </div>
+            </div>
+        </f:if>
+
+        <f:if condition="{post.content}">
+            <div class="row">
+                <div class="small-12 columns">
+                    <p>{post.content -> f:format.crop(maxCharacters:300, append:' ...')}</p>
                 </div>
             </div>
         </f:if>
@@ -108,14 +132,17 @@
 
         <div class="row">
             <div class="small-12 columns">
-                <h6>
+                <h5>
                     <i class="fa fa-folder-open fa-fw"></i>  <a href="#" data-category="{post.category.name -> snippets:strtolower()}">{post.category.name}</a>
                     <f:if condition="{post.content}">
                         | {post.views} views |
                         <i class="fa fa-chevron-up"></i>
                         <i class="fa fa-chevron-down"></i>
                     </f:if>
-                </h6>
+                    <f:if condition="{post.options.comment}">
+                        | <f:translate> {post.numberOfComments} Comments</f:translate>
+                    </f:if>
+                </h5>
            </div>
         </div>
 
@@ -126,41 +153,42 @@
                 </f:for>
             </div>
         </div>
-    </article>
-    {f:if(condition:postIterator.isLast, then: '', else: '<hr/>')}
+    </section>
 </f:for>
 <f:if condition="{pagination.numberOfPages} > 1">
-    <div class="pagination-centered">
-        <ul class="pagination">
-            <f:if condition="{pagination.previousPage}">
-                <f:then>
-                    <li class="arrow"><a href="#" data-currentPage="{pagination.previousPage}">&laquo;</a></li>
-                </f:then>
-                <f:else>
-                    <li class="arrow unavailable"><a href="#">&laquo;</a></li>
-                </f:else>
-            </f:if>
-            <f:for each="{pagination.pages}" as="page">
-                <f:if condition="{page.isCurrent}">
+    <section class="light-gray">
+        <div class="pagination-centered">
+            <ul class="pagination">
+                <f:if condition="{pagination.previousPage}">
                     <f:then>
-                        <li class="current"><a href="#">{page.number}</a></li>
+                        <li class="arrow"><a href="#" data-currentPage="{pagination.previousPage}">&laquo;</a></li>
                     </f:then>
                     <f:else>
-                        <li><a href="#" data-currentPage="{page.number}">{page.number}</a></li>
+                        <li class="arrow unavailable"><a href="#">&laquo;</a></li>
                     </f:else>
                 </f:if>
-            </f:for>
+                <f:for each="{pagination.pages}" as="page">
+                    <f:if condition="{page.isCurrent}">
+                        <f:then>
+                            <li class="current"><a href="#">{page.number}</a></li>
+                        </f:then>
+                        <f:else>
+                            <li><a href="#" data-currentPage="{page.number}">{page.number}</a></li>
+                        </f:else>
+                    </f:if>
+                </f:for>
 
-            <f:if condition="{pagination.nextPage}">
-                <f:then>
-                    <li class="arrow"><a href="#" data-currentPage="{pagination.nextPage}">&raquo;</a></li>
-                </f:then>
-                <f:else>
-                    <li class="arrow unavailable"><a href="#">&raquo;</a></li>
-                </f:else>
-            </f:if>
-        </ul>
-    </div>
+                <f:if condition="{pagination.nextPage}">
+                    <f:then>
+                        <li class="arrow"><a href="#" data-currentPage="{pagination.nextPage}">&raquo;</a></li>
+                    </f:then>
+                    <f:else>
+                        <li class="arrow unavailable"><a href="#">&raquo;</a></li>
+                    </f:else>
+                </f:if>
+            </ul>
+        </div>
+    </section>
 </f:if>
 <script>
     //reset all settings when new search is performed

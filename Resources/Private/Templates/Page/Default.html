@@ -2,6 +2,7 @@
     <link rel="stylesheet" href="{f:uri.resource(path: 'Styles/select2.css', package: 'Flowpack.Snippets')}" media="all" />
     <link rel="stylesheet" href="http://yandex.st/highlightjs/8.0/styles/default.min.css">
     <link rel="stylesheet" href="{f:uri.resource(path: 'Styles/Markdown.css', package: 'Flowpack.Snippets')}" media="all" />
+    <link rel="stylesheet" href="{f:uri.resource(path: 'Styles/foundation.custom.css', package: 'Flowpack.Snippets')}" media="all" />
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css">
 </f:section>
 
@@ -35,9 +36,16 @@
                     },
                     "css_path"  : "{f:uri.resource(path: 'Styles/socialshareprivacy.css', package: 'Flowpack.Snippets')}",
                     "lang_path" : "{f:uri.resource(path: 'Translations/', package: 'Flowpack.Snippets')}",
-                    "language"  : "de"
+                    "language"  : "en"
                 });
             }
         });
+    </script>
+</f:section>
+
+<f:section name="footerScripts">
+    <script src="{f:uri.resource(path: 'Scripts/foundation.min.js', package: 'Flowpack.Snippets')}"></script>
+    <script>
+        $(document).foundation();
     </script>
 </f:section>

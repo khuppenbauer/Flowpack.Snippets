@@ -1,0 +1,46 @@
+pre {
+	margin-bottom: 1.25rem;
+}
+
+pre code {
+    overflow: auto;
+}
+
+.gist-file table {
+    border: 0;
+    margin-bottom: 0;
+}
+
+.panel .label {
+    margin-bottom: 0;
+}
+
+#wmd-button-bar-content button, #wmd-button-bar-content .button {
+    margin: 0;
+}
+
+.accordion dd > a, .accordion dd > a:hover, .accordion dd > a:focus,
+.accordion dd.active > a, .accordion dd.active > a:hover, .accordion dd.active > a:focus {
+    background: none;
+    padding-left: 0;
+}
+
+#filter .button {
+    margin: 1.25rem 0 0;
+}
+
+[data-role="main"] #wmd-button-bar-content ul li:before,
+[data-role="main"] .select2-container ul li:before,
+[data-role="main"] form ul li:before,
+[data-role="main"] #socialshareprivacy ul li:before {
+    content: '';
+}
+
+[data-role="main"] #wmd-button-bar-content ul li {
+    padding-left: 1px;
+    margin-bottom: 0.5rem;
+}
+
+textarea {
+    height: auto;
+}

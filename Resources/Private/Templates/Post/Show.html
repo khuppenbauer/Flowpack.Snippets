@@ -1,8 +1,12 @@
 {namespace snippets=Flowpack\Snippets\ViewHelpers}
-<article>
+<section class="gray">
+    <div class="row">
+        <div class="large-12 columns">
     <h3>{post.title}</h3>
-    <h6><i class="fa fa-user fa-fw"></i> <a href="#">{post.author.name.alias}</a> <i class="fa fa-calendar fa-fw"></i> <f:format.date format="d.m.Y">{post.date}</f:format.date></h6>
 
+    <h5><f:if condition="{post.author.name.alias}"><i class="fa fa-user fa-fw"></i> <a href="#">{post.author.name.alias}</a></f:if> <i class="fa fa-calendar fa-fw"></i> <f:format.date format="d.m.Y">{post.date}</f:format.date></h5>
+        </div>
+    </div>
     <f:if condition="{post.url}">
         <div class="row">
             <div class="large-12 columns">
@@ -16,10 +20,10 @@
             {post.content -> snippets:parsedown()}
         </div>
     </div>
-    <hr />
     <div class="row">
         <div class="small-12 columns">
-            <h6><i class="fa fa-folder-open"></i> <a href="#">{post.category}</a> | {post.views} views | <i class="fa fa-chevron-up"></i> <i class="fa fa-chevron-down"></i></h6>
+            <hr />
+            <h5><i class="fa fa-folder-open"></i> <a href="#">{post.category}</a> | {post.views} views | <i class="fa fa-chevron-up"></i> <i class="fa fa-chevron-down"></i></h5>
             <f:for each="{post.tags}" as="tag">
                 <span class="secondary radius label">{tag}</span>
             </f:for>
@@ -27,20 +31,20 @@
     </div>
 
     <f:if condition="{post.options.share}">
-        <hr />
         <div class="row">
             <div class="small-12 columns">
+                <hr />
                 <div id="socialshareprivacy"></div>
             </div>
         </div>
     </f:if>
-
+</section>
     <f:if condition="{post.options.comment}">
-        <hr />
-        <div class="row">
-            <div class="small-12 columns">
-                <snippets:render partial="Disqus" package="MapSeven.Disqus" />
+        <section class="light-gray">
+            <div class="row">
+                <div class="small-12 columns">
+                    <snippets:render partial="Disqus" package="MapSeven.Disqus" />
+                </div>
             </div>
-        </div>
+        </section>
     </f:if>
-</article>
