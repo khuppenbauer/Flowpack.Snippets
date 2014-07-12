@@ -135,6 +135,13 @@ class Post {
 	protected $rating = 0;
 
 	/**
+	 * @var \Doctrine\Common\Collections\Collection<\Flowpack\Snippets\Domain\Model\Comment>
+	 * @ORM\OneToMany(mappedBy="post")
+	 * @ORM\OrderBy({"date" = "DESC"})
+	 */
+	protected $comments;
+
+	/**
 	 * The embed type
 	 *
 	 * @var string
@@ -189,6 +196,7 @@ class Post {
 	public function __construct() {
 		$this->date = new \DateTime();
 		$this->tags = new ArrayCollection();
+		$this->comments = new \Doctrine\Common\Collections\ArrayCollection();
 	}
 
 	/**
@@ -385,6 +393,45 @@ class Post {
 	 */
 	public function setRating($rating) {
 		$this->rating = $rating;
+	}
+
+	/**
+	 * Adds a comment to this post
+	 *
+	 * @param Comment $comment
+	 * @return void
+	 */
+	public function addComment(Comment $comment) {
+		$comment->setPost($this);
+		$this->comments->add($comment);
+	}
+
+	/**
+	 * Removes a comment from this post
+	 *
+	 * @param Comment $comment
+	 * @return void
+	 */
+	public function removeComment(Comment $comment) {
+		$this->comments->removeElement($comment);
+	}
+
+	/**
+	 * Returns the comments to this post
+	 *
+	 * @return \Doctrine\Common\Collections\Collection<\Flowpack\Snippets\Domain\Model\Comment>
+	 */
+	public function getComments() {
+		return $this->comments;
+	}
+
+	/**
+	 * Returns the number of comments
+	 *
+	 * @return integer The number of comments
+	 */
+	public function getNumberOfComments() {
+		return count($this->comments);
 	}
 
 	/**

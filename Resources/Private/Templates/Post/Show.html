@@ -43,7 +43,32 @@
         <section class="light-gray">
             <div class="row">
                 <div class="small-12 columns">
-                    <snippets:render partial="Disqus" package="MapSeven.Disqus" />
+                    <h3>{post.numberOfComments} Comments</h3>
+                    <f:for each="{post.comments}" as="comment" iteration="commentIterator" reverse="TRUE">
+                        <div class="row">
+                            <div class="small-12 columns">
+                                <strong>{comment.author} {comment.date -> f:format.date(format: 'd.m.Y H:i')}</strong>
+                                <p><f:format.nl2br>{comment.content}</f:format.nl2br></p>
+                            </div>
+                        </div>
+                        {f:if(condition:commentIterator.isLast, then: '', else: '<hr/>')}
+                    </f:for>
+                    <hr />
+                </div>
+            </div>
+            <div class="row">
+                <div class="small-12 columns">
+                    <h5><f:translate>Leave a reply</f:translate></h5>
+                    <f:form action="create" arguments="{post: post}" controller="Comment" object="{newComment}" name="newComment" class="form newcomment" section="comments">
+                        <f:render partial="Textfield" arguments="{label: 'Name', property: 'author', object: 'comment'}" />
+                        <f:render partial="Textfield" arguments="{label: 'E-Mail', property: 'emailAddress', object: 'comment'}" />
+                        <f:render partial="Textarea" arguments="{label: 'Comment', property: 'content', object: 'comment', rows:3}" />
+                        <div class="row">
+                            <div class="small-12 columns">
+                                <f:form.submit value="Create Post" class="button" />
+                            </div>
+                        </div>
+                    </f:form>
                 </div>
             </div>
         </section>
