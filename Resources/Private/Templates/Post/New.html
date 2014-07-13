@@ -1,34 +1,45 @@
+{namespace snippets=Flowpack\Snippets\ViewHelpers}
 <section class="white-bg">
     <div class="row">
         <div class="small-12 columns">
             <h3>Add a new Snippet</h3>
-            <f:form action="create" object="{newPost}" objectName="newPost" method="POST" additionalAttributes="{role:'form'}">
-                <f:flashMessages class="flashmessages" />
-                <dl class="tabs" data-tab>
-                    <dd class="active"><a href="#text">Text</a></dd>
-                    <dd><a href="#link">Link</a></dd>
-                </dl>
-                <div class="tabs-content">
-                    <br />
-                    <f:render partial="Textfield" arguments="{label: 'Title', property: 'title', object: 'newPost'}" />
-                    <f:render partial="Textarea" arguments="{label: 'Description', property: 'description', object: 'newPost', rows:3}" />
-                    <div class="content active" id="text">
-                        <f:render partial="TextareaMarkdown" arguments="{label: 'Content', property: 'content', object: 'newPost', rows: 20, preview: true}" />
-                        <f:render partial="Checkbox" arguments="{label: 'Comments', property: 'options.comment', object: 'newPost'}" />
-                        <f:render partial="Checkbox" arguments="{label: 'Share', property: 'options.share', object: 'newPost'}" />
-                    </div>
-                    <div class="content" id="link">
-                        <f:render partial="Textfield" arguments="{label: 'Url', property: 'url', object: 'newPost'}" />
-                    </div>
-                    <f:render partial="Select" arguments="{label: 'Category', property: 'category', object: 'newPost', properties: categories}" /><br />
-                    <f:render partial="Tags" arguments="{label: 'Tags', property: 'tags', object: 'newPost', properties: tags, size: 3}"/><br />
-                    <div class="row">
-                        <div class="small-12 columns">
-                            <f:form.submit value="Create Post" class="button" />
+            <snippets:security.ifAuthenticated providerName="FrontendProvider">
+                <f:then>
+                    <f:form action="create" object="{newPost}" objectName="newPost" method="POST" additionalAttributes="{role:'form'}">
+                        <f:flashMessages class="flashmessages" />
+                        <dl class="tabs" data-tab>
+                            <dd class="active"><a href="#text">Text</a></dd>
+                            <dd><a href="#link">Link</a></dd>
+                        </dl>
+                        <div class="tabs-content">
+                            <br />
+                            <f:render partial="Textfield" arguments="{label: 'Title', property: 'title', object: 'newPost'}" />
+                            <f:render partial="Textarea" arguments="{label: 'Description', property: 'description', object: 'newPost', rows:3}" />
+                            <div class="content active" id="text">
+                                <f:render partial="TextareaMarkdown" arguments="{label: 'Content', property: 'content', object: 'newPost', rows: 20, preview: true}" />
+                                <f:render partial="Checkbox" arguments="{label: 'Comments', property: 'options.comment', object: 'newPost'}" />
+                                <f:render partial="Checkbox" arguments="{label: 'Share', property: 'options.share', object: 'newPost'}" />
+                            </div>
+                            <div class="content" id="link">
+                                <f:render partial="Textfield" arguments="{label: 'Url', property: 'url', object: 'newPost'}" />
+                            </div>
+                            <f:render partial="Select" arguments="{label: 'Category', property: 'category', object: 'newPost', properties: categories}" /><br />
+                            <f:render partial="Tags" arguments="{label: 'Tags', property: 'tags', object: 'newPost', properties: tags, size: 3}"/><br />
+                            <div class="row">
+                                <div class="small-12 columns">
+                                    <f:form.submit value="Create Post" class="button" />
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </f:form>
+                    </f:form>
+                </f:then>
+                <f:else>
+                    <h5>Login to add a new Snippet</h5>
+                    <f:flashMessages />
+                    <f:render partial="Login" />
+                </f:else>
+            </snippets:security.ifAuthenticated>
+
         </div>
     </div>
 </section>

@@ -10,7 +10,7 @@ use TYPO3\Flow\Annotations as Flow;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use TYPO3\Neos\Domain\Model\User;
+use Flowpack\Snippets\Domain\Model\User;
 use Flowpack\Snippets\Domain\Model\Category;
 use Flowpack\ElasticSearch\Annotations as ElasticSearch;
 
@@ -232,7 +232,7 @@ class Post {
 	 * @param User $author
 	 * @return void
 	 */
-	public function setAuthor(User $author = NULL) {
+	public function setAuthor(User $author) {
 		$this->author = $author;
 	}
 

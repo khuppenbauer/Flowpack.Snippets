@@ -1,0 +1,21 @@
+<f:flashMessages />
+<f:if condition="{arguments}">
+    <f:then>
+        <f:form action="authenticate" method="post" controller="Login" arguments="{arguments}" >
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="__authentication[TYPO3][Flow][Security][Authentication][Token][UsernamePassword][username]" />
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="__authentication[TYPO3][Flow][Security][Authentication][Token][UsernamePassword][password]" />
+            <f:form.submit value="login" class="button" />
+        </f:form>
+    </f:then>
+    <f:else>
+        <f:form action="authenticate" method="post" controller="Login" >
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="__authentication[TYPO3][Flow][Security][Authentication][Token][UsernamePassword][username]" />
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="__authentication[TYPO3][Flow][Security][Authentication][Token][UsernamePassword][password]" />
+            <f:form.submit value="login" class="button" />
+        </f:form>
+    </f:else>
+</f:if>

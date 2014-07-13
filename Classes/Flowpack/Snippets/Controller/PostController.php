@@ -118,7 +118,7 @@ class PostController extends ActionController {
 	 * @return void
 	 */
 	public function indexAction() {
-		$author = $this->securityContext->getPartyByType('TYPO3\Neos\Domain\Model\User');
+		$author = $this->securityContext->getPartyByType('Flowpack\Snippets\Domain\Model\User');
 		$this->view->assign('posts', $this->postRepository->findByAuthor($author));
 	}
 
@@ -127,7 +127,7 @@ class PostController extends ActionController {
 	 * @return void
 	 */
 	public function showAction(Post $post) {
-		$author = $this->securityContext->getPartyByType('TYPO3\Neos\Domain\Model\User');
+		$author = $this->securityContext->getPartyByType('Flowpack\Snippets\Domain\Model\User');
 		if ($author !== $post->getAuthor()) {
 			$views = $post->getViews() + 1;
 			$post->setViews($views);
@@ -152,7 +152,7 @@ class PostController extends ActionController {
 	 * @return void
 	 */
 	public function createAction(Post $newPost, $tags) {
-		$author = $this->securityContext->getPartyByType('TYPO3\Neos\Domain\Model\User');
+		$author = $this->securityContext->getPartyByType('Flowpack\Snippets\Domain\Model\User');
 		$newPost->setAuthor($author);
 		$this->postRepository->add($newPost);
 		$this->emitPostUpdated($newPost);

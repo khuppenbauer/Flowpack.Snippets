@@ -9,6 +9,7 @@ namespace Flowpack\Snippets\Domain\Model;
 use Doctrine\ORM\Mapping as ORM;
 use TYPO3\Flow\Annotations as Flow;
 use Flowpack\Snippets\Domain\Model\Post;
+use Flowpack\Snippets\Domain\Model\User;
 
 /**
  * A post comment
@@ -29,18 +30,12 @@ class Comment {
 	protected $post;
 
 	/**
-	 * @var string
-	 * @Flow\Validate(type="Text")
-	 * @Flow\Validate(type="StringLength", options={ "minimum"=3, "maximum"=80 })
-	 * @ORM\Column(length=80)
+	 * The post author
+	 *
+	 * @var User
+	 * @ORM\ManyToOne
 	 */
 	protected $author;
-
-	/**
-	 * @var string
-	 * @Flow\Validate(type="EmailAddress")
-	 */
-	protected $emailAddress;
 
 	/**
 	 * @var string
@@ -58,6 +53,14 @@ class Comment {
 	}
 
 	/**
+	 * @param Post $post
+	 * @return void
+	 */
+	public function setPost(Post $post) {
+		$this->post = $post;
+	}
+
+	/**
 	 * Setter for date
 	 *
 	 * @param \DateTime $date
@@ -65,14 +68,6 @@ class Comment {
 	 */
 	public function setDate(\DateTime $date) {
 		$this->date = $date;
-	}
-
-	/**
-	 * @param Post $post
-	 * @return void
-	 */
-	public function setPost(Post $post) {
-		$this->post = $post;
 	}
 
 	/**
@@ -85,41 +80,18 @@ class Comment {
 	}
 
 	/**
-	 * Sets the author for this comment
-	 *
-	 * @param string $author
-	 * @return void
-	 */
-	public function setAuthor($author) {
-		$this->author = $author;
-	}
-
-	/**
-	 * Getter for author
-	 *
-	 * @return string
+	 * @return User
 	 */
 	public function getAuthor() {
 		return $this->author;
 	}
 
 	/**
-	 * Sets the authors email address for this comment
-	 *
-	 * @param string $emailAddress email address of the author
+	 * @param User $author
 	 * @return void
 	 */
-	public function setEmailAddress($emailAddress) {
-		$this->emailAddress = $emailAddress;
-	}
-
-	/**
-	 * Getter for authors email address
-	 *
-	 * @return string
-	 */
-	public function getEmailAddress() {
-		return $this->emailAddress;
+	public function setAuthor(User $author) {
+		$this->author = $author;
 	}
 
 	/**
