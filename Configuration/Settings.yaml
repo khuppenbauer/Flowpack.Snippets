@@ -5,6 +5,18 @@ TYPO3:
         'fabpot.*' : ['.*']
         'embed.*' : ['.*']
         'ruflin.*' : ['.*']
+    security:
+      firewall:
+        filters: []
+      authentication:
+        providers:
+          Typo3BackendProvider:
+            requestPatterns:
+              Flowpack\Snippets\Security\NeosRequestPattern: 'backend'
+          FrontendProvider:
+            provider: 'PersistedUsernamePasswordProvider'
+            requestPatterns:
+              Flowpack\Snippets\Security\NeosRequestPattern: 'frontend'
 
   Neos:
     typoScript:

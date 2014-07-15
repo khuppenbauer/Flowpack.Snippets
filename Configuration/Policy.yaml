@@ -1,9 +1,10 @@
 resources:
   methods:
-    Flowpack_Snippets_Post: 'method(Flowpack\Snippets\Controller\PostController->(index|show|new|create|edit|update|delete)Action())'
-    Flowpack_Snippets_Search: 'method(Flowpack\Snippets\Controller\SearchController->(search|searchCategory|searchTag|searchAuthor)Action())'
-    Flowpack_Snippets_Comment: 'method(Flowpack\Snippets\Controller\CommentController->(create|delete)Action())'
     Flowpack_Snippets_Login: 'method(TYPO3\Flow\Security\Authentication\Controller\AbstractAuthenticationController->(?<!initialize).*Action()) || method(Flowpack\Snippets\Controller\LoginController->(index|authenticate)Action())'
+    Flowpack_Snippets_Search: 'method(Flowpack\Snippets\Controller\SearchController->(search|searchCategory|searchTag|searchAuthor)Action())'
+    Flowpack_Snippets_NewPost: 'method(Flowpack\Snippets\Controller\PostController->(new)Action())'
+    Flowpack_Snippets_Post: 'method(Flowpack\Snippets\Controller\PostController->(index|show|create|edit|update|delete)Action())'
+    Flowpack_Snippets_Comment: 'method(Flowpack\Snippets\Controller\CommentController->(create|delete)Action())'
     Flowpack_Snippets_Backend_Module_Snippets: 'method(Flowpack\Snippets\Controller\Module\SnippetsController->indexAction())'
     Flowpack_Snippets_Backend_Module_Snippets_Posts: 'method(Flowpack\Snippets\Controller\Module\Snippets\PostsController->(activate|deactivate|index|show|delete|edit|update)Action())'
     Flowpack_Snippets_Backend_Module_Snippets_Categories: 'method(Flowpack\Snippets\Controller\Module\Snippets\CategoriesController->(index|new|create|edit|update|delete|show)Action())'
@@ -16,10 +17,15 @@ acls:
   Everybody:
     methods:
       # we need to explicitly allow access to the public actions because by default all actions are denied by the Neos policies
-      Flowpack_Snippets_Post: GRANT
       Flowpack_Snippets_Search: GRANT
-      Flowpack_Snippets_Comment: GRANT
       Flowpack_Snippets_Login: GRANT
+      Flowpack_Snippets_NewPost: GRANT
+  'Flowpack.Snippets:User':
+    methods:
+      Flowpack_Snippets_Post: GRANT
+      Flowpack_Snippets_Comment: GRANT
+  'TYPO3.Neos:Administrator':
+    methods:
       Flowpack_Snippets_Backend_Module_Snippets: GRANT
       Flowpack_Snippets_Backend_Module_Snippets_Categories: GRANT
       Flowpack_Snippets_Backend_Module_Snippets_Posts: GRANT
