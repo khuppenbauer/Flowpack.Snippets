@@ -64,3 +64,13 @@
       objectType: '\Flowpack\Snippets\Domain\Model\Post'
       uriPattern: '{date:Y}/{date:m}/{date:d}/{title}'
   appendExceedingArguments: TRUE
+
+-
+  name: 'Post Action for Ajax Usage'
+  uriPattern: 'Post/{@action}'
+  defaults:
+    @package: 'Flowpack.Snippets'
+    @controller: 'Post'
+  routeParts:
+    'post':
+      objectType: '\Flowpack\Snippets\Domain\Model\Post'

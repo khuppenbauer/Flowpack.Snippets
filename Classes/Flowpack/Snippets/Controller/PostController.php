@@ -6,6 +6,7 @@ namespace Flowpack\Snippets\Controller;
  *                                                                        *
  *                                                                        */
 
+use Flowpack\Snippets\Domain\Model\User;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Mvc\Controller\ActionController;
 use TYPO3\Flow\Security\Context;
@@ -96,6 +97,36 @@ class PostController extends ActionController {
 	}
 
 	/**
+	 * Initializes the voteUp Action
+	 */
+	public function initializeVoteUpAction() {
+		$this->arguments['post']->getPropertyMappingConfiguration()->allowProperties('upVotes');
+		$this->arguments['post']->getPropertyMappingConfiguration()->setTypeConverterOption('TYPO3\Flow\Property\TypeConverter\PersistentObjectConverter', \TYPO3\Flow\Property\TypeConverter\PersistentObjectConverter::CONFIGURATION_MODIFICATION_ALLOWED, TRUE);
+		$this->arguments['post']->getPropertyMappingConfiguration()->forProperty('upVotes')->allowAllProperties();
+		$this->arguments['post']->getPropertyMappingConfiguration()->allowModificationForSubProperty('upVotes');
+	}
+
+	/**
+	 * Initializes the voteDown Action
+	 */
+	public function initializeVoteDownAction() {
+		$this->arguments['post']->getPropertyMappingConfiguration()->allowProperties('downVotes');
+		$this->arguments['post']->getPropertyMappingConfiguration()->setTypeConverterOption('TYPO3\Flow\Property\TypeConverter\PersistentObjectConverter', \TYPO3\Flow\Property\TypeConverter\PersistentObjectConverter::CONFIGURATION_MODIFICATION_ALLOWED, TRUE);
+		$this->arguments['post']->getPropertyMappingConfiguration()->forProperty('downVotes')->allowAllProperties();
+		$this->arguments['post']->getPropertyMappingConfiguration()->allowModificationForSubProperty('downVotes');
+	}
+
+	/**
+	 * Initializes the favorite Action
+	 */
+	public function initializeFavoriteAction() {
+		$this->arguments['post']->getPropertyMappingConfiguration()->allowProperties('favorites');
+		$this->arguments['post']->getPropertyMappingConfiguration()->setTypeConverterOption('TYPO3\Flow\Property\TypeConverter\PersistentObjectConverter', \TYPO3\Flow\Property\TypeConverter\PersistentObjectConverter::CONFIGURATION_MODIFICATION_ALLOWED, TRUE);
+		$this->arguments['post']->getPropertyMappingConfiguration()->forProperty('favorites')->allowAllProperties();
+		$this->arguments['post']->getPropertyMappingConfiguration()->allowModificationForSubProperty('favorites');
+	}
+
+	/**
 	 * @return array
 	 */
 	protected function convertTags() {
@@ -103,8 +134,7 @@ class PostController extends ActionController {
 		if (!empty($tags)) {
 			$tagsArray = explode(',', $tags);
 			foreach ($tagsArray as $key => $tag) {
-				if (!((preg_match('/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/', $tag)) ||
-						(preg_match('/[0-9a-f]{40}/', $tag)))) {
+				if ($this->persistenceManager->getObjectByIdentifier($tag, 'Flowpack\Snippets\Domain\Model\Tag', FALSE) === NULL) {
 					$tagObject = new Tag($tag);
 					$this->tagRepository->add($tagObject);
 					$tagsArray[$key] = $this->persistenceManager->getIdentifierByObject($tagObject);
@@ -127,12 +157,13 @@ class PostController extends ActionController {
 	 * @return void
 	 */
 	public function showAction(Post $post) {
-		$author = $this->securityContext->getPartyByType('Flowpack\Snippets\Domain\Model\User');
-		if ($author !== $post->getAuthor()) {
+		$user = $this->securityContext->getPartyByType('Flowpack\Snippets\Domain\Model\User');
+		if ($user !== $post->getAuthor()) {
 			$views = $post->getViews() + 1;
 			$post->setViews($views);
 			$this->postRepository->update($post);
 		}
+		$this->view->assign('user', $user);
 		$this->view->assign('post', $post);
 	}
 
@@ -192,6 +223,70 @@ class PostController extends ActionController {
 		$this->postRepository->remove($post);
 		$this->emitPostRemoved($post);
 		$this->redirect('index');
+	}
+
+	/**
+	 * @param Post $post
+	 * @param User $user
+	 * @return integer
+	 */
+	public function voteUpAction(Post $post, User $user) {
+		if ($post->hasUpVote($user) === TRUE) {
+			$post->removeUpVote($user);
+		} else {
+			$post->addUpVote($user);
+			if ($post->hasDownVote($user) === TRUE) {
+				$post->removeDownVote($user);
+			}
+		}
+		$this->postRepository->update($post);
+		return $this->responseData($post);
+	}
+
+	/**
+	 * @param Post $post
+	 * @param User $user
+	 * @return integer
+	 */
+	public function voteDownAction(Post $post, User $user) {
+		if ($post->hasDownVote($user) === TRUE) {
+			$post->removeDownVote($user);
+		} else {
+			$post->addDownVote($user);
+			if ($post->hasUpVote($user) === TRUE) {
+				$post->removeUpVote($user);
+			}
+		}
+		$this->postRepository->update($post);
+		return $this->responseData($post);
+	}
+
+	/**
+	 * @param Post $post
+	 * @param User $user
+	 * @return boolean
+	 */
+	public function favorAction(Post $post, User $user) {
+		if ($post->isFavorite() === TRUE) {
+			$post->removeFavorite($user);
+			$favor = FALSE;
+		} else {
+			$post->addFavorite($user);
+			$favor = TRUE;
+		}
+		$this->postRepository->update($post);
+		return $this->responseData($post);
+	}
+
+	/**
+	 * @param Post $post
+	 * @return string
+	 */
+	protected function responseData(Post $post) {
+		$data['upVotes'] = $post->getNumberOfUpVotes();
+		$data['downVotes'] = $post->getNumberOfDownVotes();
+		$data['favor'] = $post->isFavorite();
+		return json_encode($data);
 	}
 
 	/**

@@ -3,8 +3,12 @@
     <div class="row">
         <div class="large-12 columns">
     <h3>{post.title}</h3>
-
-    <h5><f:if condition="{post.author.name.alias}"><i class="fa fa-user fa-fw"></i> <a href="#">{post.author.name.alias}</a></f:if> <i class="fa fa-calendar fa-fw"></i> <f:format.date format="d.m.Y">{post.date}</f:format.date></h5>
+            <f:form action="search" id="search" name="search" controller="search" method="POST" objectName="search">
+                <f:form.hidden property="filter.author" id="author" class="jq-hidden" />
+                <f:form.hidden property="filter.tags" id="tags" class="jq-hidden" />
+                <f:form.hidden property="filter.category" id="category" class="jq-hidden" />
+            </f:form>
+            <h5> <f:if condition="{post.author.name.alias}"><i class="fa fa-user fa-fw"></i> <a href="#" data-author="{post.author.name.alias -> snippets:strtolower()}">{post.author.name.alias}</a></f:if> <i class="fa fa-calendar fa-fw"></i> <f:format.date format="d.m.Y">{post.date}</f:format.date></h5>
         </div>
     </div>
     <f:if condition="{post.url}">
@@ -23,9 +27,23 @@
     <div class="row">
         <div class="small-12 columns">
             <hr />
-            <h5><i class="fa fa-folder-open"></i> <a href="#">{post.category}</a> | {post.views} views | <i class="fa fa-chevron-up"></i> <i class="fa fa-chevron-down"></i></h5>
+            <h5>
+                <i class="fa fa-folder-open"></i> <a href="#" data-category="{post.category.name -> snippets:strtolower()}">{post.category.name}</a> | {post.views} views |
+                <snippets:security.ifAuthenticated providerName="FrontendProvider">
+                    <f:then>
+                        <i class="jq-up fa fa-thumbs-up" style="cursor: pointer" data-post="{post -> f:format.identifier()}" data-user="{user -> f:format.identifier()}"></i> <span class="jq-upVotes">{post.numberOfUpVotes}</span>
+                        <i class="jq-down fa fa-thumbs-down" style="cursor: pointer"  data-post="{post -> f:format.identifier()}" data-user="{user -> f:format.identifier()}"></i> <span class="jq-downVotes">{post.numberOfDownVotes}</span>
+                        <i class="jq-favor fa fa-star{f:if(condition:post.favorite, then: '', else: '-o')}" style="cursor:pointer" data-post="{post -> f:format.identifier()}" data-user="{user -> f:format.identifier()}"></i>
+                    </f:then>
+                    <f:else>
+                        <i class="jq-up fa fa-thumbs-up" style="cursor: pointer"></i> <span class="jq-upVotes">{post.numberOfUpVotes}</span>
+                        <i class="jq-down fa fa-thumbs-down" style="cursor: pointer"></i> <span class="jq-downVotes">{post.numberOfDownVotes}</span>
+                        <i class="jq-favor fa fa-star{f:if(condition:post.favorite, then: '', else: '-o')}" style="cursor:pointer"></i>
+                    </f:else>
+                </snippets:security.ifAuthenticated>
+            </h5>
             <f:for each="{post.tags}" as="tag">
-                <span class="secondary radius label">{tag}</span>
+                <a href="#" data-tags="{tag.name -> snippets:strtolower()}"><span class="secondary radius label">{tag.name}</span></a>
             </f:for>
         </div>
     </div>
@@ -39,43 +57,43 @@
         </div>
     </f:if>
 </section>
-    <f:if condition="{post.options.comment}">
-        <section class="white-bg" id="comments">
-            <div class="row">
-                <div class="small-12 columns">
-                    <h3>{post.numberOfComments} Comments</h3>
-                    <f:for each="{post.comments}" as="comment" iteration="commentIterator" reverse="TRUE">
-                        <div class="row">
-                            <div class="small-12 columns">
-                                <strong>{comment.author.name.alias} {comment.date -> f:format.date(format: 'd.m.Y H:i')}</strong>
-                                <p><f:format.nl2br>{comment.content}</f:format.nl2br></p>
-                            </div>
+<f:if condition="{post.options.comment}">
+    <section class="white-bg" id="comments">
+        <div class="row">
+            <div class="small-12 columns">
+                <h3>{post.numberOfComments} Comments</h3>
+                <f:for each="{post.comments}" as="comment" iteration="commentIterator" reverse="TRUE">
+                    <div class="row">
+                        <div class="small-12 columns">
+                            <strong>{comment.author.name.alias} {comment.date -> f:format.date(format: 'd.m.Y H:i')}</strong>
+                            <p><f:format.nl2br>{comment.content}</f:format.nl2br></p>
                         </div>
-                        {f:if(condition:commentIterator.isLast, then: '', else: '<hr/>')}
-                    </f:for>
-                    <hr />
-                </div>
+                    </div>
+                    {f:if(condition:commentIterator.isLast, then: '', else: '<hr/>')}
+                </f:for>
+                <hr />
             </div>
-            <div class="row">
-                <div class="small-12 columns">
-                    <snippets:security.ifAuthenticated providerName="FrontendProvider">
-                        <f:then>
-                            <h5><f:translate>Leave a reply</f:translate></h5>
-                            <f:form action="create" arguments="{post: post}" controller="Comment" object="{newComment}" name="newComment" class="form newcomment" section="comments">
-                                <f:render partial="Textarea" arguments="{label: 'Comment', property: 'content', object: 'comment', rows:3}" />
-                                <div class="row">
-                                    <div class="small-12 columns">
-                                        <f:form.submit value="Create Post" class="button" />
-                                    </div>
+        </div>
+        <div class="row">
+            <div class="small-12 columns">
+                <snippets:security.ifAuthenticated providerName="FrontendProvider">
+                    <f:then>
+                        <h5><f:translate>Leave a reply</f:translate></h5>
+                        <f:form action="create" arguments="{post: post}" controller="Comment" object="{newComment}" name="newComment" class="form newcomment" section="comments">
+                            <f:render partial="Textarea" arguments="{label: 'Comment', property: 'content', object: 'comment', rows:3}" />
+                            <div class="row">
+                                <div class="small-12 columns">
+                                    <f:form.submit value="Create Post" class="button" />
                                 </div>
-                            </f:form>
-                        </f:then>
-                        <f:else>
-                            <h5>Login to add your comment</h5>
-                            <f:render partial="Login" arguments="{arguments: {post: post}}" />
-                        </f:else>
-                    </snippets:security.ifAuthenticated>
-                </div>
+                            </div>
+                        </f:form>
+                    </f:then>
+                    <f:else>
+                        <h5>Login to add your comment</h5>
+                        <f:render partial="Login" arguments="{arguments: {post: post}}" />
+                    </f:else>
+                </snippets:security.ifAuthenticated>
             </div>
-        </section>
-    </f:if>
+        </div>
+    </section>
+</f:if>

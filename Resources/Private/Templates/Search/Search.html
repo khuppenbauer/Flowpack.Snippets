@@ -99,14 +99,6 @@
             </div>
         </f:if>
 
-        <f:if condition="{post.content}">
-            <div class="row">
-                <div class="small-12 columns">
-                    <p>{post.content -> f:format.crop(maxCharacters:300, append:' ...')}</p>
-                </div>
-            </div>
-        </f:if>
-
         <f:if condition="{post.url}">
             <div class="row">
                 <div class="small-12 columns">
@@ -135,12 +127,10 @@
                 <h5>
                     <i class="fa fa-folder-open fa-fw"></i>  <a href="#" data-category="{post.category.name -> snippets:strtolower()}">{post.category.name}</a>
                     <f:if condition="{post.content}">
-                        | {post.views} views |
-                        <i class="fa fa-chevron-up"></i>
-                        <i class="fa fa-chevron-down"></i>
+                        | {post.views} views | {post.numberOfVotes} votes <snippets:security.ifAuthenticated providerName="FrontendProvider">| <i class="jq-favorite fa fa-star{f:if(condition:post.favorite, then: '', else: '-o')}"></i></snippets:security.ifAuthenticated>
                     </f:if>
                     <f:if condition="{post.options.comment}">
-                        | <f:translate> {post.numberOfComments} Comments</f:translate>
+                        | <f:link.action action="show" controller="post" arguments="{post: post}" section="comments"><f:translate> {post.numberOfComments} Comments</f:translate></f:link.action>
                     </f:if>
                 </h5>
            </div>
@@ -190,42 +180,15 @@
         </div>
     </section>
 </f:if>
-<script>
-    //reset all settings when new search is performed
-    $("#search").submit(function() {
-        var oldValue = "{search.query}";
-        var newValue = $("input#query").val();
-        if (oldValue != newValue) {
-            $("select.jq-select").val('');
-            $("input.jq-hidden").val('');
-        }
-    });
 
-    //submit form when filter has changed
-    $("select.jq-select").change(function() {
-        $("input.jq-hidden").val('');
-        this.form.submit();
-    });
-
-    //reset all filter and submit form
-    $(".jq-filter-reset").click(function() {
-        $("select.jq-select").val('');
-        $("input.jq-hidden").val('');
-        $("#search").submit();
-    });
-
-    //set filter from links with data attribute
-    $('a').click(function(){
-        var attributes = $(this).data();
-        $.each(attributes, function(k,v) {
-            if (k != 'currentpage') {
+    <script>
+        //reset all settings when new search is performed
+        $("#search").submit(function() {
+            var oldValue = "{search.query}";
+            var newValue = $("input#query").val();
+            if (oldValue != newValue) {
                 $("select.jq-select").val('');
                 $("input.jq-hidden").val('');
-                $("input#query").val('');
             }
-            $('#'+k).val(v);
-            $("#search").submit();
         });
-    });
-
-</script>
+    </script>

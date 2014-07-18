@@ -10,9 +10,8 @@ use TYPO3\Flow\Annotations as Flow;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Flowpack\Snippets\Domain\Model\User;
-use Flowpack\Snippets\Domain\Model\Category;
 use Flowpack\ElasticSearch\Annotations as ElasticSearch;
+use TYPO3\Flow\Security\Context;
 
 /**
  * A Snippet post
@@ -128,14 +127,31 @@ class Post {
 	protected $views = 0;
 
 	/**
-	 * The post rating
+	 * The post upVotes
 	 *
-	 * @var integer
+	 * @var Collection<\Flowpack\Snippets\Domain\Model\User>
+	 * @ORM\ManyToMany(inversedBy="upVotes")
 	 */
-	protected $rating = 0;
+	protected $upVotes;
 
 	/**
-	 * @var \Doctrine\Common\Collections\Collection<\Flowpack\Snippets\Domain\Model\Comment>
+	 * The post downVotes
+	 *
+	 * @var Collection<\Flowpack\Snippets\Domain\Model\User>
+	 * @ORM\ManyToMany(inversedBy="downVotes")
+	 */
+	protected $downVotes;
+
+	/**
+	 * The post favorites
+	 *
+	 * @var Collection<\Flowpack\Snippets\Domain\Model\User>
+	 * @ORM\ManyToMany(inversedBy="favorites")
+	 */
+	protected $favorites;
+
+	/**
+	 * @var Collection<\Flowpack\Snippets\Domain\Model\Comment>
 	 * @ORM\OneToMany(mappedBy="post")
 	 * @ORM\OrderBy({"date" = "DESC"})
 	 */
@@ -189,6 +205,20 @@ class Post {
 	 */
 	protected $providerIcon;
 
+	/**
+	 * @var Context
+	 */
+	protected $securityContext;
+
+	/**
+	 * Injects the Security Context
+	 *
+	 * @param Context $securityContext
+	 * @return void
+	 */
+	public function injectSecurityContext(Context $securityContext) {
+		$this->securityContext = $securityContext;
+	}
 
 	/**
 	 * Constructs this post
@@ -196,7 +226,10 @@ class Post {
 	public function __construct() {
 		$this->date = new \DateTime();
 		$this->tags = new ArrayCollection();
-		$this->comments = new \Doctrine\Common\Collections\ArrayCollection();
+		$this->upVotes = new ArrayCollection();
+		$this->downVotes = new ArrayCollection();
+		$this->favorites = new ArrayCollection();
+		$this->comments = new ArrayCollection();
 	}
 
 	/**
@@ -366,6 +399,192 @@ class Post {
 	}
 
 	/**
+	 * @return Collection<\Flowpack\Snippets\Domain\Model\User>
+	 */
+	public function getUpVotes() {
+		return clone $this->upVotes;
+	}
+
+	/**
+	 * Returns the number of upVotes
+	 *
+	 * @return integer The number of upVotes
+	 */
+	public function getNumberOfUpVotes() {
+		return count($this->upVotes);
+	}
+
+	/**
+	 * @param Collection<\Flowpack\Snippets\Domain\Model\User> $upVotes
+	 * @return void
+	 */
+	public function setUpVotes(Collection $upVotes) {
+		$this->upVotes = clone $upVotes;
+	}
+
+	/**
+	 * Adds an upVote to this post
+	 *
+	 * @param User $upVote
+	 * @return void
+	 */
+	public function addUpVote(User $upVote) {
+		$this->upVotes->add($upVote);
+	}
+
+	/**
+	 * Removes an upVote from this post
+	 *
+	 * @param User $upVote
+	 * @return void
+	 */
+	public function removeUpVote(User $upVote) {
+		$this->upVotes->removeElement($upVote);
+	}
+
+	/**
+	 * @param User $user
+	 * @return boolean
+	 */
+	public function hasUpVote(User $user) {
+		$hasUpVote = FALSE;
+		if ($user !== NULL) {
+			$upVotes = clone $this->upVotes;
+			foreach ($upVotes as $upVote) {
+				if($upVote === $user) {
+					$hasUpVote = TRUE;
+					break;
+				}
+			}
+		}
+		return $hasUpVote;
+	}
+
+	/**
+	 * @return Collection<\Flowpack\Snippets\Domain\Model\User>
+	 */
+	public function getDownVotes() {
+		return clone $this->downVotes;
+	}
+
+	/**
+	 * Returns the number of downVotes
+	 *
+	 * @return integer The number of downVotes
+	 */
+	public function getNumberOfDownVotes() {
+		return count($this->downVotes);
+	}
+
+	/**
+	 * @param Collection<\Flowpack\Snippets\Domain\Model\User> $downVotes
+	 * @return void
+	 */
+	public function setDownVotes(Collection $downVotes) {
+		$this->downVotes = clone $downVotes;
+	}
+
+	/**
+	 * Adds a downVote
+	 *
+	 * @param User $downVote
+	 * @return void
+	 */
+	public function addDownVote(User $downVote) {
+		$this->downVotes->add($downVote);
+	}
+
+	/**
+	 * Removes a downVote
+	 *
+	 * @param User $downVote
+	 * @return void
+	 */
+	public function removeDownVote(User $downVote) {
+		$this->downVotes->removeElement($downVote);
+	}
+
+	/**
+	 * @param User $user
+	 * @return boolean
+	 */
+	public function hasDownVote(User $user) {
+		$hasDownVote = FALSE;
+		if ($user !== NULL) {
+			$downVotes = clone $this->downVotes;
+			foreach ($downVotes as $downVote) {
+				if($downVote === $user) {
+					$hasDownVote = TRUE;
+					break;
+				}
+			}
+		}
+		return $hasDownVote;
+	}
+
+	/**
+	 * Returns the number of Votes
+	 *
+	 * @return integer The number of Votes
+	 */
+	public function getNumberOfVotes() {
+		return count($this->upVotes) - count($this->downVotes);
+	}
+
+	/**
+	 * @return Collection<\Flowpack\Snippets\Domain\Model\User>
+	 */
+	public function getFavorites() {
+		return clone $this->favorites;
+	}
+
+	/**
+	 * @param Collection<\Flowpack\Snippets\Domain\Model\User> $favorites
+	 * @return void
+	 */
+	public function setFavorites(Collection $favorites) {
+		$this->favorites = clone $favorites;
+	}
+
+	/**
+	 * Add favorite to this post
+	 *
+	 * @param User $favorite
+	 * @return void
+	 */
+	public function addFavorite(User $favorite) {
+		$this->favorites->add($favorite);
+	}
+
+	/**
+	 * Removes favorite from this post
+	 *
+	 * @param User $favorite
+	 * @return void
+	 */
+	public function removeFavorite(User $favorite) {
+		$this->favorites->removeElement($favorite);
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isFavorite() {
+		$isFavorite = FALSE;
+		$user = $this->securityContext->getPartyByType('Flowpack\Snippets\Domain\Model\User');
+		if ($user !== NULL) {
+			$favorites = clone $this->favorites;
+			foreach ($favorites as $favorite) {
+				if($favorite === $user) {
+					$isFavorite = TRUE;
+					break;
+				}
+			}
+		}
+		return $isFavorite;
+	}
+
+	/**
 	 * @return integer
 	 */
 	public function getViews() {
@@ -378,21 +597,6 @@ class Post {
 	 */
 	public function setViews($views) {
 		$this->views = $views;
-	}
-
-	/**
-	 * @return integer
-	 */
-	public function getRating() {
-		return $this->rating;
-	}
-
-	/**
-	 * @param integer $rating
-	 * @return void
-	 */
-	public function setRating($rating) {
-		$this->rating = $rating;
 	}
 
 	/**
