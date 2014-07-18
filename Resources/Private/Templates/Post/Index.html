@@ -1,45 +1,61 @@
-    <f:if condition="{posts}">
-        <f:then>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Category</th>
-                        <th>Date</th>
-                        <th>Views</th>
-                        <th>Rating</th>
-                        <th>&nbsp;</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <f:for each="{posts}" key="flowidentifier" as="post">
-                    <tr>
-                        <td><f:link.action action="show" arguments="{post: post}">{post.title}</f:link.action></td>
-                        <td>{post.category}</td>
-                        <td><f:format.date format="d.m.Y - H:i:s">{post.date}</f:format.date></td>
-                        <td>{post.views}</td>
-                        <td>{post.rating}</td>
-                        <td>
-                            <f:link.action action="show" arguments="{post: post}"><i class="fa fa-eye fa-fw"></i></f:link.action>
-                            <f:link.action action="edit" arguments="{post: post}"><i class="fa fa-pencil fa-fw"></i></f:link.action>
-                            <a href="#" data-reveal-id="Modal{flowidentifier}"><i class="fa fa-trash-o fa-fw"></i></a>
-                            <div id="Modal{flowidentifier}" class="reveal-modal" data-reveal>
-                                <h2>Delete Post</h2>
-                                <p>Do you really want to delete post "{post.title}"?</p>
-                                <f:form action="delete" arguments="{post: post}">
-                                    <button type="submit" title="Delete Post">
-                                        Yes, delete the post
-                                    </button>
-                                </f:form>
-                                <a class="close-reveal-modal">&#215;</a>
-                            </div>
-                        </td>
-                    </tr>
-                    </f:for>
-                </tbody>
-            </table>
-        </f:then>
-        <f:else>
-            <p>You have no posts</p>
-        </f:else>
-    </f:if>
+<section class="white-bg">
+    <div class="row">
+        <div class="small-12 columns">
+            <h3>My Snippets</h3>
+            <snippets:security.ifAuthenticated providerName="FrontendProvider">
+                <f:then>
+                    <f:if condition="{posts}">
+                        <f:then>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Category</th>
+                                        <th>Date</th>
+                                        <th>Views</th>
+                                        <th>Rating</th>
+                                        <th>&nbsp;</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <f:for each="{posts}" key="flowidentifier" as="post">
+                                    <tr>
+                                        <td><f:link.action action="show" arguments="{post: post}">{post.title}</f:link.action></td>
+                                        <td>{post.category}</td>
+                                        <td><f:format.date format="d.m.Y - H:i:s">{post.date}</f:format.date></td>
+                                        <td>{post.views}</td>
+                                        <td>{post.rating}</td>
+                                        <td>
+                                            <f:link.action action="show" arguments="{post: post}"><i class="fa fa-eye fa-fw"></i></f:link.action>
+                                            <f:link.action action="edit" arguments="{post: post}"><i class="fa fa-pencil fa-fw"></i></f:link.action>
+                                            <a href="#" data-reveal-id="Modal{flowidentifier}"><i class="fa fa-trash-o fa-fw"></i></a>
+                                            <div id="Modal{flowidentifier}" class="reveal-modal" data-reveal>
+                                                <h2>Delete Post</h2>
+                                                <p>Do you really want to delete post "{post.title}"?</p>
+                                                <f:form action="delete" arguments="{post: post}">
+                                                    <button type="submit" title="Delete Post">
+                                                        Yes, delete the post
+                                                    </button>
+                                                </f:form>
+                                                <a class="close-reveal-modal">&#215;</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </f:for>
+                                </tbody>
+                            </table>
+                        </f:then>
+                        <f:else>
+                            <p>You have no posts</p>
+                        </f:else>
+                    </f:if>
+                </f:then>
+                <f:else>
+                    <h5>Login to see your Snippets</h5>
+                    <f:flashMessages />
+                    <f:render partial="Login" />
+                </f:else>
+            </snippets:security.ifAuthenticated>
+        </div>
+    </div>
+</section>

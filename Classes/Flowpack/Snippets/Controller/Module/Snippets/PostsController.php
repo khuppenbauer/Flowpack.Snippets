@@ -100,7 +100,6 @@ class PostsController extends AbstractModuleController {
 	 * @return void
 	 */
 	public function updateAction(Post $post) {
-		$this->indexSite();
 		$this->postRepository->update($post);
 		$this->addFlashMessage('Updated the post.');
 		$this->redirect('index');
@@ -115,18 +114,6 @@ class PostsController extends AbstractModuleController {
 		$this->postRepository->remove($post);
 		$this->addFlashMessage('Deleted a post.');
 		$this->redirect('index');
-	}
-
-	public function indexSite() {
-		$client = $this->clientFactory->create();
-		$snippetsIndex = $client->findIndex('snippets');
-		$postType = new PostType($snippetsIndex);
-		$document = new Document($postType, array(
-			'user' => 'John',
-			'date' => '2012-06-12',
-			'text' => 'This is an example document data'
-		));
-		$document->store();
 	}
 
 }
