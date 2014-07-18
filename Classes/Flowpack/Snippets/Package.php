@@ -26,6 +26,8 @@ class Package extends BasePackage {
 		$dispatcher = $bootstrap->getSignalSlotDispatcher();
 		$dispatcher->connect('Flowpack\Snippets\Controller\PostController', 'postUpdated', 'Flowpack\ElasticSearch\Indexer\Object\ObjectIndexer', 'indexObject');
 		$dispatcher->connect('Flowpack\Snippets\Controller\PostController', 'postRemoved', 'Flowpack\ElasticSearch\Indexer\Object\ObjectIndexer', 'removeObject');
+		$dispatcher->connect('Flowpack\Snippets\Controller\Module\Snippets\PostsController', 'postUpdated', 'Flowpack\ElasticSearch\Indexer\Object\ObjectIndexer', 'indexObject');
+		$dispatcher->connect('Flowpack\Snippets\Controller\Module\Snippets\PostsController', 'postRemoved', 'Flowpack\ElasticSearch\Indexer\Object\ObjectIndexer', 'removeObject');
 
 		require(__DIR__ . '/../../../Resources/Private/PHP/Parsedown.php');
 	}

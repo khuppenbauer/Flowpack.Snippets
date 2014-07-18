@@ -71,6 +71,7 @@ class PostsController extends AbstractModuleController {
 		$post->setActive(TRUE);
 		$this->postRepository->update($post);
 		$this->addFlashMessage('The post has been activated.');
+		$this->emitPostUpdated($post);
 		$this->redirect('index');
 	}
 
@@ -82,6 +83,7 @@ class PostsController extends AbstractModuleController {
 		$post->setActive(FALSE);
 		$this->postRepository->update($post);
 		$this->addFlashMessage('The post has been deactivated.');
+		$this->emitPostRemoved($post);
 		$this->redirect('index');
 	}
 
@@ -102,6 +104,11 @@ class PostsController extends AbstractModuleController {
 	public function updateAction(Post $post) {
 		$this->postRepository->update($post);
 		$this->addFlashMessage('Updated the post.');
+		if ($post->isActive() === TRUE) {
+			$this->emitPostUpdated($post);
+		} else {
+			$this->emitPostRemoved($post);
+		}
 		$this->redirect('index');
 	}
 
@@ -113,7 +120,28 @@ class PostsController extends AbstractModuleController {
 		$post->removeTags();
 		$this->postRepository->remove($post);
 		$this->addFlashMessage('Deleted a post.');
+		$this->emitPostRemoved($post);
 		$this->redirect('index');
+	}
+
+	/**
+	 * Signals that a post was updated.
+	 *
+	 * @Flow\Signal
+	 * @param Post $post
+	 * @return void
+	 */
+	protected function emitPostUpdated(Post $post) {
+	}
+
+	/**
+	 * Signals that a post was removed.
+	 *
+	 * @Flow\Signal
+	 * @param Post $post
+	 * @return void
+	 */
+	protected function emitPostRemoved(Post $post) {
 	}
 
 }

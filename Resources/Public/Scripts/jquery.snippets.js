@@ -12,7 +12,7 @@ $(".jq-filter-reset").click(function() {
 });
 
 //set filter from links with data attribute
-$('a').click(function(){
+$('a[data-category], a[data-author], a[data-tags]').click(function(){
     var attributes = $(this).data();
     $.each(attributes, function(k,v) {
         if (k != 'currentpage') {
