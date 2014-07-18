@@ -19,10 +19,10 @@ acls:
       # we need to explicitly allow access to the public actions because by default all actions are denied by the Neos policies
       Flowpack_Snippets_Search: GRANT
       Flowpack_Snippets_Login: GRANT
-      Flowpack_Snippets_NewPost: GRANT
+      Flowpack_Snippets_Post: GRANT
   'Flowpack.Snippets:User':
     methods:
-      Flowpack_Snippets_Post: GRANT
+      Flowpack_Snippets_NewPost: GRANT
       Flowpack_Snippets_Comment: GRANT
   'TYPO3.Neos:Administrator':
     methods:
