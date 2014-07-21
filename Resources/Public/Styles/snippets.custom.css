@@ -32,13 +32,18 @@ pre code {
 [data-role="main"] #wmd-button-bar-content ul li:before,
 [data-role="main"] .select2-container ul li:before,
 [data-role="main"] form ul li:before,
-[data-role="main"] #socialshareprivacy ul li:before {
+[data-role="main"] #socialshareprivacy ul li:before,
+[data-role="main"] ul.pagination li:before {
     content: '';
 }
 
 [data-role="main"] #wmd-button-bar-content ul li {
     padding-left: 1px;
     margin-bottom: 0.5rem;
+}
+
+[data-role="main"] ul.pagination li {
+    padding-left: 0;
 }
 
 textarea {
