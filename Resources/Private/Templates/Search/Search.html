@@ -109,7 +109,7 @@
                             <f:if condition="{post.code -> snippets:strpos(needle: 'iframe')}">
                                 <a href="#" data-reveal-id="Modal-{identifier}" class="label">Preview</a>
                                 <div id="Modal-{identifier}" class="reveal-modal small" data-reveal>
-                                    <h2>{post.title}</h2>
+                                    <h4>{post.title}</h4>
                                     <div class="flex-video">
                                         <f:format.raw>{post.code}</f:format.raw>
                                     </div>

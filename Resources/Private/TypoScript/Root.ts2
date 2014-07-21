@@ -1,5 +1,11 @@
 page {
 	head {
+		stylesheets.foundation = TYPO3.TypoScript:Template {
+			@position = 'start'
+			templatePath = 'resource://Flowpack.Snippets/Private/Templates/Page/Default.html'
+			sectionName = 'foundationStylesheets'
+		}
+
 		stylesheets.snippets = TYPO3.TypoScript:Template {
 			@position = 'end'
 			templatePath = 'resource://Flowpack.Snippets/Private/Templates/Page/Default.html'
