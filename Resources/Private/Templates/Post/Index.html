@@ -10,11 +10,12 @@
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>Title</th>
-                                        <th>Category</th>
-                                        <th>Date</th>
-                                        <th>Views</th>
-                                        <th>Rating</th>
+                                        <th><f:translate id="title">Title</f:translate></th>
+                                        <th><f:translate id="category">Category</f:translate></th>
+                                        <th><f:translate id="date">Date</f:translate></th>
+                                        <th><f:translate id="views">Views</f:translate></th>
+                                        <th><f:translate id="votes">Votes</f:translate></th>
+                                        <th><f:translate id="comments">Comments</f:translate></th>
                                         <th>&nbsp;</th>
                                     </tr>
                                 </thead>
@@ -23,19 +24,20 @@
                                     <tr>
                                         <td><f:link.action action="show" arguments="{post: post}">{post.title}</f:link.action></td>
                                         <td>{post.category}</td>
-                                        <td><f:format.date format="d.m.Y - H:i:s">{post.date}</f:format.date></td>
+                                        <td><f:translate id="post.date" arguments="{0: post.date}"><![CDATA[{0,datetime}]]</f:translate></td>
                                         <td>{post.views}</td>
-                                        <td>{post.rating}</td>
+                                        <td>{post.numberOfVotes}</td>
+                                        <td>{post.numberOfComments}</td>
                                         <td>
                                             <f:link.action action="show" arguments="{post: post}"><i class="fa fa-eye fa-fw"></i></f:link.action>
                                             <f:link.action action="edit" arguments="{post: post}"><i class="fa fa-pencil fa-fw"></i></f:link.action>
                                             <a href="#" data-reveal-id="Modal{flowidentifier}"><i class="fa fa-trash-o fa-fw"></i></a>
                                             <div id="Modal{flowidentifier}" class="reveal-modal" data-reveal>
-                                                <h2>Delete Post</h2>
-                                                <p>Do you really want to delete post "{post.title}"?</p>
+                                                <h4><f:translate id="post.delete">Delete Post</f:translate></h4>
+                                                <p><f:translate id="post.delete.request" arguments="{0: post.title}">Do you really want to delete post "{0}"?</f:translate></p>
                                                 <f:form action="delete" arguments="{post: post}">
                                                     <button type="submit" title="Delete Post">
-                                                        Yes, delete the post
+                                                        <f:translate id="post.delete.confirm">Yes, delete the post</f:translate>
                                                     </button>
                                                 </f:form>
                                                 <a class="close-reveal-modal">&#215;</a>
@@ -47,12 +49,12 @@
                             </table>
                         </f:then>
                         <f:else>
-                            <p>You have no posts</p>
+                            <p><f:translate id="search.noPosts">no Posts found</f:translate></p>
                         </f:else>
                     </f:if>
                 </f:then>
                 <f:else>
-                    <h5>Login to see your Snippets</h5>
+                    <h5><f:translate id="snippets.login">Login to see your Snippets</f:translate>:</h5>
                     <f:flashMessages />
                     <f:render partial="Login" />
                 </f:else>

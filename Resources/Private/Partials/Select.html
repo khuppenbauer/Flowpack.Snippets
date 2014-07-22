@@ -1,3 +1,9 @@
-<f:render partial="Errors" arguments="{property: property}" />
-<label for="{property}">{label}:</label>
-<f:form.select id="{property}" property="{property}" options="{properties}" optionLabelField="name" prependOptionLabel="- {label} -" class="form-control select2" />
+<div class="row">
+    <div class="small-12 columns">
+        <f:form.select id="{property}" property="{property}" options="{properties}" style="width:100%;" optionLabelField="name" prependOptionLabel="- {label} -" class="select2" />
+        <f:render partial="Errors" arguments="{property: property, object: object}" />
+        <script>
+            $("#{property}").select2();
+        </script>
+    </div>
+</div>

@@ -1,25 +1,29 @@
 <section class="white-bg">
     <div class="row">
         <div class="small-12 columns">
+            <h3>{post.title}</h3>
             <f:form action="update" object="{post}" objectName="post" method="POST" additionalAttributes="{role:'form'}">
                 <f:flashMessages class="flashmessages" />
                 <div class="tabs-content">
                     <br />
-                    <f:render partial="Textfield" arguments="{label: 'Title', property: 'title', object: 'post'}" />
-                    <f:render partial="Textarea" arguments="{label: 'Description', property: 'description', object: 'post', rows:3}" />
-                    <div class="content active" id="text">
-                        <f:render partial="TextareaMarkdown" arguments="{label: 'Content', property: 'content', object: 'post', rows: 10, preview: true, class: 'form-control'}" />
-                        <f:render partial="Checkbox" arguments="{label: 'Comments', property: 'options.comment', object: 'post'}" />
-                        <f:render partial="Checkbox" arguments="{label: 'Share', property: 'options.share', object: 'post'}" />
+                    <f:render partial="Textfield" arguments="{label: '{f:translate(id: \'form.title\', value: \'Title\')}', property: 'title', object: 'post'}" />
+                    <f:render partial="Textarea" arguments="{label: '{f:translate(id: \'form.description\', value: \'Description\')}', property: 'description', object: 'post', rows:3}" />
+                    <f:if condition="{post.content}">
+                        <f:then>
+                            <f:render partial="TextareaMarkdown" arguments="{label: '{f:translate(id: \'form.content\', value: \'Content\')}', property: 'content', object: 'post', rows: 20, preview: true}" />
+                            <f:render partial="Checkbox" arguments="{label: '{f:translate(id: \'form.comment.check\', value: \'Comment\')}', property: 'options.comment', object: 'post'}" />
+                            <f:render partial="Checkbox" arguments="{label: '{f:translate(id: \'form.share.check\', value: \'Share\')}', property: 'options.share', object: 'post'}" />
+                        </f:then>
+                        <f:else>
+                            <f:render partial="Textfield" arguments="{label: '{f:translate(id: \'form.url\', value: \'Url\')}', property: 'url', object: 'post'}" />
+                        </f:else>
+                    </f:if>
                     </div>
-                    <div class="content" id="link">
-                        <f:render partial="Textfield" arguments="{label: 'Url', property: 'url', object: 'post'}" />
-                    </div>
-                    <f:render partial="Select" arguments="{label: 'Category', property: 'category', object: 'post', properties: categories}" /><br />
-                    <f:render partial="Tags" arguments="{label: 'Tags', property: 'tags', object: 'post', options: post.tags, properties: tags, size: 3}"/><br />
+                    <f:render partial="Select" arguments="{label: '{f:translate(id: \'form.category\', value: \'Category\')}', property: 'category', object: 'post', properties: categories}" /><br />
+                    <f:render partial="Tags" arguments="{label: '{f:translate(id: \'form.tags\', value: \'Tags\')}', property: 'tags', object: 'post', options: post.tags, properties: tags, size: 3}"/><br />
                     <div class="row">
                         <div class="small-12 columns">
-                            <f:form.submit value="Update Post" class="button" />
+                            <f:form.submit value="{f:translate(id: 'form.submit.snippet.update', value: 'Update Snippet')}" class="button" />
                         </div>
                     </div>
                 </div>

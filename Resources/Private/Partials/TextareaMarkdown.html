@@ -1,26 +1,30 @@
 {namespace snippets=Flowpack\Snippets\ViewHelpers}
-<f:render partial="Errors" arguments="{property: property}" />
-<label for="{property}">{label}:</label>
-<div>
-    <div id="wmd-button-bar-{property}">
-        <div class="button-bar">
-            <f:for each="{snippets:configuration(settingPath: 'Flowpack.Snippets.editorButtons')}" as="buttonGroup">
-                <ul class="button-group">
-                    <f:for each="{buttonGroup}" as="button">
-                        <f:if condition="{button.active}">
-                            <li><a class="tiny button radius secondary" id="wmd-{button.name}-button" title="{button.title}" ><i class="{button.icon}"></i></a></li>
-                        </f:if>
-                    </f:for>
-                </ul>
-            </f:for>
+<div class="row">
+    <div class="small-12 columns">
+        <div id="wmd-button-bar-{property}">
+            <div class="button-bar">
+                <f:for each="{snippets:configuration(settingPath: 'Flowpack.Snippets.editorButtons')}" as="buttonGroup">
+                    <ul class="button-group">
+                        <f:for each="{buttonGroup}" as="button">
+                            <f:if condition="{button.active}">
+                                <li><a class="tiny button radius secondary" id="wmd-{button.name}-button" title="{button.title}" ><i class="{button.icon}"></i></a></li>
+                            </f:if>
+                        </f:for>
+                    </ul>
+                </f:for>
+            </div>
         </div>
+        <f:form.textarea property="{property}" id="wmd-input-{property}" rows="10" placeholder="{label}" errorClass="error"  />
+        <f:render partial="Errors" arguments="{property: property, object: object}" />
     </div>
-    <f:form.textarea property="{property}" id="wmd-input-{property}" rows="10" />
 </div>
-<f:if condition="{preview}">
-    <div id="wmd-preview-{property}" class="panel"></div>
-</f:if>
-
+<div class="row">
+    <div class="small-12 columns">
+        <f:if condition="{preview}">
+            <div id="wmd-preview-{property}" class="panel"></div>
+        </f:if>
+    </div>
+</div>
 <script type="text/javascript">
     (function () {
         var converter{property} = Markdown.getSanitizingConverter();

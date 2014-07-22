@@ -15,10 +15,10 @@
             <div class="small-6 columns">
                 <div class="row collapse">
                     <div class="small-10 columns">
-                        <f:form.textfield property="query" id="query" placeholder="search" />
+                        <f:form.textfield property="query" id="query" placeholder="{f:translate(id: 'search.placeholder', value: 'search')}" />
                     </div>
                     <div class="small-2 columns">
-                        <f:form.button value="Search" class="button postfix">Go</f:form.button>
+                        <f:form.button value="Search" class="button postfix"><f:translate id="search.go">Go</f:translate></f:form.button>
                     </div>
                 </div>
             </div>
@@ -28,7 +28,7 @@
                 <div class="small-12 columns">
                     <dl class="accordion" data-accordion>
                         <dd>
-                            <a href="#filter"><i class="fa fa-filter fa-fw"></i> Filter</a>
+                            <a href="#filter"><i class="fa fa-filter fa-fw"></i> <f:translate id="search.filter">Filter</f:translate></a>
                             <div id="filter" class="active content panel">
                                 <div class="row">
                                     <f:for each="{facets}" key="facetName" as="facet">
@@ -42,7 +42,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="small-3 columns">
-                                        <a href="#" class="jq-filter-reset button tiny"><i class="fa fa-times fa-fw"></i> reset all Filter</a>
+                                        <a href="#" class="jq-filter-reset button tiny"><i class="fa fa-times fa-fw"></i> <f:translate id="search.filter.reset">reset all filter</f:translate></a>
                                     </div>
                                 </div>
                             </div>
@@ -56,10 +56,10 @@
         <div class="small-12 columns">
             <f:if condition="{totalHits} > 0">
                 <f:then>
-                    Show {first} - {last} of {totalHits}
+                    <f:translate id="search.show" arguments="{0: first, 1: last, 2: totalHits}">Show {0} - {1} of {2}</f:translate>
                 </f:then>
                 <f:else>
-                    No posts found
+                    <f:translate id="search.noPosts">No Posts found</f:translate>
                 </f:else>
             </f:if>
         </div>
@@ -86,7 +86,7 @@
             <div class="small-12 columns">
                 <h5>
                     <f:if condition="{post.author.name.alias}"><i class="fa fa-user fa-fw"></i> <a href="#" data-author="{post.author.name.alias -> snippets:strtolower()}">{post.author.name.alias}</a></f:if>
-                    <i class="fa fa-calendar fa-fw"></i> <f:format.date format="d.m.Y">{post.date}</f:format.date>
+                    <i class="fa fa-calendar fa-fw"></i> <f:translate id="post.date" arguments="{0: post.date}"><![CDATA[{0,datetime,date,short}]]</f:translate>
                 </h5>
             </div>
         </div>
@@ -103,11 +103,11 @@
             <div class="row">
                 <div class="small-12 columns">
                     <div class="panel radius">
-                        Originally Posted on <f:link.external uri="{post.providerUrl}" target="_blank"><img src="{post.providerIcon}" /> {post.providerName}</f:link.external><br /><br />
+                        <f:translate id="post.origin">Originally Posted on</f:translate> <f:link.external uri="{post.providerUrl}" target="_blank"><img src="{post.providerIcon}" /> {post.providerName}</f:link.external><br /><br />
                         <f:link.external uri="{post.url}" target="_blank"><i class="fa fa-external-link-square"></i> {post.url}</f:link.external><br /><br />
                         <f:if condition="{post.code}">
                             <f:if condition="{post.code -> snippets:strpos(needle: 'iframe')}">
-                                <a href="#" data-reveal-id="Modal-{identifier}" class="label">Preview</a>
+                                <a href="#" data-reveal-id="Modal-{identifier}" class="label"><f:translate id="post.preview">Preview</f:translate></a>
                                 <div id="Modal-{identifier}" class="reveal-modal small" data-reveal>
                                     <h4>{post.title}</h4>
                                     <div class="flex-video">
@@ -127,10 +127,10 @@
                 <h5>
                     <i class="fa fa-folder-open fa-fw"></i>  <a href="#" data-category="{post.category.name -> snippets:strtolower()}">{post.category.name}</a>
                     <f:if condition="{post.content}">
-                        | {post.views} views | {post.numberOfVotes} votes <snippets:security.ifAuthenticated providerName="FrontendProvider">| <i class="jq-favorite fa fa-star{f:if(condition:post.favorite, then: '', else: '-o')}"></i></snippets:security.ifAuthenticated>
+                        | <f:translate id="post.views" arguments="{0: post.views}" quantity="{post.views}"></f:translate> | <f:translate id="post.votes" arguments="{0: post.numberOfVotes}" quantity="{post.numberOfVotes}"></f:translate> <snippets:security.ifAuthenticated providerName="FrontendProvider">| <i class="jq-favorite fa fa-star{f:if(condition:post.favorite, then: '', else: '-o')}"></i></snippets:security.ifAuthenticated>
                     </f:if>
                     <f:if condition="{post.options.comment}">
-                        | <f:link.action action="show" controller="post" arguments="{post: post}" section="comments"><f:translate> {post.numberOfComments} Comments</f:translate></f:link.action>
+                        | <f:link.action action="show" controller="post" arguments="{post: post}" section="comments"><f:translate id="post.comments" arguments="{0: post.numberOfComments}" quantity="{post.numberOfComments}"></f:translate></f:link.action>
                     </f:if>
                 </h5>
            </div>

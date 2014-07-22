@@ -1,7 +1,7 @@
 {namespace snippets=Flowpack\Snippets\ViewHelpers}
 <div class="row">
     <div class="small-12 columns">
-        <f:form.hidden id="{property}" name="{property}" style="width:300px;" value="{options -> snippets:tags()}" />
+        <f:form.hidden id="{property}" name="{property}" style="width:100%;" value="{options -> snippets:tags()}" />
         <f:render partial="Errors" arguments="{property: property, object: object}" />
         <script>
             $(document).ready(function () <![CDATA[{]]>

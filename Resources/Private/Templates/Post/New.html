@@ -8,33 +8,33 @@
                     <f:form action="create" object="{newPost}" objectName="newPost" method="POST" additionalAttributes="{role:'form'}">
                         <f:flashMessages class="flashmessages" />
                         <dl class="tabs" data-tab>
-                            <dd class="active"><a href="#text">Text</a></dd>
-                            <dd><a href="#link">Link</a></dd>
+                            <dd class="active"><a href="#text"><f:translate id="snippet.text">Text</f:translate></a></dd>
+                            <dd><a href="#link"><f:translate id="snippet.link">Link</f:translate></a></dd>
                         </dl>
                         <div class="tabs-content">
                             <br />
-                            <f:render partial="Textfield" arguments="{label: 'Title', property: 'title', object: 'newPost'}" />
-                            <f:render partial="Textarea" arguments="{label: 'Description', property: 'description', object: 'newPost', rows:3}" />
+                            <f:render partial="Textfield" arguments="{label: '{f:translate(id: \'form.title\', value: \'Title\')}', property: 'title', object: 'newPost'}" />
+                            <f:render partial="Textarea" arguments="{label: '{f:translate(id: \'form.description\', value: \'Description\')}', property: 'description', object: 'newPost', rows:3}" />
                             <div class="content active" id="text">
-                                <f:render partial="TextareaMarkdown" arguments="{label: 'Content', property: 'content', object: 'newPost', rows: 20, preview: true}" />
-                                <f:render partial="Checkbox" arguments="{label: 'Comments', property: 'options.comment', object: 'newPost'}" />
-                                <f:render partial="Checkbox" arguments="{label: 'Share', property: 'options.share', object: 'newPost'}" />
+                                <f:render partial="TextareaMarkdown" arguments="{label: '{f:translate(id: \'form.content\', value: \'Content\')}', property: 'content', object: 'newPost', rows: 20, preview: true}" />
+                                <f:render partial="Checkbox" arguments="{label: '{f:translate(id: \'form.comment.check\', value: \'Comment\')}', property: 'options.comment', object: 'newPost'}" />
+                                <f:render partial="Checkbox" arguments="{label: '{f:translate(id: \'form.share.check\', value: \'Share\')}', property: 'options.share', object: 'newPost'}" />
                             </div>
                             <div class="content" id="link">
-                                <f:render partial="Textfield" arguments="{label: 'Url', property: 'url', object: 'newPost'}" />
+                                <f:render partial="Textfield" arguments="{label: '{f:translate(id: \'form.url\', value: \'Url\')}', property: 'url', object: 'newPost'}" />
                             </div>
-                            <f:render partial="Select" arguments="{label: 'Category', property: 'category', object: 'newPost', properties: categories}" /><br />
-                            <f:render partial="Tags" arguments="{label: 'Tags', property: 'tags', object: 'newPost', properties: tags, size: 3}"/><br />
+                            <f:render partial="Select" arguments="{label: '{f:translate(id: \'form.category\', value: \'Category\')}', property: 'category', object: 'newPost', properties: categories}" /><br />
+                            <f:render partial="Tags" arguments="{label: '{f:translate(id: \'form.tags\', value: \'Tags\')}', property: 'tags', object: 'newPost', properties: tags, size: 3}"/><br />
                             <div class="row">
                                 <div class="small-12 columns">
-                                    <f:form.submit value="Create Post" class="button" />
+                                    <f:form.submit value="{f:translate(id: 'form.submit.snippet.create', value: 'Create Snippet')}" class="button" />
                                 </div>
                             </div>
                         </div>
                     </f:form>
                 </f:then>
                 <f:else>
-                    <h5>Login to add a new Snippet</h5>
+                    <h5><f:translate id="snippet.login">Login to add a new Snippet</f:translate>:</h5>
                     <f:flashMessages />
                     <f:render partial="Login" />
                 </f:else>

@@ -18,6 +18,196 @@
 				<source>Provider</source>
 				<target>Provider</target>
 			</trans-unit>
+			<trans-unit id="title">
+				<source>Title</source>
+				<target>Titel</target>
+			</trans-unit>
+			<trans-unit id="views">
+				<source>Views</source>
+				<target>Views</target>
+			</trans-unit>
+			<trans-unit id="votes">
+				<source>Votes</source>
+				<target>Votes</target>
+			</trans-unit>
+			<trans-unit id="comments">
+				<source>Comments</source>
+				<target>Kommentare</target>
+			</trans-unit>
+			<trans-unit id="date">
+				<source>Date</source>
+				<target>Datum</target>
+			</trans-unit>
+			<trans-unit id="search.go">
+				<source>Go</source>
+				<target>Los</target>
+			</trans-unit>
+			<trans-unit id="search.filter">
+				<source>Filter</source>
+				<target>Filter</target>
+			</trans-unit>
+			<trans-unit id="search.filter.reset">
+				<source>reset all filter</source>
+				<target>Filter zurücksetzen</target>
+			</trans-unit>
+			<trans-unit id="search.placeholder">
+				<source>search</source>
+				<target>Suche</target>
+			</trans-unit>
+			<trans-unit id="search.show">
+				<source>Show {0} - {1} of {2}</source>
+				<target>Zeige {0} - {1} von {2}</target>
+			</trans-unit>
+			<trans-unit id="search.noPosts">
+				<source>no Posts found</source>
+				<target>Keine Einträge gefunden</target>
+			</trans-unit>
+			<trans-unit id="post.date">
+				<source>{0,datetime,date,short}</source>
+				<target>{0,datetime,date,short}</target>
+			</trans-unit>
+			<trans-unit id="post.origin">
+				<source>Originally Posted on</source>
+				<target>Ursprünglicher Post von</target>
+			</trans-unit>
+			<trans-unit id="post.preview">
+				<source>Preview</source>
+				<target>Vorschau</target>
+			</trans-unit>
+			<trans-unit id="post.delete">
+				<source>Delete Snippet</source>
+				<target>Snippet löschen</target>
+			</trans-unit>
+			<trans-unit id="post.delete.request">
+				<source>Do you really want to delete post "{0}"?</source>
+				<target>Willst Du das Snippet "{0}" wirklich löschen?</target>
+			</trans-unit>
+			<trans-unit id="post.delete.confirm">
+				<source>Yes, delete the post</source>
+				<target>Ja, Snippet löschen</target>
+			</trans-unit>
+			<group restype="x-gettext-plurals" id="post.votes">
+				<trans-unit id="post.votes[0]">
+					<source>{0,number} vote</source>
+					<target>{0,number} Vote</target>
+				</trans-unit>
+				<trans-unit id="post.votes[1]">
+					<source>{0,number} votes</source>
+					<target>{0,number} Votes</target>
+				</trans-unit>
+			</group>
+			<group restype="x-gettext-plurals" id="post.views">
+				<trans-unit id="post.views[0]">
+					<source>{0,number} view</source>
+					<target>{0,number} View</target>
+				</trans-unit>
+				<trans-unit id="post.views[1]">
+					<source>{0,number} views</source>
+					<target>{0,number} Views</target>
+				</trans-unit>
+			</group>
+			<group restype="x-gettext-plurals" id="post.comments">
+				<trans-unit id="post.comments[0]">
+					<source>{0,number} comment</source>
+					<target>{0,number} Kommentar</target>
+				</trans-unit>
+				<trans-unit id="post.comments[1]">
+					<source>{0,number} comments</source>
+					<target>{0,number} Kommentare</target>
+				</trans-unit>
+			</group>
+			<trans-unit id="comment.date">
+				<source>{0,datetime}</source>
+				<target>{0,datetime}</target>
+			</trans-unit>
+			<trans-unit id="comment.reply">
+				<source>Leave a reply</source>
+				<target>Hinterlasse deinen Kommentar</target>
+			</trans-unit>
+			<trans-unit id="comment.login">
+				<source>Login to add your comment</source>
+				<target>Bitte Logge Dich ein, um einen Kommentar zu hinterlassen</target>
+			</trans-unit>
+			<trans-unit id="snippet.login">
+				<source>Login to add a new Snippet</source>
+				<target>Bitte Logge Dich ein, um ein Snippet hinzuzufügen</target>
+			</trans-unit>
+			<trans-unit id="snippets.login">
+				<source>Login to see your Snippets</source>
+				<target>Bitte Logge Dich ein, um Deine Snippets zu sehen</target>
+			</trans-unit>
+			<trans-unit id="snippet.create">
+				<source>Thank you for sharing your Snippet</source>
+				<target>Danke fürs Teilen Deines Snippets</target>
+			</trans-unit>
+			<trans-unit id="snippet.text">
+				<source>Text</source>
+				<target>Text</target>
+			</trans-unit>
+			<trans-unit id="snippet.link">
+				<source>Link</source>
+				<target>Link</target>
+			</trans-unit>
+			<trans-unit id="form.name">
+				<source>Name</source>
+				<target>Name</target>
+			</trans-unit>
+			<trans-unit id="form.password">
+				<source>Password</source>
+				<target>Passwort</target>
+			</trans-unit>
+			<trans-unit id="form.comment">
+				<source>Comment</source>
+				<target>Kommentar</target>
+			</trans-unit>
+			<trans-unit id="form.title">
+				<source>Title</source>
+				<target>Titel</target>
+			</trans-unit>
+			<trans-unit id="form.description">
+				<source>Description</source>
+				<target>Beschreibung</target>
+			</trans-unit>
+			<trans-unit id="form.content">
+				<source>Content</source>
+				<target>Text</target>
+			</trans-unit>
+			<trans-unit id="form.url">
+				<source>Url</source>
+				<target>Link</target>
+			</trans-unit>
+			<trans-unit id="form.comment.check">
+				<source>comments</source>
+				<target>Kommentare erlauben</target>
+			</trans-unit>
+			<trans-unit id="form.share.check">
+				<source>share</source>
+				<target>Teilen erlauben</target>
+			</trans-unit>
+			<trans-unit id="form.category">
+				<source>Category</source>
+				<target>Kategorie</target>
+			</trans-unit>
+			<trans-unit id="form.tags">
+				<source>Tags</source>
+				<target>Tags</target>
+			</trans-unit>
+			<trans-unit id="form.submit.comment">
+				<source>Add your comment</source>
+				<target>Kommentar senden</target>
+			</trans-unit>
+			<trans-unit id="form.submit.login">
+				<source>Login</source>
+				<target>Einloggen</target>
+			</trans-unit>
+			<trans-unit id="form.submit.snippet.create">
+				<source>Create Snippet</source>
+				<target>Snippet hinzufügen</target>
+			</trans-unit>
+			<trans-unit id="form.submit.snippet.update">
+				<source>Update Snippet</source>
+				<target>Snippet aktualisieren</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

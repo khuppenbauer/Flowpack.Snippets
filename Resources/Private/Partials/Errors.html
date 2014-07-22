@@ -1,7 +1,7 @@
-<f:validation.results>
+<f:validation.results for="{object}.{property}">
     <f:if condition="{validationResults.flattenedErrors}">
-        <f:for each="{validationResults.errors}" as="error">{error}</f:for>
+        <f:for each="{validationResults.errors}" as="error">
+            <small class="error">{error}</small>
+        </f:for>
     </f:if>
 </f:validation.results>
-
-

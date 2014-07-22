@@ -1,3 +1,6 @@
-<f:render partial="Errors" arguments="{property: property}" />
-<label for="{property}">{label}:</label>
-<f:form.textfield id="{property}" property="{property}" class="form-control" />
+<div class="row">
+    <div class="small-12 columns">
+        <f:form.textfield id="{property}" property="{property}" placeholder="{label}" errorClass="error" />
+        <f:render partial="Errors" arguments="{property: property, object: object}" />
+    </div>
+</div>

@@ -2,20 +2,20 @@
 <f:if condition="{arguments}">
     <f:then>
         <f:form action="authenticate" method="post" controller="Login" arguments="{arguments}" >
-            <label for="name">Name:</label>
+            <label for="name"><f:translate id="form.name">Name</f:translate>:</label>
             <input type="text" id="name" name="__authentication[TYPO3][Flow][Security][Authentication][Token][UsernamePassword][username]" />
-            <label for="password">Password:</label>
+            <label for="password"><f:translate id="form.password">Password</f:translate>:</label>
             <input type="password" id="password" name="__authentication[TYPO3][Flow][Security][Authentication][Token][UsernamePassword][password]" />
-            <f:form.submit value="login" class="button" />
+            <f:form.submit value="{f:translate(id: 'form.submit.login', value: 'Login')}" class="button" />
         </f:form>
     </f:then>
     <f:else>
         <f:form action="authenticate" method="post" controller="Login" >
-            <label for="name">Name:</label>
+            <label for="name"><f:translate id="form.name">Name</f:translate>:</label>
             <input type="text" id="name" name="__authentication[TYPO3][Flow][Security][Authentication][Token][UsernamePassword][username]" />
-            <label for="password">Password:</label>
+            <label for="password"><f:translate id="form.password">Password</f:translate>:</label>
             <input type="password" id="password" name="__authentication[TYPO3][Flow][Security][Authentication][Token][UsernamePassword][password]" />
-            <f:form.submit value="login" class="button" />
+            <f:form.submit value="{f:translate(id: 'form.submit.login', value: 'Login')}" class="button" />
         </f:form>
     </f:else>
 </f:if>

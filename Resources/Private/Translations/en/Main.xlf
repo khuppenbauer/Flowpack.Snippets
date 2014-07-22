@@ -14,6 +14,150 @@
 			<trans-unit id="providerName">
 				<source>Provider</source>
 			</trans-unit>
+			<trans-unit id="title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="views">
+				<source>Views</source>
+			</trans-unit>
+			<trans-unit id="votes">
+				<source>Votes</source>
+			</trans-unit>
+			<trans-unit id="comments">
+				<source>Comments</source>
+			</trans-unit>
+			<trans-unit id="date">
+				<source>Date</source>
+			</trans-unit>
+			<trans-unit id="search.go">
+				<source>Go</source>
+			</trans-unit>
+			<trans-unit id="search.filter">
+				<source>Filter</source>
+			</trans-unit>
+			<trans-unit id="search.filter.reset">
+				<source>reset all filter</source>
+			</trans-unit>
+			<trans-unit id="search.placeholder">
+				<source>search</source>
+			</trans-unit>
+			<trans-unit id="search.show">
+				<source>Show {0} - {1} of {2}</source>
+			</trans-unit>
+			<trans-unit id="search.noPosts">
+				<source>no Posts found</source>
+			</trans-unit>
+			<trans-unit id="post.date">
+				<source>{0,datetime,date,short}</source>
+			</trans-unit>
+			<trans-unit id="post.origin">
+				<source>Originally Posted on</source>
+			</trans-unit>
+			<trans-unit id="post.preview">
+				<source>Preview</source>
+			</trans-unit>
+			<trans-unit id="post.delete">
+				<source>Delete Snippet</source>
+			</trans-unit>
+			<trans-unit id="post.delete.request">
+				<source>Do you really want to delete post "{0}"?</source>
+			</trans-unit>
+			<trans-unit id="post.delete.confirm">
+				<source>Yes, delete the post</source>
+			</trans-unit>
+			<group restype="x-gettext-plurals" id="post.votes">
+				<trans-unit id="post.votes[0]">
+					<source>{0,number} vote</source>
+				</trans-unit>
+				<trans-unit id="post.votes[1]">
+					<source>{0,number} votes</source>
+				</trans-unit>
+			</group>
+			<group restype="x-gettext-plurals" id="post.views">
+				<trans-unit id="post.views[0]">
+					<source>{0,number} view</source>
+				</trans-unit>
+				<trans-unit id="post.views[1]">
+					<source>{0,number} views</source>
+				</trans-unit>
+			</group>
+			<group restype="x-gettext-plurals" id="post.comments">
+				<trans-unit id="post.comments[0]">
+					<source>{0,number} comment</source>
+				</trans-unit>
+				<trans-unit id="post.comments[1]">
+					<source>{0,number} comments</source>
+				</trans-unit>
+			</group>
+			<trans-unit id="comment.date">
+				<source>{0,datetime}</source>
+			</trans-unit>
+			<trans-unit id="comment.reply">
+				<source>Leave a reply</source>
+			</trans-unit>
+			<trans-unit id="comment.login">
+				<source>Login to add your comment</source>
+			</trans-unit>
+			<trans-unit id="snippet.login">
+				<source>Login to add a new Snippet</source>
+			</trans-unit>
+			<trans-unit id="snippets.login">
+				<source>Login to see your Snippets</source>
+			</trans-unit>
+			<trans-unit id="snippet.text">
+				<source>Text</source>
+			</trans-unit>
+			<trans-unit id="snippet.link">
+				<source>Link</source>
+			</trans-unit>
+			<trans-unit id="snippet.create">
+				<source>Thank you for sharing your Snippet</source>
+			</trans-unit>
+			<trans-unit id="form.name">
+				<source>Name</source>
+			</trans-unit>
+			<trans-unit id="form.password">
+				<source>Password</source>
+			</trans-unit>
+			<trans-unit id="form.comment">
+				<source>Comment</source>
+			</trans-unit>
+			<trans-unit id="form.title">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="form.description">
+				<source>Description</source>
+			</trans-unit>
+			<trans-unit id="form.content">
+				<source>Content</source>
+			</trans-unit>
+			<trans-unit id="form.url">
+				<source>Url</source>
+			</trans-unit>
+			<trans-unit id="form.comment">
+				<source>comments</source>
+			</trans-unit>
+			<trans-unit id="form.share">
+				<source>share</source>
+			</trans-unit>
+			<trans-unit id="form.category">
+				<source>Category</source>
+			</trans-unit>
+			<trans-unit id="form.tags">
+				<source>Tags</source>
+			</trans-unit>
+			<trans-unit id="form.submit.comment">
+				<source>Add your comment</source>
+			</trans-unit>
+			<trans-unit id="form.submit.login">
+				<source>Login</source>
+			</trans-unit>
+			<trans-unit id="form.submit.snippet.create">
+				<source>Create Snippet</source>
+			</trans-unit>
+			<trans-unit id="form.submit.snippet.update">
+				<source>Update Snippet</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

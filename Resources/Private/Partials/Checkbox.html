@@ -1,3 +1,6 @@
-<f:render partial="Errors" arguments="{property: property}" />
-<label for="{property}">{label}:</label>
-<f:form.checkbox id="{property}" property="{property}" class="form-control" value="TRUE" />
+<div class="row">
+    <div class="small-12 columns">
+        <f:form.checkbox id="{property}" property="{property}" value="TRUE"/>
+        <label for="{property}" style="display:inline;">{label}</label>
+    </div>
+</div>
