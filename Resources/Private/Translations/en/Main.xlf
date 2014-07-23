@@ -65,6 +65,15 @@
 			<trans-unit id="post.delete.confirm">
 				<source>Yes, delete the post</source>
 			</trans-unit>
+			<trans-unit id="comment.delete">
+				<source>Delete Comment</source>
+			</trans-unit>
+			<trans-unit id="comment.delete.request">
+				<source>Do you really want to delete comment "{0}"?</source>
+			</trans-unit>
+			<trans-unit id="comment.delete.confirm">
+				<source>Yes, delete the comment</source>
+			</trans-unit>
 			<group restype="x-gettext-plurals" id="post.votes">
 				<trans-unit id="post.votes[0]">
 					<source>{0,number} vote</source>

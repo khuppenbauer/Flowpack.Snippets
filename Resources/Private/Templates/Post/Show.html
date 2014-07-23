@@ -62,11 +62,21 @@
         <div class="row">
             <div class="small-12 columns">
                 <h3><f:translate id="post.comments" arguments="{0: post.numberOfComments}" quantity="{post.numberOfComments}"></f:translate></h3>
-                <f:for each="{post.comments}" as="comment" iteration="commentIterator" reverse="TRUE">
+                <f:for each="{post.comments}" as="comment" key="flowidentifier" iteration="commentIterator" reverse="TRUE">
                     <div class="row">
                         <div class="small-12 columns">
-                            <strong>{comment.author.name.alias} <f:translate id="comment.date" arguments="{0: comment.date}"><![CDATA[{0,datetime,date,long}]]</f:translate></strong>
+                            <strong>{comment.author.name.alias} <f:translate id="comment.date" arguments="{0: comment.date}"><![CDATA[{0,datetime,date,long}]]</f:translate></strong> <snippets:ifAuthor user="{comment.author}"><a href="#" data-reveal-id="Modal{flowidentifier}"><i class="fa fa-trash-o fa-fw"></i></a></snippets:ifAuthor>
                             <p><f:format.nl2br>{comment.content}</f:format.nl2br></p>
+                            <div id="Modal{flowidentifier}" class="reveal-modal" data-reveal>
+                                <h4><f:translate id="comment.delete">Delete Comment</f:translate></h4>
+                                <p><f:translate id="comment.delete.request" arguments="{0: comment.content}">Do you really want to delete comment "{0}"?</f:translate></p>
+                                <f:form action="delete" controller="comment" arguments="{post: post, comment: comment}">
+                                    <button type="submit" title="Delete Comment">
+                                        <f:translate id="comment.delete.confirm">Yes, delete the comment</f:translate>
+                                    </button>
+                                </f:form>
+                                <a class="close-reveal-modal">&#215;</a>
+                            </div>
                         </div>
                     </div>
                     {f:if(condition:commentIterator.isLast, then: '', else: '<hr/>')}
