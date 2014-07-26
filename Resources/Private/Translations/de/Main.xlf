@@ -137,8 +137,8 @@
 				</trans-unit>
 			</group>
 			<trans-unit id="comment.date">
-				<source>{0,datetime}</source>
-				<target>{0,datetime}</target>
+				<source>{0,datetime,date,short}</source>
+				<target>{0,datetime,date,short}</target>
 			</trans-unit>
 			<trans-unit id="comment.reply">
 				<source>Leave a reply</source>

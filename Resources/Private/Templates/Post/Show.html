@@ -65,7 +65,7 @@
                 <f:for each="{post.comments}" as="comment" key="flowidentifier" iteration="commentIterator" reverse="TRUE">
                     <div class="row">
                         <div class="small-12 columns">
-                            <strong>{comment.author.name.alias} <f:translate id="comment.date" arguments="{0: comment.date}"><![CDATA[{0,datetime,date,long}]]</f:translate></strong> <snippets:ifAuthor user="{comment.author}"><a href="#" data-reveal-id="Modal{flowidentifier}"><i class="fa fa-trash-o fa-fw"></i></a></snippets:ifAuthor>
+                            <strong>{comment.author.name.alias} <f:translate id="comment.date" arguments="{0: comment.date}"><![CDATA[{0,datetime,date,short}]]</f:translate></strong> <snippets:ifAuthor user="{comment.author}"><a href="#" data-reveal-id="Modal{flowidentifier}"><i class="fa fa-trash-o fa-fw"></i></a></snippets:ifAuthor>
                             <p><f:format.nl2br>{comment.content}</f:format.nl2br></p>
                             <div id="Modal{flowidentifier}" class="reveal-modal" data-reveal>
                                 <h4><f:translate id="comment.delete">Delete Comment</f:translate></h4>
