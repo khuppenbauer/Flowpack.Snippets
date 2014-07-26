@@ -86,6 +86,10 @@
 				<source>Yes, delete the post</source>
 				<target>Ja, Snippet löschen</target>
 			</trans-unit>
+			<trans-unit id="post.notification.subject">
+				<source>New Snippet "{0}"</source>
+				<target>Neues Snippet "{0}"</target>
+			</trans-unit>
 			<trans-unit id="comment.delete">
 				<source>Delete Comment</source>
 				<target>Kommentar löschen</target>
@@ -97,6 +101,10 @@
 			<trans-unit id="comment.delete.confirm">
 				<source>Yes, delete the comment</source>
 				<target>Ja, Kommentar löschen</target>
+			</trans-unit>
+			<trans-unit id="comment.notification.subject">
+				<source>New Comment on snippet "{0}"</source>
+				<target>Neuer Kommentar zu Snippet "{0}"</target>
 			</trans-unit>
 			<group restype="x-gettext-plurals" id="post.votes">
 				<trans-unit id="post.votes[0]">

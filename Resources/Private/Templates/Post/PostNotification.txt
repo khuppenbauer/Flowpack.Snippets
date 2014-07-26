@@ -1,0 +1,6 @@
+Author: {post.author.name.alias}
+Post: {post.title}
+Description: {post.description}
+Category: {post.category}
+Tags: <f:for each="{post.tags}" as="tag">{tag} </f:for>
+Content: <f:if condition="{post.content}"><f:then>{post.content}</f:then><f:else>{post.url}</f:else></f:if>

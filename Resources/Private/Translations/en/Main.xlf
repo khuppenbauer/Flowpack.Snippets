@@ -65,6 +65,9 @@
 			<trans-unit id="post.delete.confirm">
 				<source>Yes, delete the post</source>
 			</trans-unit>
+			<trans-unit id="post.notification.subject">
+				<source>New Snippet "{0}"</source>
+			</trans-unit>
 			<trans-unit id="comment.delete">
 				<source>Delete Comment</source>
 			</trans-unit>
@@ -73,6 +76,9 @@
 			</trans-unit>
 			<trans-unit id="comment.delete.confirm">
 				<source>Yes, delete the comment</source>
+			</trans-unit>
+			<trans-unit id="comment.notification.subject">
+				<source>New Comment on snippet "{0}"</source>
 			</trans-unit>
 			<group restype="x-gettext-plurals" id="post.votes">
 				<trans-unit id="post.votes[0]">

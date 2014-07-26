@@ -52,7 +52,7 @@ class CommentController extends ActionController {
 		$newComment->setAuthor($author);
 		$post->addComment($newComment);
 		$this->postRepository->update($post);
-		$this->addFlashMessage('Your new comment was created.');
+		$this->emitCommentCreated($newComment, $post);
 		$this->redirect('show', 'Post', NULL, array('post' => $post));
 	}
 
@@ -82,6 +82,15 @@ class CommentController extends ActionController {
 				return parent::getErrorFlashMessage();
 		}
 	}
+
+	/**
+	 * @param Comment $comment
+	 * @param Post $post
+	 * @return void
+	 * @Flow\Signal
+	 */
+	protected function emitCommentCreated(Comment $comment, Post $post) {}
+
 
 }
 

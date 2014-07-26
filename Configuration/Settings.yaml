@@ -6,8 +6,6 @@ TYPO3:
         'embed.*' : ['.*']
         'ruflin.*' : ['.*']
     security:
-      firewall:
-        filters: []
       authentication:
         providers:
           Typo3BackendProvider:
@@ -143,3 +141,18 @@ Flowpack:
       maximumNumberOfPages: 10
       filteredQuery: TRUE
       facets: [category, tags, type, providerName]
+    notification:
+      post:
+        recipientAddress:
+        recipientName:
+        senderAddress:
+        senderName:
+        templatePathAndFilename: resource://Flowpack.Snippets/Private/Templates/Post/PostNotification.txt
+        format: text/plain
+      comment:
+        recipientAddress:
+        recipientName:
+        senderAddress:
+        senderName:
+        templatePathAndFilename: resource://Flowpack.Snippets/Private/Templates/Post/CommentNotification.txt
+        format: text/plain

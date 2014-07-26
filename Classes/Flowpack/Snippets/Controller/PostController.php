@@ -186,7 +186,7 @@ class PostController extends ActionController {
 		$author = $this->securityContext->getPartyByType('Flowpack\Snippets\Domain\Model\User');
 		$newPost->setAuthor($author);
 		$this->postRepository->add($newPost);
-		$this->emitPostUpdated($newPost);
+		$this->emitPostCreated($newPost);
 	}
 
 	/**
@@ -287,6 +287,16 @@ class PostController extends ActionController {
 		$data['downVotes'] = $post->getNumberOfDownVotes();
 		$data['favor'] = $post->isFavorite();
 		return json_encode($data);
+	}
+
+	/**
+	 * Signals that a post was updated.
+	 *
+	 * @Flow\Signal
+	 * @param Post $post
+	 * @return void
+	 */
+	protected function emitPostCreated(Post $post) {
 	}
 
 	/**

@@ -24,10 +24,15 @@ class Package extends BasePackage {
 	 */
 	public function boot(Bootstrap $bootstrap) {
 		$dispatcher = $bootstrap->getSignalSlotDispatcher();
+
+		$dispatcher->connect('Flowpack\Snippets\Controller\PostController', 'postCreated', 'Flowpack\ElasticSearch\Indexer\Object\ObjectIndexer', 'indexObject');
 		$dispatcher->connect('Flowpack\Snippets\Controller\PostController', 'postUpdated', 'Flowpack\ElasticSearch\Indexer\Object\ObjectIndexer', 'indexObject');
 		$dispatcher->connect('Flowpack\Snippets\Controller\PostController', 'postRemoved', 'Flowpack\ElasticSearch\Indexer\Object\ObjectIndexer', 'removeObject');
 		$dispatcher->connect('Flowpack\Snippets\Controller\Module\Snippets\PostsController', 'postUpdated', 'Flowpack\ElasticSearch\Indexer\Object\ObjectIndexer', 'indexObject');
 		$dispatcher->connect('Flowpack\Snippets\Controller\Module\Snippets\PostsController', 'postRemoved', 'Flowpack\ElasticSearch\Indexer\Object\ObjectIndexer', 'removeObject');
+
+		$dispatcher->connect('Flowpack\Snippets\Controller\PostController', 'postCreated', 'Flowpack\Snippets\Service\Notification', 'sendNewPostNotification');
+		$dispatcher->connect('Flowpack\Snippets\Controller\CommentController', 'commentCreated', 'Flowpack\Snippets\Service\Notification', 'sendNewCommentNotification');
 
 		require(__DIR__ . '/../../../Resources/Private/PHP/Parsedown.php');
 	}
