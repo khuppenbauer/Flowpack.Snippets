@@ -31,11 +31,11 @@
                             <a href="#filter"><i class="fa fa-filter fa-fw"></i> <f:translate id="search.filter">Filter</f:translate></a>
                             <div id="filter" class="active content panel">
                                 <div class="row">
-                                    <f:for each="{facets}" key="facetName" as="facet">
+                                    <f:for each="{aggregations}" key="aggregationName" as="aggregation">
                                         <div class="small-3 columns">
-                                            <f:form.select id="{facetName}" property="filter.{facetName}" options="{facet}" prependOptionLabel="- {f:translate(id: facetName)} -" class="select2 small-12 jq-select" />
+                                            <f:form.select id="{aggregationName}" property="filter.{aggregationName}" options="{aggregation}" prependOptionLabel="- {f:translate(id: aggregationName)} -" class="select2 small-12 jq-select" />
                                             <script>
-                                                $("#{facetName}").select2();
+                                                $("#{aggregationName}").select2();
                                             </script>
                                         </div>
                                     </f:for>
@@ -133,7 +133,7 @@
                         | <f:link.action action="show" controller="post" arguments="{post: post}" section="comments"><f:translate id="post.comments" arguments="{0: post.numberOfComments}" quantity="{post.numberOfComments}"></f:translate></f:link.action>
                     </f:if>
                 </h5>
-           </div>
+            </div>
         </div>
 
         <div class="row">
@@ -181,14 +181,14 @@
     </section>
 </f:if>
 
-    <script>
-        //reset all settings when new search is performed
-        $("#search").submit(function() {
-            var oldValue = "{search.query}";
-            var newValue = $("input#query").val();
-            if (oldValue != newValue) {
-                $("select.jq-select").val('');
-                $("input.jq-hidden").val('');
-            }
-        });
-    </script>
+<script>
+    //reset all settings when new search is performed
+    $("#search").submit(function() {
+        var oldValue = "{search.query}";
+        var newValue = $("input#query").val();
+        if (oldValue != newValue) {
+            $("select.jq-select").val('');
+            $("input.jq-hidden").val('');
+        }
+    });
+</script>

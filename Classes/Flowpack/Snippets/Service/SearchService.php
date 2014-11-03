@@ -6,7 +6,7 @@ namespace Flowpack\Snippets\Service;
  *                                                                        *
  *                                                                        */
 
-use Elastica\Facet\Terms;
+use Elastica\Aggregation\Terms;
 use Elastica\Filter\BoolAnd;
 use Elastica\Filter\Term;
 use TYPO3\Flow\Annotations as Flow;
@@ -16,7 +16,7 @@ use Elastica\Query\QueryString;
 use Elastica\Query\Filtered;
 use Elastica\ResultSet;
 use Flowpack\Snippets\Domain\Repository\PostRepository;
-
+use TYPO3\Flow\Utility\Arrays;
 
 /**
  * Class SearchService
@@ -75,35 +75,33 @@ class SearchService {
 		$elasticaQuery->setQuery($elasticaQueryString);
 
 		// add filter
+		$elasticaFilterAnd = new BoolAnd();
 		foreach ($filter as $filterName => $filterValue) {
 			if (!empty($filterValue)) {
 				$elasticaFilter = new Term();
 				$elasticaFilter->setTerm($filterName, $filterValue);
-				$elasticaFilterAnd    = new BoolAnd();
 				$elasticaFilterAnd->addFilter($elasticaFilter);
 			}
 		}
-		if (isset($elasticaFilterAnd)) {
+		if (count($elasticaFilterAnd->getFilters()) > 0) {
 			if ($this->settings['filteredQuery'] === TRUE) {
 				$elasticaQueryFilter = new Filtered($elasticaQueryString, $elasticaFilterAnd);
 				$elasticaQuery->setQuery($elasticaQueryFilter);
 			} else {
-				$elasticaQuery->setFilter($elasticaFilterAnd);
+				$elasticaQuery->setPostFilter($elasticaFilterAnd);
 			}
 		}
 
-		// add facets
-		foreach ($this->settings['facets'] as $facet) {
-			$elasticaFacet = new Terms($facet);
-			$elasticaFacet->setField($facet);
-			$elasticaFacet->setSize(10);
-			$elasticaFacet->setOrder('count');
-			$elasticaQuery->addFacet($elasticaFacet);
+		// add aggregations
+		foreach ($this->settings['aggregations'] as $aggregation) {
+			$termsAgg = new Terms($aggregation);
+			$termsAgg->setField($aggregation);
+			$termsAgg->setSize(10);
+			$elasticaQuery->addAggregation($termsAgg);
 		}
 
 		// search
 		$resultSet = $elasticaType->search($elasticaQuery);
-
 		return $resultSet;
 	}
 
@@ -133,16 +131,19 @@ class SearchService {
 	}
 
 	/**
-	 * @param array $facets
+	 * @param array $aggregations
 	 * @return array
 	 */
-	public function transformFacets($facets) {
+	public function transformAggregations($aggregations) {
 		$options = array();
-		foreach ($facets as $facetName => $facet) {
-			foreach ($facet['terms'] as $item) {
-				$key = $item['term'];
-				$value = $item['term'] . ' (' . $item['count'] . ')';
-				$options[$facetName][$key] = $value;
+		foreach ($this->settings['aggregations'] as $aggregation) {
+			$buckets = Arrays::getValueByPath($aggregations, $aggregation . '.buckets');
+			if (!empty($buckets)) {
+				foreach ($buckets as $item) {
+					$key = $item['key'];
+					$value = $item['key'] . ' (' . $item['doc_count'] . ')';
+					$options[$aggregation][$key] = $value;
+				}
 			}
 		}
 		return $options;

@@ -61,7 +61,7 @@ class SearchController extends ActionController {
 		}
 		$offset = $this->searchService->calculateOffset($this->currentPage);
 		$resultSet = $this->searchService->search($query, $filter, $offset);
-		$facets = $this->searchService->transformFacets($resultSet->getFacets());
+		$aggregations = $this->searchService->transformAggregations($resultSet->getAggregations());
 		$posts = $this->searchService->transformResult($resultSet->getResults());
 		$last = $offset + count($posts);
 		$pagination = $this->searchService->buildPagination($this->currentPage, $resultSet->getTotalHits());
@@ -70,7 +70,7 @@ class SearchController extends ActionController {
 		$this->view->assign('last', $last);
 		$this->view->assign('search', $search);
 		$this->view->assign('posts', $posts);
-		$this->view->assign('facets', $facets);
+		$this->view->assign('aggregations', $aggregations);
 		$this->view->assign('filter', $filter);
 		$this->view->assign('pagination', $pagination);
 	}

@@ -140,7 +140,7 @@ Flowpack:
       hitsPerPage: 20
       maximumNumberOfPages: 10
       filteredQuery: TRUE
-      facets: [category, tags, type, providerName]
+      aggregations: [category, tags, type, providerName]
     notification:
       post:
         recipientAddress:
