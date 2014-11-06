@@ -141,6 +141,11 @@ Flowpack:
       maximumNumberOfPages: 10
       filteredQuery: TRUE
       aggregations: [category, tags, type, providerName]
+      mapping:
+        fields:
+          _timestamp:
+            enabled: true
+            store: true
     notification:
       post:
         recipientAddress:
