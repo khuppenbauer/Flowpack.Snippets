@@ -147,6 +147,11 @@ Flowpack:
       maximumNumberOfPages: 10
       filteredQuery: TRUE
       aggregations: [category, tags, type, providerName]
+      aggregationSize: 10
+      teaser:
+        defaultSize: 5
+        defaultSortField: _id
+        defaultOrder: desc
     notification:
       post:
         recipientAddress:

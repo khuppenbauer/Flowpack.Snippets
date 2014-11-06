@@ -1,7 +1,7 @@
 resources:
   methods:
     Flowpack_Snippets_Login: 'method(TYPO3\Flow\Security\Authentication\Controller\AbstractAuthenticationController->(?<!initialize).*Action()) || method(Flowpack\Snippets\Controller\LoginController->(index|authenticate)Action())'
-    Flowpack_Snippets_Search: 'method(Flowpack\Snippets\Controller\SearchController->(search|searchCategory|searchTag|searchAuthor)Action())'
+    Flowpack_Snippets_Search: 'method(Flowpack\Snippets\Controller\SearchController->(search|teaser|searchCategory|searchTag|searchAuthor)Action())'
     Flowpack_Snippets_Post: 'method(Flowpack\Snippets\Controller\PostController->(new|show|index)Action())'
     Flowpack_Snippets_PostActions: 'method(Flowpack\Snippets\Controller\PostController->(create|voteUp|voteDown|favor)Action())'
     Flowpack_Snippets_PostUpdateActions: 'method(Flowpack\Snippets\Controller\PostController->(edit|update|delete)Action(post.author == current.securityContext.party))'

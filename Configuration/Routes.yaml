@@ -24,6 +24,27 @@
   appendExceedingArguments: TRUE
 
 -
+  name: 'Single Post Search Show'
+  uriPattern: '{node}/{--flowpack_snippets-teaser.post}.html'
+  defaults:
+    '@package': 'TYPO3.Neos'
+    '@controller': 'Frontend\Node'
+    '@format': 'html'
+    '@action': 'show'
+    '--flowpack_snippets-teaser':
+      '@package': 'Flowpack.Snippets'
+      '@controller': 'Post'
+      '@action': 'show'
+      '@format': 'html'
+  routeParts:
+    node:
+      handler: TYPO3\Neos\Routing\FrontendNodeRoutePartHandler
+    '--flowpack_snippets-teaser.post':
+      objectType: '\Flowpack\Snippets\Domain\Model\Post'
+      uriPattern: '{date:Y}/{date:m}/{date:d}/{title}'
+  appendExceedingArguments: TRUE
+
+-
   name: 'Single Post List Show'
   uriPattern: '{node}/post/{--flowpack_snippets-list.post}'
   defaults:

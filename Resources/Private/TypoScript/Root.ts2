@@ -50,3 +50,9 @@ prototype(Flowpack.Snippets:Search) < prototype(TYPO3.Neos:Plugin) {
 	controller = 'Search'
 	action = 'search'
 }
+
+prototype(Flowpack.Snippets:Teaser) < prototype(TYPO3.Neos:Plugin) {
+	package = 'Flowpack.Snippets'
+	controller = 'Search'
+	action = 'teaser'
+}

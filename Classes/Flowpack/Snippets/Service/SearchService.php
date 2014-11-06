@@ -16,6 +16,7 @@ use Elastica\Query\QueryString;
 use Elastica\Query\Filtered;
 use Elastica\ResultSet;
 use Flowpack\Snippets\Domain\Repository\PostRepository;
+use Flowpack\Snippets\Domain\Model\Post;
 use TYPO3\Flow\Utility\Arrays;
 
 /**
@@ -65,6 +66,7 @@ class SearchService {
 		$elasticaClient = $this->createClient();
 		$elasticaIndex = $elasticaClient->getIndex($this->settings['index']);
 		$elasticaType = $elasticaIndex->getType($this->settings['type']);
+
 		$elasticaQuery = new Query();
 		$elasticaQuery->setFrom($offset);
 		$elasticaQuery->setSize($this->settings['hitsPerPage']);
@@ -96,9 +98,29 @@ class SearchService {
 		foreach ($this->settings['aggregations'] as $aggregation) {
 			$termsAgg = new Terms($aggregation);
 			$termsAgg->setField($aggregation);
-			$termsAgg->setSize(10);
+			$termsAgg->setSize($this->settings['aggregationSize']);
 			$elasticaQuery->addAggregation($termsAgg);
 		}
+
+		// search
+		$resultSet = $elasticaType->search($elasticaQuery);
+		return $resultSet;
+	}
+
+	/**
+	 * @param string $sortField
+	 * @param string $order
+	 * @param integer $size
+	 * @return ResultSet
+	 */
+	public function teaserSearch($sortField, $order, $size) {
+		$elasticaClient = $this->createClient();
+		$elasticaIndex = $elasticaClient->getIndex($this->settings['index']);
+		$elasticaType = $elasticaIndex->getType($this->settings['type']);
+
+		$elasticaQuery = new Query();
+		$elasticaQuery->setSort(array($sortField => array('order' => $order)));
+		$elasticaQuery->setSize($size);
 
 		// search
 		$resultSet = $elasticaType->search($elasticaQuery);

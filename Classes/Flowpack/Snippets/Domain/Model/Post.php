@@ -123,6 +123,7 @@ class Post {
 	 * The post views
 	 *
 	 * @var integer
+	 * @ElasticSearch\Indexable
 	 */
 	protected $views = 0;
 
@@ -141,6 +142,15 @@ class Post {
 	 * @ORM\ManyToMany(inversedBy="downVotes")
 	 */
 	protected $downVotes;
+
+	/**
+	 * The post numberOf Votes
+	 *
+	 * @var integer
+	 * @Flow\Transient
+	 * @ElasticSearch\Indexable
+	 */
+	protected $numberOfVotes;
 
 	/**
 	 * The post favorites

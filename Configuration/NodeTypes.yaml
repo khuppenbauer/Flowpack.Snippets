@@ -18,3 +18,74 @@
     label: 'Snippets Search'
     icon: 'icon-code'
     group: 'plugins'
+
+'Flowpack.Snippets:Teaser':
+  superTypes: ['TYPO3.Neos:Plugin']
+  ui:
+    label: 'Snippets Teaser'
+    icon: 'icon-code'
+    group: 'plugins'
+    inspector:
+      groups:
+        settings:
+          label: 'Plugin Settings'
+          position: 100
+  properties:
+    title:
+      type: string
+      ui:
+        label: 'title'
+        reloadIfChanged: TRUE
+        inspector:
+          group: 'settings'
+    type:
+      type: string
+      ui:
+        label: 'type'
+        reloadIfChanged: TRUE
+        inspector:
+          group: 'settings'
+          editor: 'TYPO3.Neos/Inspector/Editors/SelectBoxEditor'
+          editorOptions:
+            values:
+              'list':
+                label: 'list'
+              'tagcloud':
+                label: 'tagcloud'
+    sortField:
+      type: string
+      ui:
+        label: 'sortField'
+        reloadIfChanged: TRUE
+        inspector:
+          group: settings
+          editor: 'TYPO3.Neos/Inspector/Editors/SelectBoxEditor'
+          editorOptions:
+            values:
+              '_timestamp':
+                label: 'date'
+              'views':
+                label: 'views'
+              'numberOfVotes':
+                label: 'votes'
+    order:
+      type: string
+      ui:
+        label: 'order'
+        reloadIfChanged: TRUE
+        inspector:
+          group: settings
+          editor: 'TYPO3.Neos/Inspector/Editors/SelectBoxEditor'
+          editorOptions:
+            values:
+              'asc':
+                label: 'Ascending'
+              'desc':
+                label: 'Descending'
+    size:
+      type: string
+      ui:
+        label: 'size'
+        reloadIfChanged: TRUE
+        inspector:
+          group: 'settings'

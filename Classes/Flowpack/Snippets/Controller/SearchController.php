@@ -8,6 +8,7 @@ namespace Flowpack\Snippets\Controller;
 
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Mvc\Controller\ActionController;
+use TYPO3\TYPO3CR\Domain\Model\NodeInterface;
 use Flowpack\Snippets\Service\SearchService;
 
 /**
@@ -47,15 +48,6 @@ class SearchController extends ActionController {
 	public function searchAction($search = array()) {
 		$query = !empty($search['query']) ? $search['query'] : '*';
 		$filter = isset($search['filter']) ? $search['filter'] : array();
-		$this->search($query, $filter, $search);
-	}
-
-	/**
-	 * @param string $query
-	 * @param array $filter
-	 * @param array $search
-	 */
-	protected function search($query, $filter = array(), $search = array()) {
 		if (!empty($search['currentPage'])) {
 			$this->currentPage = (integer)$search['currentPage'];
 		}
@@ -73,6 +65,24 @@ class SearchController extends ActionController {
 		$this->view->assign('aggregations', $aggregations);
 		$this->view->assign('filter', $filter);
 		$this->view->assign('pagination', $pagination);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function teaserAction() {
+		/** @var NodeInterface $node */
+		$node = $this->request->getInternalArgument('__node');
+		$properties = $node->getProperties();
+		$sortField = isset($properties['sortField']) ? $properties['sortField'] : $this->settings['teaser']['defaultSortField'];
+		$order = isset($properties['order']) ? $properties['order'] : $this->settings['teaser']['defaultOrder'];
+		$size = isset($properties['size']) ? $properties['size'] : $this->settings['teaser']['defaultSize'];
+		$resultSet = $this->searchService->teaserSearch($sortField, $order, $size);
+		$posts = $this->searchService->transformResult($resultSet->getResults());
+		$this->view->assign('posts', $posts);
+		if (isset($properties['title'])) {
+			$this->view->assign('title', $properties['title']);
+		}
 	}
 
 }

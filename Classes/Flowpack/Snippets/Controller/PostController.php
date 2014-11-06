@@ -162,6 +162,7 @@ class PostController extends ActionController {
 			$views = $post->getViews() + 1;
 			$post->setViews($views);
 			$this->postRepository->update($post);
+			$this->emitPostUpdated($post);
 		}
 		$this->view->assign('user', $user);
 		$this->view->assign('post', $post);
@@ -240,6 +241,7 @@ class PostController extends ActionController {
 			}
 		}
 		$this->postRepository->update($post);
+		$this->emitPostUpdated($post);
 		return $this->responseData($post);
 	}
 
@@ -258,6 +260,7 @@ class PostController extends ActionController {
 			}
 		}
 		$this->postRepository->update($post);
+		$this->emitPostUpdated($post);
 		return $this->responseData($post);
 	}
 
@@ -269,12 +272,11 @@ class PostController extends ActionController {
 	public function favorAction(Post $post, User $user) {
 		if ($post->isFavorite() === TRUE) {
 			$post->removeFavorite($user);
-			$favor = FALSE;
 		} else {
 			$post->addFavorite($user);
-			$favor = TRUE;
 		}
 		$this->postRepository->update($post);
+		$this->emitPostUpdated($post);
 		return $this->responseData($post);
 	}
 

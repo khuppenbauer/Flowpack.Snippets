@@ -1,0 +1,8 @@
+{namespace snippets=Flowpack\Snippets\ViewHelpers}
+<div class="widget widget_list">
+    <ul class="disc">
+        <f:for each="{posts}" key="identifier" as="post" iteration="postIterator">
+            <f:link.external uri="{post.url}" target="_blank">{post.title}</f:link.external>
+        </f:for>
+    </ul>
+</div>
