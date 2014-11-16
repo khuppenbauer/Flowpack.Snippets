@@ -67,7 +67,7 @@ class PostController extends ActionController {
 	 */
 	public function initializeCreateAction() {
 		$newPost = $this->request->getArgument('newPost');
-		$tags = $this->convertTags();
+		$tags = $this->convertTags($newPost['tags']);
 		if (!empty($tags)) {
 			$newPost['tags'] = $tags;
 			$this->request->setArgument('newPost', $newPost);
@@ -83,7 +83,7 @@ class PostController extends ActionController {
 	 */
 	public function initializeUpdateAction() {
 		$post = $this->request->getArgument('post');
-		$tags = $this->convertTags();
+		$tags = $this->convertTags($post['tags']);
 		if (!empty($tags)) {
 			$post['tags'] = $tags;
 		} else {
@@ -127,10 +127,10 @@ class PostController extends ActionController {
 	}
 
 	/**
+	 * @param string $tags
 	 * @return array
 	 */
-	protected function convertTags() {
-		$tags = $this->request->getArgument('tags');
+	protected function convertTags($tags) {
 		if (!empty($tags)) {
 			$tagsArray = explode(',', $tags);
 			foreach ($tagsArray as $key => $tag) {
@@ -180,10 +180,10 @@ class PostController extends ActionController {
 
 	/**
 	 * @param Post $newPost
-	 * @param string $tags
+	 * @Flow\Validate(argumentName="newPost", type="\Flowpack\Snippets\Validation\Validator\NotEmptyByTypeValidator")
 	 * @return void
 	 */
-	public function createAction(Post $newPost, $tags) {
+	public function createAction(Post $newPost) {
 		$author = $this->securityContext->getPartyByType('Flowpack\Snippets\Domain\Model\User');
 		$newPost->setAuthor($author);
 		$this->postRepository->add($newPost);
@@ -202,10 +202,9 @@ class PostController extends ActionController {
 
 	/**
 	 * @param Post $post
-	 * @param string $tags
 	 * @return void
 	 */
-	public function updateAction(Post $post, $tags) {
+	public function updateAction(Post $post) {
 		$this->postRepository->update($post);
 		if ($post->isActive() === TRUE) {
 			$this->emitPostUpdated($post);

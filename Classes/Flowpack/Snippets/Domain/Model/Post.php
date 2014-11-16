@@ -82,7 +82,7 @@ class Post {
 	 * The post url
 	 *
 	 * @var string
-	 * @Flow\Validate(type="StringLength", options={"maximum"=2000})
+	 * @Flow\Validate(type="\Flowpack\Snippets\Validation\Validator\UrlValidator")
 	 * @ElasticSearch\Transform("\Flowpack\Snippets\Indexer\Transform\EmbedTransformer")
 	 * @ElasticSearch\Indexable
 	 * @ORM\Column(length=2000, nullable=true)
@@ -118,6 +118,13 @@ class Post {
 	 * @ORM\Column(type="json_array")
 	 */
 	protected $options = array();
+
+	/**
+	 * The post type // text or link
+	 *
+	 * @var string
+	 */
+	protected $postType;
 
 	/**
 	 * The post views
@@ -406,6 +413,21 @@ class Post {
 	 */
 	public function setOptions($options) {
 		$this->options = $options;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getPostType() {
+		return $this->postType;
+	}
+
+	/**
+	 * @param string $postType
+	 * @return void
+	 */
+	public function setPostType($postType) {
+		$this->postType = $postType;
 	}
 
 	/**
