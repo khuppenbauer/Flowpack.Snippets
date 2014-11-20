@@ -37,6 +37,7 @@ class Post {
 	 * @var \DateTime
 	 * @ElasticSearch\Transform("Date")
 	 * @ElasticSearch\Indexable
+	 * @ElasticSearch\Mapping(index="no")
 	 */
 	protected $date;
 
@@ -46,6 +47,7 @@ class Post {
 	 * @var User
 	 * @ElasticSearch\Transform(type="\Flowpack\Snippets\Indexer\Transform\ObjectAccessTransformer", options={"propertyPath"="name.alias"})
 	 * @ElasticSearch\Indexable
+	 * @ElasticSearch\Mapping(index="not_analyzed")
 	 * @ORM\ManyToOne
 	 */
 	protected $author;
@@ -85,6 +87,7 @@ class Post {
 	 * @Flow\Validate(type="\Flowpack\Snippets\Validation\Validator\UrlValidator")
 	 * @ElasticSearch\Transform("\Flowpack\Snippets\Indexer\Transform\EmbedTransformer")
 	 * @ElasticSearch\Indexable
+	 * @ElasticSearch\Mapping(index="not_analyzed")
 	 * @ORM\Column(length=2000, nullable=true)
 	 */
 	protected $url;
@@ -96,6 +99,7 @@ class Post {
 	 * @Flow\Validate(type="notEmpty")
 	 * @ElasticSearch\Transform("StringCast")
 	 * @ElasticSearch\Indexable
+	 * @ElasticSearch\Mapping(index="not_analyzed")
 	 * @ORM\ManyToOne(inversedBy="posts")
 	 */
 	protected $category;
@@ -104,9 +108,9 @@ class Post {
 	 * The post tags
 	 *
 	 * @var Collection<\Flowpack\Snippets\Domain\Model\Tag>
-	 * @Flow\Validate(type="notEmpty")
 	 * @ElasticSearch\Transform("CollectionStringCast")
 	 * @ElasticSearch\Indexable
+	 * @ElasticSearch\Mapping(index="not_analyzed")
 	 * @ORM\ManyToMany(inversedBy="posts")
 	 */
 	protected $tags;
@@ -188,6 +192,8 @@ class Post {
 	 *
 	 * @var string
 	 * @Flow\Transient
+	 * @ElasticSearch\Indexable
+	 * @ElasticSearch\Mapping(index="not_analyzed")
 	 */
 	protected $type;
 
@@ -196,6 +202,8 @@ class Post {
 	 *
 	 * @var string
 	 * @Flow\Transient
+	 * @ElasticSearch\Indexable
+	 * @ElasticSearch\Mapping(index="no")
 	 */
 	protected $image;
 
@@ -204,6 +212,8 @@ class Post {
 	 *
 	 * @var string
 	 * @Flow\Transient
+	 * @ElasticSearch\Indexable
+	 * @ElasticSearch\Mapping(index="no")
 	 */
 	protected $code;
 
@@ -212,6 +222,8 @@ class Post {
 	 *
 	 * @var string
 	 * @Flow\Transient
+	 * @ElasticSearch\Indexable
+	 * @ElasticSearch\Mapping(index="not_analyzed")
 	 */
 	protected $providerName;
 
@@ -220,6 +232,8 @@ class Post {
 	 *
 	 * @var string
 	 * @Flow\Transient
+	 * @ElasticSearch\Indexable
+	 * @ElasticSearch\Mapping(index="no")
 	 */
 	protected $providerUrl;
 
@@ -228,6 +242,8 @@ class Post {
 	 *
 	 * @var string
 	 * @Flow\Transient
+	 * @ElasticSearch\Indexable
+	 * @ElasticSearch\Mapping(index="no")
 	 */
 	protected $providerIcon;
 
