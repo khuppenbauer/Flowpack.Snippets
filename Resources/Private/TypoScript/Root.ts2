@@ -20,10 +20,15 @@ page {
 	}
 	body {
 		// Add JS includes for the site before the closing body tag
-    	javascripts.snippets = TYPO3.TypoScript:Template {
+		javascripts.snippets = TYPO3.TypoScript:Template {
 			templatePath = 'resource://Flowpack.Snippets/Private/Templates/Page/Default.html'
-    		sectionName = 'footerScripts'
-    	}
+			sectionName = 'footerScripts'
+		}
+
+		javascripts.foundation = TYPO3.TypoScript:Template {
+			templatePath = 'resource://Flowpack.Snippets/Private/Templates/Page/Default.html'
+			sectionName = 'foundationFooterScripts'
+		}
 	}
 }
 

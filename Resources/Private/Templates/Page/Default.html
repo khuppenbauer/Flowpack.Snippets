@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="http://yandex.st/highlightjs/8.0/styles/default.min.css">
     <link rel="stylesheet" href="{f:uri.resource(path: 'Styles/Markdown.css', package: 'Flowpack.Snippets')}" media="all" />
     <link rel="stylesheet" href="{f:uri.resource(path: 'Styles/snippets.custom.css', package: 'Flowpack.Snippets')}" media="all" />
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css">
 </f:section>
 
 <f:section name="scripts">
@@ -48,8 +48,11 @@
 </f:section>
 
 <f:section name="footerScripts">
-    <script src="{f:uri.resource(path: 'Scripts/foundation.min.js', package: 'Flowpack.Snippets')}"></script>
     <script src="{f:uri.resource(path: 'Scripts/jquery.snippets.js', package: 'Flowpack.Snippets')}"></script>
+</f:section>
+
+<f:section name="foundationFooterScripts">
+    <script src="{f:uri.resource(path: 'Scripts/foundation.min.js', package: 'Flowpack.Snippets')}"></script>
     <script>
         $(document).foundation();
     </script>
