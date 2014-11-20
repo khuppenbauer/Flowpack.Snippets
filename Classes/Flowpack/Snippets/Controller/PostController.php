@@ -287,6 +287,7 @@ class PostController extends ActionController {
 		$data['upVotes'] = $post->getNumberOfUpVotes();
 		$data['downVotes'] = $post->getNumberOfDownVotes();
 		$data['favor'] = $post->isFavorite();
+		$data['favorites'] = $post->getNumberOfFavorites();
 		return json_encode($data);
 	}
 

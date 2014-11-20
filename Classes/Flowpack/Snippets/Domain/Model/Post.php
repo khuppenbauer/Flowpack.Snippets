@@ -168,6 +168,15 @@ class Post {
 	protected $favorites;
 
 	/**
+	 * The post numberOf Votes
+	 *
+	 * @var integer
+	 * @Flow\Transient
+	 * @ElasticSearch\Indexable
+	 */
+	protected $numberOfFavorites;
+
+	/**
 	 * @var Collection<\Flowpack\Snippets\Domain\Model\Comment>
 	 * @ORM\OneToMany(mappedBy="post")
 	 * @ORM\OrderBy({"date" = "DESC"})
@@ -614,6 +623,15 @@ class Post {
 			}
 		}
 		return $isFavorite;
+	}
+
+	/**
+	 * Returns the number of Votes
+	 *
+	 * @return integer The number of Votes
+	 */
+	public function getNumberOfFavorites() {
+		return count($this->favorites);
 	}
 
 	/**

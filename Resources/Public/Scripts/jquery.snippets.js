@@ -26,14 +26,17 @@ $('a[data-category], a[data-author], a[data-tags], a[data-currentPage]').click(f
 });
 
 $(".jq-up").click(function (e) {
+    e.preventDefault();
     sendRequest($(this), 'voteUp');
 });
 
 $(".jq-down").click(function (e) {
+    e.preventDefault();
     sendRequest($(this), 'voteDown');
 });
 
 $(".jq-favor").click(function (e) {
+    e.preventDefault();
     sendRequest($(this), 'favor');
 });
 
@@ -47,6 +50,7 @@ function sendRequest(obj, action) {
             success: function (data) {
                 $(".jq-upVotes").text(data.upVotes);
                 $(".jq-downVotes").text(data.downVotes);
+                $(".jq-favorites").text(data.favorites);
                 if (data.favor) {
                     $(".jq-favor").removeClass("fa-star-o").addClass("fa-star");
                 } else {
