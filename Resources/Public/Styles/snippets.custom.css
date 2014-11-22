@@ -53,17 +53,3 @@ textarea {
 .accordion .accordion-navigation > a, .accordion dd > a {
     color: #00b5ff;
 }
-
-.select2 {
-    display: inherit;
-}
-
-.select2-container-multi {
-    height: 56px;
-}
-
-.error .select2-choice, .error .select2-choices {
-    background-color: rgba(198, 15, 19, 0.1);
-    background-image: none;
-    border: 1px solid #c60f13;
-}
