@@ -22,7 +22,7 @@ class MarkdownReferenceCrawlerTransformer implements TransformerInterface {
 	 * @return string
 	 */
 	public function getTargetMappingType() {
-		return 'array';
+		return 'string';
 	}
 
 	/**
