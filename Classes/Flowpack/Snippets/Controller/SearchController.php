@@ -74,14 +74,47 @@ class SearchController extends ActionController {
 		/** @var NodeInterface $node */
 		$node = $this->request->getInternalArgument('__node');
 		$properties = $node->getProperties();
-		$sortField = isset($properties['sortField']) ? $properties['sortField'] : $this->settings['teaser']['defaultSortField'];
-		$order = isset($properties['order']) ? $properties['order'] : $this->settings['teaser']['defaultOrder'];
-		$size = isset($properties['size']) ? $properties['size'] : $this->settings['teaser']['defaultSize'];
-		$resultSet = $this->searchService->teaserSearch($sortField, $order, $size);
-		$posts = $this->searchService->transformResult($resultSet->getResults());
-		$this->view->assign('posts', $posts);
-		if (isset($properties['title'])) {
-			$this->view->assign('title', $properties['title']);
+		if (!empty($properties)) {
+			$sortField = !empty($properties['sortField']) ? $properties['sortField'] : $this->settings['teaser']['defaultSortField'];
+			$order = !empty($properties['order']) ? $properties['order'] : $this->settings['teaser']['defaultOrder'];
+			$size = !empty($properties['size']) ? intval($properties['size']) : $this->settings['teaser']['defaultSize'];
+			switch ($properties['type']) {
+				case 'list':
+					$filter['type'] = 'post';
+					$resultSet = $this->searchService->teaserSearch($sortField, $order, $size, $filter);
+					$posts = $this->searchService->transformResult($resultSet->getResults());
+					break;
+				case 'tagcloud':
+					$uriBuilder = $this->controllerContext->getUriBuilder();
+					$resultSet = $this->searchService->search('*', array(), 0, NULL, $size);
+					$tags = $resultSet->getAggregation('tags');
+					if (!empty($tags['buckets'])) {
+						foreach ($tags['buckets'] as $tag) {
+							$uri = $uriBuilder->uriFor('search', array('tag' => $tag['key']), 'Search');
+							$word['text'] = $tag['key'];
+							$word['weight'] = $tag['doc_count'];
+							$word['link']['href'] = $uri;
+							$words[] = $word;
+						}
+						$this->view->assign('words', json_encode($words));
+					}
+					break;
+				case 'favorites':
+					$user = $this->securityContext->getPartyByType('Flowpack\Snippets\Domain\Model\User');
+					/** @var  $posts \Flowpack\Snippets\Domain\Model\User $user */
+					if ($user !== NULL) {
+						$posts = $user->getFavorites();
+						/** @var \Doctrine\Common\Collections\ArrayCollection $posts */
+						$posts = $posts->slice(0, 1);
+					}
+					break;
+			}
+			if (!empty($posts)) {
+				$this->view->assign('posts', $posts);
+			}
+			if (isset($properties['title'])) {
+				$this->view->assign('title', $properties['title']);
+			}
 		}
 	}
 

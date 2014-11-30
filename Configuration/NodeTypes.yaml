@@ -52,6 +52,8 @@
                 label: 'list'
               'tagcloud':
                 label: 'tagcloud'
+              'favorites':
+                label: 'favorites'
     sortField:
       type: string
       ui:
@@ -62,6 +64,8 @@
           editor: 'TYPO3.Neos/Inspector/Editors/SelectBoxEditor'
           editorOptions:
             values:
+              '_score':
+                label: 'default'
               '_timestamp':
                 label: 'date'
               'views':

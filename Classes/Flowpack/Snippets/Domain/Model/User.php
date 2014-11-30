@@ -41,6 +41,7 @@ class User extends Person {
 	 *
 	 * @var Collection<\Flowpack\Snippets\Domain\Model\Post>
 	 * @ORM\ManyToMany(mappedBy="favorites")
+	 * @ORM\OrderBy({"date" = "DESC"})
 	 */
 	protected $favorites;
 

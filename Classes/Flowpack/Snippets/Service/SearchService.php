@@ -111,9 +111,10 @@ class SearchService {
 	 * @param string $sortField
 	 * @param string $order
 	 * @param integer $size
+	 * @param array $filter
 	 * @return ResultSet
 	 */
-	public function teaserSearch($sortField, $order, $size) {
+	public function teaserSearch($sortField, $order, $size, $filter = array()) {
 		$elasticaClient = $this->createClient();
 		$elasticaIndex = $elasticaClient->getIndex($this->settings['index']);
 		$elasticaType = $elasticaIndex->getType($this->settings['type']);
@@ -121,6 +122,19 @@ class SearchService {
 		$elasticaQuery = new Query();
 		$elasticaQuery->setSort(array($sortField => array('order' => $order)));
 		$elasticaQuery->setSize($size);
+
+		// add filter
+		$elasticaFilterAnd = new BoolAnd();
+		foreach ($filter as $filterName => $filterValue) {
+			if (!empty($filterValue)) {
+				$elasticaFilter = new Term();
+				$elasticaFilter->setTerm($filterName, $filterValue);
+				$elasticaFilterAnd->addFilter($elasticaFilter);
+			}
+		}
+		if (count($elasticaFilterAnd->getFilters()) > 0) {
+			$elasticaQuery->setPostFilter($elasticaFilterAnd);
+		}
 
 		// search
 		$resultSet = $elasticaType->search($elasticaQuery);
