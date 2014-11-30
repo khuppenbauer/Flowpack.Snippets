@@ -8,6 +8,7 @@ namespace Flowpack\Snippets\Controller;
 
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Mvc\Controller\ActionController;
+use TYPO3\Flow\Security\Context;
 use TYPO3\TYPO3CR\Domain\Model\NodeInterface;
 use Flowpack\Snippets\Service\SearchService;
 
@@ -17,6 +18,11 @@ use Flowpack\Snippets\Service\SearchService;
  * @package Flowpack\Snippets\Controller
  */
 class SearchController extends ActionController {
+
+	/**
+	 * @var Context
+	 */
+	protected $securityContext;
 
 	/**
 	 * @Flow\Inject
@@ -33,6 +39,16 @@ class SearchController extends ActionController {
 	 * @var string
 	 */
 	protected $settings;
+
+	/**
+	 * Injects the Security Context
+	 *
+	 * @param Context $securityContext
+	 * @return void
+	 */
+	public function injectSecurityContext(Context $securityContext) {
+		$this->securityContext = $securityContext;
+	}
 
 	/**
 	 * @param array $settings
@@ -65,6 +81,7 @@ class SearchController extends ActionController {
 	 * @return void
 	 */
 	public function searchAction($search = array()) {
+		$user = $this->securityContext->getPartyByType('Flowpack\Snippets\Domain\Model\User');
 		$query = !empty($search['query']) ? $search['query'] : '*';
 		$filter = isset($search['filter']) ? $search['filter'] : array();
 		if (!empty($search['currentPage'])) {
@@ -88,6 +105,7 @@ class SearchController extends ActionController {
 		$this->view->assign('pagination', $pagination);
 		$this->view->assign('sortings', $this->settings['sortings']);
 		$this->view->assign('sortField', $sortField);
+		$this->view->assign('user', $user);
 	}
 
 	/**
