@@ -7,7 +7,7 @@ page {
 		}
 
 		stylesheets.snippets = TYPO3.TypoScript:Template {
-			@position = 'end'
+			@position = 'start'
 			templatePath = 'resource://Flowpack.Snippets/Private/Templates/Page/Default.html'
 			sectionName = 'stylesheets'
 		}
