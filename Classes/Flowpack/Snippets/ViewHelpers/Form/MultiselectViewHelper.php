@@ -64,8 +64,16 @@ class MultiselectViewHelper extends AbstractFormFieldViewHelper {
 
 		$value = $this->getValue();
 		if (!empty($value) && count($value) > 0) {
-			$value = implode(',', $value);
-			$this->tag->addAttribute('value', $value);
+			if (is_object($value)) {
+				foreach ($value as $item) {
+					$valueItems[] = $this->persistenceManager->getIdentifierByObject($item);
+					$valueItem = implode(',', $valueItems);
+					$this->tag->addAttribute('value', $valueItem);
+				}
+			} else {
+				$value = implode(',', $value);
+				$this->tag->addAttribute('value', $value);
+			}
 		}
 
 		if ($required === TRUE) {
