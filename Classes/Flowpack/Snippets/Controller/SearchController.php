@@ -70,8 +70,10 @@ class SearchController extends ActionController {
 		if (!empty($search['currentPage'])) {
 			$this->currentPage = (integer)$search['currentPage'];
 		}
+		$sortField = !empty($search['sortField']) ? $search['sortField'] : $this->settings['defaultSortField'];
+
 		$offset = $this->searchService->calculateOffset($this->currentPage);
-		$resultSet = $this->searchService->search($query, $filter, $offset);
+		$resultSet = $this->searchService->search($query, $filter, $offset, $sortField);
 		$aggregations = $this->searchService->transformAggregations($resultSet->getAggregations());
 		$posts = $this->searchService->transformResult($resultSet->getResults());
 		$last = $offset + count($posts);
@@ -84,6 +86,8 @@ class SearchController extends ActionController {
 		$this->view->assign('aggregations', $aggregations);
 		$this->view->assign('filter', $filter);
 		$this->view->assign('pagination', $pagination);
+		$this->view->assign('sortings', $this->settings['sortings']);
+		$this->view->assign('sortField', $sortField);
 	}
 
 	/**

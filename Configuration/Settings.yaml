@@ -173,8 +173,22 @@ Flowpack:
       hitsPerPage: 20
       maximumNumberOfPages: 10
       filteredQuery: TRUE
-      aggregations: [category, tags, type, providerName]
+      aggregations: [tags, category, type, providerName]
       aggregationSize: 10
+      sortings:
+        - name: relevant
+          key: _score
+          icon: sort-amount-desc
+        - name: recent
+          key: _timestamp
+          icon: calendar
+        - name: popular
+          key: views
+          icon: eye
+        - name: liked
+          key: numberOfVotes
+          icon: thumbs-up
+      defaultSortField: _score
       teaser:
         defaultSize: 5
         defaultSortField: _id

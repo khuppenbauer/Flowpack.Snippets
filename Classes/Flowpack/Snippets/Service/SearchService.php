@@ -60,9 +60,13 @@ class SearchService {
 	 * @param string $query
 	 * @param array $filter
 	 * @param integer $offset
+	 * @param string $sortField
+	 * @param integer $aggregationSize
 	 * @return ResultSet
 	 */
-	public function search($query = '*', $filter = array(), $offset = 0) {
+	public function search($query = '*', $filter = array(), $offset = 0, $sortField, $aggregationSize = NULL) {
+		$aggregationSize = $aggregationSize !== NULL ? $aggregationSize : $this->settings['aggregationSize'];
+
 		$elasticaClient = $this->createClient();
 		$elasticaIndex = $elasticaClient->getIndex($this->settings['index']);
 		$elasticaType = $elasticaIndex->getType($this->settings['type']);
@@ -97,9 +101,14 @@ class SearchService {
 		// add aggregations
 		foreach ($this->settings['aggregations'] as $aggregation) {
 			$termsAgg = new Terms($aggregation);
-			$termsAgg->setSize($this->settings['aggregationSize']);
 			$termsAgg->setField($aggregation . '.raw');
+			$termsAgg->setSize($aggregationSize);
 			$elasticaQuery->addAggregation($termsAgg);
+		}
+
+		//sorting
+		if (!empty($sortField)) {
+			$elasticaQuery->setSort(array($sortField => array('order' => 'desc')));
 		}
 
 		// search
