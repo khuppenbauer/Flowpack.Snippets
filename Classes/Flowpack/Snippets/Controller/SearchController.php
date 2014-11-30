@@ -41,6 +41,25 @@ class SearchController extends ActionController {
 		$this->settings = $settings['elasticSearch'];
 	}
 
+
+	/**
+	 * converts tags from select2 library
+	 */
+	public function initializeSearchAction() {
+		if ($this->request->hasArgument('category')) {
+			$search['filter']['category'] = $this->request->getArgument('category');
+			$this->request->setArgument('search', $search);
+		}
+		if ($this->request->hasArgument('tags')) {
+			$search['filter']['tags'] = $this->request->getArgument('tags');
+			$this->request->setArgument('search', $search);
+		}
+		if ($this->request->hasArgument('tag')) {
+			$search['filter']['tags'] = $this->request->getArgument('tag');
+			$this->request->setArgument('search', $search);
+		}
+	}
+
 	/**
 	 * @param array $search
 	 * @return void

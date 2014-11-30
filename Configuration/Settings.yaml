@@ -97,6 +97,10 @@ Flowpack:
                 type: 'custom'
                 tokenizer: 'whitespace'
                 filter: ['lowercase', 'asciifolding']
+              string_lowercase:
+                type: 'custom'
+                tokenizer: 'keyword'
+                filter: 'lowercase'
 
   Snippets:
     editorButtons:

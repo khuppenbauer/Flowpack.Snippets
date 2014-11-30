@@ -12,14 +12,9 @@ $(".jq-filter-reset").click(function() {
 });
 
 //set filter from links with data attribute
-$('a[data-category], a[data-author], a[data-tags], a[data-currentPage]').click(function(){
+$(document).on('click', 'a[data-currentPage], a[data-sortField]', function(){
     var attributes = $(this).data();
     $.each(attributes, function(k,v) {
-        if (k != 'currentpage') {
-            $("select.jq-select").val('');
-            $("input.jq-hidden").val('');
-            $("input#query").val('');
-        }
         $('#'+k).val(v);
         $("#search").submit();
     });

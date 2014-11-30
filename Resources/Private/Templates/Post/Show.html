@@ -3,11 +3,6 @@
     <div class="row">
         <div class="large-12 columns">
     <h3>{post.title}</h3>
-            <f:form action="search" id="search" name="search" controller="search" method="POST" objectName="search">
-                <f:form.hidden property="filter.author" id="author" class="jq-hidden" />
-                <f:form.hidden property="filter.tags" id="tags" class="jq-hidden" />
-                <f:form.hidden property="filter.category" id="category" class="jq-hidden" />
-            </f:form>
             <h5> <f:if condition="{post.author.name.alias}"><i class="fa fa-user fa-fw"></i> <a href="#" data-author="{post.author.name.alias -> snippets:strtolower()}">{post.author.name.alias}</a></f:if> <i class="fa fa-calendar fa-fw"></i> <f:translate id="post.date" arguments="{0: post.date}"><![CDATA[{0,datetime,date,short}]]</f:translate></h5>
         </div>
     </div>

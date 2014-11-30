@@ -97,8 +97,8 @@ class SearchService {
 		// add aggregations
 		foreach ($this->settings['aggregations'] as $aggregation) {
 			$termsAgg = new Terms($aggregation);
-			$termsAgg->setField($aggregation);
 			$termsAgg->setSize($this->settings['aggregationSize']);
+			$termsAgg->setField($aggregation . '.raw');
 			$elasticaQuery->addAggregation($termsAgg);
 		}
 
@@ -176,7 +176,7 @@ class SearchService {
 			$buckets = Arrays::getValueByPath($aggregations, $aggregation . '.buckets');
 			if (!empty($buckets)) {
 				foreach ($buckets as $item) {
-					$key = $item['key'];
+					$key = strtolower($item['key']);
 					$value = $item['key'] . ' (' . $item['doc_count'] . ')';
 					$options[$aggregation][$key] = $value;
 				}
