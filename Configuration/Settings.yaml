@@ -1,41 +1,42 @@
+
 TYPO3:
   Flow:
     object:
       excludeClasses:
-        'fabpot.*' : ['.*']
-        'embed.*' : ['.*']
-        'ruflin.*' : ['.*']
+        'fabpot.*':
+          - '.*'
+        'embed.*':
+          - '.*'
+        'ruflin.*':
+          - '.*'
     security:
       authentication:
         providers:
           Typo3BackendProvider:
             requestPatterns:
-              Flowpack\Snippets\Security\NeosRequestPattern: 'backend'
+              Flowpack\Snippets\Security\NeosRequestPattern: backend
           FrontendProvider:
-            provider: 'PersistedUsernamePasswordProvider'
+            provider: PersistedUsernamePasswordProvider
             requestPatterns:
-              Flowpack\Snippets\Security\NeosRequestPattern: 'frontend'
-
+              Flowpack\Snippets\Security\NeosRequestPattern: frontend
   Neos:
     typoScript:
       autoInclude:
-          # auto-include "Private/Resources/TypoScript/Root.ts2" from this package!
-        'Flowpack.Snippets': TRUE
-
+        Flowpack.Snippets: true
     modules:
       snippets:
         label: Snippets
         controller: \Flowpack\Snippets\Controller\Module\SnippetsController
         description: 'Manage Snippets'
         icon: icon-code
-        resource: 'Flowpack_Snippets_Backend_Module_Snippets'
+        resource: Flowpack_Snippets_Backend_Module_Snippets
         submodules:
           posts:
             label: Post
             controller: \Flowpack\Snippets\Controller\Module\Snippets\PostsController
             description: 'Manage Posts'
             icon: icon-file
-            resource: 'Flowpack_Snippets_Backend_Module_Snippets_Posts'
+            resource: Flowpack_Snippets_Backend_Module_Snippets_Posts
             widgetTemplatePathAndFileName: 'resource://TYPO3.Neos/Private/Templates/Module/Widget.html'
             actions:
               index:
@@ -46,7 +47,7 @@ TYPO3:
             controller: \Flowpack\Snippets\Controller\Module\Snippets\CategoriesController
             description: 'Manage Categories'
             icon: icon-folder-open
-            resource: 'Flowpack_Snippets_Backend_Module_Snippets_Categories'
+            resource: Flowpack_Snippets_Backend_Module_Snippets_Categories
             widgetTemplatePathAndFileName: 'resource://TYPO3.Neos/Private/Templates/Module/Widget.html'
             actions:
               index:
@@ -57,112 +58,129 @@ TYPO3:
             controller: \Flowpack\Snippets\Controller\Module\Snippets\TagsController
             description: 'Manage Tags'
             icon: icon-tags
-            resource: 'Flowpack_Snippets_Backend_Module_Snippets_Tags'
+            resource: Flowpack_Snippets_Backend_Module_Snippets_Tags
             widgetTemplatePathAndFileName: 'resource://TYPO3.Neos/Private/Templates/Module/Widget.html'
             actions:
               index:
                 label: 'Manage Tags'
                 title: 'Manage Tags'
-
 Flowpack:
   ElasticSearch:
     realtimeIndexing:
-      enabled: FALSE
-
+      enabled: false
     mapping:
       snippets:
         _timestamp:
           enabled: true
           store: true
         _all:
-          index_analyzer: 'nGram_analyzer'
-          search_analyzer: 'whitespace_analyzer'
-
+          index_analyzer: nGram_analyzer
+          search_analyzer: whitespace_analyzer
     indexes:
       default:
         snippets:
           analysis:
             filter:
               nGram_filter:
-                type: 'nGram'
+                type: nGram
                 min_gram: 2
                 max_gram: 20
-                token_chars: ['letter', 'digit', 'punctuation', 'symbol']
+                token_chars:
+                  - letter
+                  - digit
+                  - punctuation
+                  - symbol
             analyzer:
               nGram_analyzer:
-                type: 'custom'
-                tokenizer: 'whitespace'
-                filter: ['lowercase', 'asciifolding', 'nGram_filter']
+                type: custom
+                tokenizer: whitespace
+                filter:
+                  - lowercase
+                  - asciifolding
+                  - nGram_filter
               whitespace_analyzer:
-                type: 'custom'
-                tokenizer: 'whitespace'
-                filter: ['lowercase', 'asciifolding']
+                type: custom
+                tokenizer: whitespace
+                filter:
+                  - lowercase
+                  - asciifolding
               string_lowercase:
-                type: 'custom'
-                tokenizer: 'keyword'
-                filter: 'lowercase'
-
+                type: custom
+                tokenizer: keyword
+                filter: lowercase
   Snippets:
     editorButtons:
       -
-        - name: bold
-          title: Bold - Ctrl+B
-          icon: fa fa-bold
-          active: TRUE
-        - name: italic
-          title: Italic - Ctrl+I
-          icon: fa fa-italic
-          active: TRUE
+        -
+          name: bold
+          title: 'Bold - Ctrl+B'
+          icon: 'fa fa-bold'
+          active: true
+        -
+          name: italic
+          title: 'Italic - Ctrl+I'
+          icon: 'fa fa-italic'
+          active: true
       -
-        - name: link
-          title: Link - Ctrl+L
-          icon: fa fa-link
-          active: TRUE
-        - name: image
-          title: Image - Ctrl+G
-          icon: fa fa-picture-o
-          active: TRUE
-        - name: quote
-          title: Blockquote - Ctrl+Q
-          icon: fa fa-quote-right
-          active: TRUE
-        - name: code
-          title: Code Sample - Ctrl+K
-          icon: fa fa-code
-          active: TRUE
+        -
+          name: link
+          title: 'Link - Ctrl+L'
+          icon: 'fa fa-link'
+          active: true
+        -
+          name: image
+          title: 'Image - Ctrl+G'
+          icon: 'fa fa-picture-o'
+          active: true
+        -
+          name: quote
+          title: 'Blockquote - Ctrl+Q'
+          icon: 'fa fa-quote-right'
+          active: true
+        -
+          name: code
+          title: 'Code Sample - Ctrl+K'
+          icon: 'fa fa-code'
+          active: true
       -
-        - name: olist
-          title: Numbered List <ol> Ctrl+O
-          icon: fa fa-list-ol
-          active: TRUE
-        - name: ulist
-          title: Bulleted List <ul> Ctrl+U
-          icon: fa fa-list-ul
-          active: TRUE
-        - name: heading
-          title: Heading <h1>/<h2> Ctrl+H
-          icon: fa fa-header
-          active: TRUE
-        - name: hr
-          title: Horizontal Rule <hr> Ctrl+R
-          icon: fa fa-ellipsis-h
-          active: TRUE
+        -
+          name: olist
+          title: 'Numbered List <ol> Ctrl+O'
+          icon: 'fa fa-list-ol'
+          active: true
+        -
+          name: ulist
+          title: 'Bulleted List <ul> Ctrl+U'
+          icon: 'fa fa-list-ul'
+          active: true
+        -
+          name: heading
+          title: 'Heading <h1>/<h2> Ctrl+H'
+          icon: 'fa fa-header'
+          active: true
+        -
+          name: hr
+          title: 'Horizontal Rule <hr> Ctrl+R'
+          icon: 'fa fa-ellipsis-h'
+          active: true
       -
-        - name: undo
-          title: Undo - Ctrl+Z
-          icon: fa fa-undo
-          active: TRUE
-        - name: redo
-          title: Redo - Ctrl+Y
-          icon: fa fa-repeat
-          active: TRUE
+        -
+          name: undo
+          title: 'Undo - Ctrl+Z'
+          icon: 'fa fa-undo'
+          active: true
+        -
+          name: redo
+          title: 'Redo - Ctrl+Y'
+          icon: 'fa fa-repeat'
+          active: true
     embed:
       provider:
-        'OEmbed': TRUE
-        'OpenGraph': TRUE
-        'TwitterCards': FALSE
-        'Facebook': FALSE
-        'Html': FALSE
+        OEmbed: true
+        OpenGraph: true
+        TwitterCards: false
+        Facebook: false
+        Html: false
     elasticSearch:
       client:
         scheme: http
@@ -172,20 +190,28 @@ Flowpack:
       type: post
       hitsPerPage: 20
       maximumNumberOfPages: 10
-      filteredQuery: TRUE
-      aggregations: [tags, category, type, providerName]
+      filteredQuery: true
+      aggregations:
+        - tags
+        - category
+        - type
+        - providerName
       aggregationSize: 10
       sortings:
-        - name: relevant
+        -
+          name: relevant
           key: _score
           icon: sort-amount-desc
-        - name: recent
+        -
+          name: recent
           key: _timestamp
           icon: calendar
-        - name: popular
+        -
+          name: popular
           key: views
           icon: eye
-        - name: liked
+        -
+          name: liked
           key: numberOfVotes
           icon: thumbs-up
       defaultSortField: _score
@@ -195,16 +221,16 @@ Flowpack:
         defaultOrder: desc
     notification:
       post:
-        recipientAddress:
-        recipientName:
-        senderAddress:
-        senderName:
-        templatePathAndFilename: resource://Flowpack.Snippets/Private/Templates/Post/PostNotification.txt
+        recipientAddress: null
+        recipientName: null
+        senderAddress: null
+        senderName: null
+        templatePathAndFilename: 'resource://Flowpack.Snippets/Private/Templates/Post/PostNotification.txt'
         format: text/plain
       comment:
-        recipientAddress:
-        recipientName:
-        senderAddress:
-        senderName:
-        templatePathAndFilename: resource://Flowpack.Snippets/Private/Templates/Post/CommentNotification.txt
+        recipientAddress: null
+        recipientName: null
+        senderAddress: null
+        senderName: null
+        templatePathAndFilename: 'resource://Flowpack.Snippets/Private/Templates/Post/CommentNotification.txt'
         format: text/plain

@@ -1,30 +1,32 @@
+
 'Flowpack.Snippets:List':
-  superTypes: ['TYPO3.Neos:Plugin']
+  superTypes:
+    - 'TYPO3.Neos:Plugin'
   ui:
     label: 'Snippets List'
-    icon: 'icon-code'
-    group: 'plugins'
-
+    icon: icon-code
+    group: plugins
 'Flowpack.Snippets:New':
-  superTypes: ['TYPO3.Neos:Plugin']
+  superTypes:
+    - 'TYPO3.Neos:Plugin'
   ui:
     label: 'Snippets New'
-    icon: 'icon-code'
-    group: 'plugins'
-
+    icon: icon-code
+    group: plugins
 'Flowpack.Snippets:Search':
-  superTypes: ['TYPO3.Neos:Plugin']
+  superTypes:
+    - 'TYPO3.Neos:Plugin'
   ui:
     label: 'Snippets Search'
-    icon: 'icon-code'
-    group: 'plugins'
-
+    icon: icon-code
+    group: plugins
 'Flowpack.Snippets:Teaser':
-  superTypes: ['TYPO3.Neos:Plugin']
+  superTypes:
+    - 'TYPO3.Neos:Plugin'
   ui:
     label: 'Snippets Teaser'
-    icon: 'icon-code'
-    group: 'plugins'
+    icon: icon-code
+    group: plugins
     inspector:
       groups:
         settings:
@@ -34,62 +36,62 @@
     title:
       type: string
       ui:
-        label: 'title'
-        reloadIfChanged: TRUE
+        label: title
+        reloadIfChanged: true
         inspector:
-          group: 'settings'
+          group: settings
     type:
       type: string
       ui:
-        label: 'type'
-        reloadIfChanged: TRUE
+        label: type
+        reloadIfChanged: true
         inspector:
-          group: 'settings'
-          editor: 'TYPO3.Neos/Inspector/Editors/SelectBoxEditor'
+          group: settings
+          editor: TYPO3.Neos/Inspector/Editors/SelectBoxEditor
           editorOptions:
             values:
-              'list':
-                label: 'list'
-              'tagcloud':
-                label: 'tagcloud'
-              'favorites':
-                label: 'favorites'
+              list:
+                label: list
+              tagcloud:
+                label: tagcloud
+              favorites:
+                label: favorites
     sortField:
       type: string
       ui:
-        label: 'sortField'
-        reloadIfChanged: TRUE
+        label: sortField
+        reloadIfChanged: true
         inspector:
           group: settings
-          editor: 'TYPO3.Neos/Inspector/Editors/SelectBoxEditor'
+          editor: TYPO3.Neos/Inspector/Editors/SelectBoxEditor
           editorOptions:
             values:
-              '_score':
-                label: 'default'
-              '_timestamp':
-                label: 'date'
-              'views':
-                label: 'views'
-              'numberOfVotes':
-                label: 'votes'
+              _score:
+                label: default
+              _timestamp:
+                label: date
+              views:
+                label: views
+              numberOfVotes:
+                label: votes
     order:
       type: string
       ui:
-        label: 'order'
-        reloadIfChanged: TRUE
+        label: order
+        reloadIfChanged: true
         inspector:
           group: settings
-          editor: 'TYPO3.Neos/Inspector/Editors/SelectBoxEditor'
+          editor: TYPO3.Neos/Inspector/Editors/SelectBoxEditor
           editorOptions:
             values:
-              'asc':
-                label: 'Ascending'
-              'desc':
-                label: 'Descending'
+              asc:
+                label: Ascending
+              desc:
+                label: Descending
     size:
       type: string
       ui:
-        label: 'size'
-        reloadIfChanged: TRUE
+        label: size
+        reloadIfChanged: true
         inspector:
-          group: 'settings'
+          group: settings
