@@ -70,12 +70,13 @@ Flowpack:
       enabled: false
     mapping:
       snippets:
-        _timestamp:
-          enabled: true
-          store: true
-        _all:
-          index_analyzer: nGram_analyzer
-          search_analyzer: whitespace_analyzer
+        post:
+          _timestamp:
+            enabled: true
+            store: true
+          _all:
+            index_analyzer: nGram_analyzer
+            search_analyzer: whitespace_analyzer
     indexes:
       default:
         snippets:
