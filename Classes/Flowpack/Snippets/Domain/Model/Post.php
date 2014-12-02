@@ -99,7 +99,7 @@ class Post {
 	 * @Flow\Validate(type="notEmpty")
 	 * @ElasticSearch\Transform("StringCast")
 	 * @ElasticSearch\Indexable
-	 * @ElasticSearch\Mapping(analyzer="string_lowercase")
+	 * @ElasticSearch\Mapping(analyzer="string_lowercase", fields={@Elasticsearch\Mapping(index_name="raw", type="string", index="not_analyzed")})
 	 * @ORM\ManyToOne(inversedBy="posts")
 	 */
 	protected $category;
@@ -110,7 +110,7 @@ class Post {
 	 * @var Collection<\Flowpack\Snippets\Domain\Model\Tag>
 	 * @ElasticSearch\Transform("CollectionStringCast")
 	 * @ElasticSearch\Indexable
-	 * @ElasticSearch\Mapping(analyzer="string_lowercase")
+	 * @ElasticSearch\Mapping(analyzer="string_lowercase", fields={@Elasticsearch\Mapping(index_name="raw", type="string", index="not_analyzed")})
 	 * @ORM\ManyToMany(inversedBy="posts")
 	 */
 	protected $tags;
