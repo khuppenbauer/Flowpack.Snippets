@@ -40,21 +40,26 @@ function sendRequest(obj, action) {
         $.ajax({
             type: 'POST',
             url: '/Post/' + action,
-            data: {post: obj.data("post"), user: obj.data("user")},
+            data: {post: obj.data("post")},
             dataType: 'json',
             success: function (data) {
                 $(".jq-upVotes").text(data.upVotes);
                 $(".jq-downVotes").text(data.downVotes);
                 $(".jq-favorites").text(data.favorites);
-                if (data.favor) {
-                    $(".jq-favor").removeClass("fa-star-o").addClass("fa-star");
-                } else {
-                    $(".jq-favor").removeClass("fa-star").addClass("fa-star-o");
-                }
+                switchIcon('favor', data.favor, 'fa-star-o', 'fa-star');
+                switchIcon('up', data.up, 'fa-thumbs-o-up', 'fa-thumbs-up');
+                switchIcon('down', data.down, 'fa-thumbs-o-down', 'fa-thumbs-down');
             }
         });
     } else {
         alert('Login to vote or favorite this post');
     }
+}
 
+function switchIcon(type, active, inactiveIcon, activeIcon) {
+    if (active === true) {
+        $(".jq-" + type).removeClass(inactiveIcon).addClass(activeIcon);
+    } else {
+        $(".jq-" + type).removeClass(activeIcon).addClass(inactiveIcon);
+    }
 }

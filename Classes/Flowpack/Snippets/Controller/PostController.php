@@ -6,7 +6,6 @@ namespace Flowpack\Snippets\Controller;
  *                                                                        *
  *                                                                        */
 
-use Flowpack\Snippets\Domain\Model\User;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Mvc\Controller\ActionController;
 use TYPO3\Flow\Security\Context;
@@ -227,16 +226,15 @@ class PostController extends ActionController {
 
 	/**
 	 * @param Post $post
-	 * @param User $user
 	 * @return integer
 	 */
-	public function voteUpAction(Post $post, User $user) {
-		if ($post->hasUpVote($user) === TRUE) {
-			$post->removeUpVote($user);
+	public function voteUpAction(Post $post) {
+		if ($post->hasUpVote() === TRUE) {
+			$post->removeUpVote();
 		} else {
-			$post->addUpVote($user);
-			if ($post->hasDownVote($user) === TRUE) {
-				$post->removeDownVote($user);
+			$post->addUpVote();
+			if ($post->hasDownVote() === TRUE) {
+				$post->removeDownVote();
 			}
 		}
 		$this->postRepository->update($post);
@@ -246,16 +244,15 @@ class PostController extends ActionController {
 
 	/**
 	 * @param Post $post
-	 * @param User $user
 	 * @return integer
 	 */
-	public function voteDownAction(Post $post, User $user) {
-		if ($post->hasDownVote($user) === TRUE) {
-			$post->removeDownVote($user);
+	public function voteDownAction(Post $post) {
+		if ($post->hasDownVote() === TRUE) {
+			$post->removeDownVote();
 		} else {
-			$post->addDownVote($user);
-			if ($post->hasUpVote($user) === TRUE) {
-				$post->removeUpVote($user);
+			$post->addDownVote();
+			if ($post->hasUpVote() === TRUE) {
+				$post->removeUpVote();
 			}
 		}
 		$this->postRepository->update($post);
@@ -265,14 +262,13 @@ class PostController extends ActionController {
 
 	/**
 	 * @param Post $post
-	 * @param User $user
 	 * @return boolean
 	 */
-	public function favorAction(Post $post, User $user) {
+	public function favorAction(Post $post) {
 		if ($post->isFavorite() === TRUE) {
-			$post->removeFavorite($user);
+			$post->removeFavorite();
 		} else {
-			$post->addFavorite($user);
+			$post->addFavorite();
 		}
 		$this->postRepository->update($post);
 		$this->emitPostUpdated($post);
@@ -287,6 +283,8 @@ class PostController extends ActionController {
 		$data['upVotes'] = $post->getNumberOfUpVotes();
 		$data['downVotes'] = $post->getNumberOfDownVotes();
 		$data['favor'] = $post->isFavorite();
+		$data['up'] = $post->hasUpVote();
+		$data['down'] = $post->hasDownVote();
 		$data['favorites'] = $post->getNumberOfFavorites();
 		return json_encode($data);
 	}

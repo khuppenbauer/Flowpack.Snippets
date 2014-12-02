@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Flowpack\ElasticSearch\Annotations as ElasticSearch;
+use Flowpack\Snippets\Domain\Model\User;
 use TYPO3\Flow\Security\Context;
 
 /**
@@ -248,6 +249,14 @@ class Post {
 	protected $providerIcon;
 
 	/**
+	 * The embed providerIcon
+	 *
+	 * @var User
+	 * @Flow\Transient
+	 */
+	protected $user;
+
+	/**
 	 * @var Context
 	 */
 	protected $securityContext;
@@ -482,29 +491,29 @@ class Post {
 	/**
 	 * Adds an upVote to this post
 	 *
-	 * @param User $upVote
 	 * @return void
 	 */
-	public function addUpVote(User $upVote) {
+	public function addUpVote() {
+		$upVote = $this->getUser();
 		$this->upVotes->add($upVote);
 	}
 
 	/**
 	 * Removes an upVote from this post
 	 *
-	 * @param User $upVote
 	 * @return void
 	 */
-	public function removeUpVote(User $upVote) {
+	public function removeUpVote() {
+		$upVote = $this->getUser();
 		$this->upVotes->removeElement($upVote);
 	}
 
 	/**
-	 * @param User $user
 	 * @return boolean
 	 */
-	public function hasUpVote(User $user) {
+	public function hasUpVote() {
 		$hasUpVote = FALSE;
+		$user = $this->getUser();
 		if ($user !== NULL) {
 			$upVotes = clone $this->upVotes;
 			foreach ($upVotes as $upVote) {
@@ -544,29 +553,29 @@ class Post {
 	/**
 	 * Adds a downVote
 	 *
-	 * @param User $downVote
 	 * @return void
 	 */
-	public function addDownVote(User $downVote) {
+	public function addDownVote() {
+		$downVote = $this->getUser();
 		$this->downVotes->add($downVote);
 	}
 
 	/**
 	 * Removes a downVote
 	 *
-	 * @param User $downVote
 	 * @return void
 	 */
-	public function removeDownVote(User $downVote) {
+	public function removeDownVote() {
+		$downVote = $this->getUser();
 		$this->downVotes->removeElement($downVote);
 	}
 
 	/**
-	 * @param User $user
 	 * @return boolean
 	 */
-	public function hasDownVote(User $user) {
+	public function hasDownVote() {
 		$hasDownVote = FALSE;
+		$user = $this->getUser();
 		if ($user !== NULL) {
 			$downVotes = clone $this->downVotes;
 			foreach ($downVotes as $downVote) {
@@ -606,20 +615,20 @@ class Post {
 	/**
 	 * Add favorite to this post
 	 *
-	 * @param User $favorite
 	 * @return void
 	 */
-	public function addFavorite(User $favorite) {
+	public function addFavorite() {
+		$favorite = $this->getUser();
 		$this->favorites->add($favorite);
 	}
 
 	/**
 	 * Removes favorite from this post
 	 *
-	 * @param User $favorite
 	 * @return void
 	 */
-	public function removeFavorite(User $favorite) {
+	public function removeFavorite() {
+		$favorite = $this->getUser();
 		$this->favorites->removeElement($favorite);
 	}
 
@@ -628,7 +637,7 @@ class Post {
 	 */
 	public function isFavorite() {
 		$isFavorite = FALSE;
-		$user = $this->securityContext->getPartyByType('Flowpack\Snippets\Domain\Model\User');
+		$user = $this->getUser();
 		if ($user !== NULL) {
 			$favorites = clone $this->favorites;
 			foreach ($favorites as $favorite) {
@@ -796,5 +805,13 @@ class Post {
 	public function setProviderIcon($providerIcon) {
 		$this->providerIcon = $providerIcon;
 	}
+
+	/**
+	 * @return User
+	 */
+	public function getUser() {
+		return $this->securityContext->getPartyByType('Flowpack\Snippets\Domain\Model\User');
+	}
+
 
 }
