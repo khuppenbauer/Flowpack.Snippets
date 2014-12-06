@@ -52,7 +52,7 @@ function sendRequest(obj, action) {
             }
         });
     } else {
-        alert('Login to vote or favorite this post');
+        $('#login').foundation('reveal', 'open', '');
     }
 }
 
