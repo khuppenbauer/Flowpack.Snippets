@@ -194,7 +194,7 @@ class Post {
 	 * @var string
 	 * @Flow\Transient
 	 * @ElasticSearch\Indexable
-	 * @ElasticSearch\Mapping(index="not_analyzed")
+	 * @ElasticSearch\Mapping(analyzer="string_lowercase", fields={@Elasticsearch\Mapping(index_name="raw", type="string", index="not_analyzed")})
 	 */
 	protected $type;
 
@@ -224,7 +224,7 @@ class Post {
 	 * @var string
 	 * @Flow\Transient
 	 * @ElasticSearch\Indexable
-	 * @ElasticSearch\Mapping(index="not_analyzed")
+	 * @ElasticSearch\Mapping(analyzer="string_lowercase", fields={@Elasticsearch\Mapping(index_name="raw", type="string", index="not_analyzed")})
 	 */
 	protected $providerName;
 
