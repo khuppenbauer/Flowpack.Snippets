@@ -9,6 +9,7 @@ namespace Flowpack\Snippets\Service;
 use Elastica\Aggregation\Terms;
 use Elastica\Filter\BoolAnd;
 use Elastica\Filter\Term;
+use Elastica\Request;
 use TYPO3\Flow\Annotations as Flow;
 use Elastica\Client;
 use Elastica\Query;
@@ -151,6 +152,34 @@ class SearchService {
 	}
 
 	/**
+	 * @param string $id
+	 * @param integer $size
+	 * @return array
+	 */
+	public function moreLikeThisSearch($id, $size) {
+		$elasticaClient = $this->createClient();
+		$elasticaIndex = $elasticaClient->getIndex($this->settings['index']);
+		$elasticaType = $elasticaIndex->getType($this->settings['type']);
+
+		$settings = $this->settings['moreLikeThis'];
+		if (isset($settings['params'])) {
+			$query['query']['bool']['must'][0]['more_like_this'] = $settings['params'];
+		}
+		if (isset($settings['fields'])) {
+			$query['query']['bool']['must'][0]['more_like_this']['fields'] = $settings['fields'];
+		}
+		$query['query']['bool']['must'][0]['more_like_this']['docs'][]['_id'] = $id;
+		if (isset($settings['term'])) {
+			$query['query']['bool']['must'][1]['term'] = $settings['term'];
+		}
+		$query['size'] = $size;
+
+		$path = $elasticaIndex->getName() . '/' . $elasticaType->getName() . '/_search';
+		$result = $elasticaClient->request($path, Request::POST, $query);
+		return $result;
+	}
+
+	/**
 	 * @param $results
 	 * @return array
 	 */
@@ -170,6 +199,24 @@ class SearchService {
 					$post->setProviderUrl($data['providerUrl']);
 				}
 				$posts[] = $post;
+			}
+		}
+		return $posts;
+	}
+
+	/**
+	 * @param array $results
+	 * @return array
+	 */
+	public function transformResultFromRawRequest($results) {
+		$posts = array();
+		if ($results['hits']['total'] > 0) {
+			foreach ($results['hits']['hits'] as $result) {
+				$post = $this->postRepository->findByIdentifier($result['_id']);
+				/** @var Post $post */
+				if ($post !== NULL) {
+					$posts[] = $post;
+				}
 			}
 		}
 		return $posts;

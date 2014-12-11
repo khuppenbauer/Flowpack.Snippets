@@ -220,6 +220,16 @@ Flowpack:
         defaultSize: 5
         defaultSortField: _id
         defaultOrder: desc
+      moreLikeThis:
+        term:
+            type: post
+        fields:
+          - category
+          - tags
+          - content
+        params:
+            min_term_freq: 1
+            min_doc_freq: 1
     notification:
       post:
         recipientAddress: null

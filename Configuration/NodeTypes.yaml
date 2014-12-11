@@ -6,6 +6,7 @@
     label: 'Snippets List'
     icon: icon-code
     group: plugins
+
 'Flowpack.Snippets:New':
   superTypes:
     - 'TYPO3.Neos:Plugin'
@@ -13,6 +14,7 @@
     label: 'Snippets New'
     icon: icon-code
     group: plugins
+
 'Flowpack.Snippets:Search':
   superTypes:
     - 'TYPO3.Neos:Plugin'
@@ -26,6 +28,7 @@
         label: 'Show Snippet'
         controllerActions:
           Flowpack\Snippets\Controller\PostController: ['show']
+
 'Flowpack.Snippets:Teaser':
   superTypes:
     - 'TYPO3.Neos:Plugin'
@@ -48,6 +51,7 @@
           group: settings
     type:
       type: string
+      defaultValue: list
       ui:
         label: type
         reloadIfChanged: true
@@ -62,6 +66,8 @@
                 label: tagcloud
               favorites:
                 label: favorites
+              related:
+                label: related
     sortField:
       type: string
       ui:

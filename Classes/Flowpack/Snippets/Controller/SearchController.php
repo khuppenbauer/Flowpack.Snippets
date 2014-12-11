@@ -9,6 +9,7 @@ namespace Flowpack\Snippets\Controller;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Mvc\Controller\ActionController;
 use TYPO3\Flow\Security\Context;
+use TYPO3\Flow\Utility\Arrays;
 use TYPO3\TYPO3CR\Domain\Model\NodeInterface;
 use Flowpack\Snippets\Service\SearchService;
 
@@ -147,6 +148,14 @@ class SearchController extends ActionController {
 						$posts = $user->getFavorites();
 						/** @var \Doctrine\Common\Collections\ArrayCollection $posts */
 						$posts = $posts->slice(0, 1);
+					}
+					break;
+				case 'related':
+					$pluginArguments = $this->request->getParentRequest()->getPluginArguments();
+					$post = Arrays::getValueByPath($pluginArguments, 'flowpack_snippets-search.post');
+					if ($post !== NULL) {
+						$resultSet = $this->searchService->moreLikeThisSearch($post['__identity'], $size);
+						$posts = $this->searchService->transformResultFromRawRequest($resultSet->getData());
 					}
 					break;
 			}
