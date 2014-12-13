@@ -82,20 +82,22 @@ class SearchController extends ActionController {
 	 * @return void
 	 */
 	public function searchAction($search = array()) {
-		$user = $this->securityContext->getPartyByType('Flowpack\Snippets\Domain\Model\User');
 		$query = !empty($search['query']) ? $search['query'] : '*';
 		$filter = isset($search['filter']) ? $search['filter'] : array();
 		if (!empty($search['currentPage'])) {
 			$this->currentPage = (integer)$search['currentPage'];
 		}
-		$sortField = !empty($search['sortField']) ? $search['sortField'] : $this->settings['defaultSortField'];
-
 		$offset = $this->searchService->calculateOffset($this->currentPage);
-		$resultSet = $this->searchService->search($query, $filter, $offset, $sortField);
+		$sortField = !empty($search['sortField']) ? $search['sortField'] : $this->settings['defaultSortField'];
+		$aggregationSize = $this->settings['aggregationSize'];
+
+		$resultSet = $this->searchService->fulltextSearch($query, $filter, $offset, $sortField, $aggregationSize);
 		$aggregations = $this->searchService->transformAggregations($resultSet->getAggregations());
 		$posts = $this->searchService->transformResult($resultSet->getResults());
 		$last = $offset + count($posts);
 		$pagination = $this->searchService->buildPagination($this->currentPage, $resultSet->getTotalHits());
+		$user = $this->securityContext->getPartyByType('Flowpack\Snippets\Domain\Model\User');
+
 		$this->view->assign('totalHits', $resultSet->getTotalHits());
 		$this->view->assign('first', $offset + 1);
 		$this->view->assign('last', $last);
@@ -120,15 +122,17 @@ class SearchController extends ActionController {
 			$sortField = !empty($properties['sortField']) ? $properties['sortField'] : $this->settings['teaser']['defaultSortField'];
 			$order = !empty($properties['order']) ? $properties['order'] : $this->settings['teaser']['defaultOrder'];
 			$size = !empty($properties['size']) ? intval($properties['size']) : $this->settings['teaser']['defaultSize'];
+			$pluginArguments = $this->request->getParentRequest()->getPluginArguments();
+			$post = Arrays::getValueByPath($pluginArguments, 'flowpack_snippets-search.post');
 			switch ($properties['type']) {
 				case 'list':
-					$filter['type'] = 'post';
+					$filter = isset($this->settings['teaser']['filter']) ? $this->settings['teaser']['filter'] : array();
 					$resultSet = $this->searchService->teaserSearch($sortField, $order, $size, $filter);
 					$posts = $this->searchService->transformResult($resultSet->getResults());
 					break;
 				case 'tagcloud':
 					$uriBuilder = $this->controllerContext->getUriBuilder();
-					$resultSet = $this->searchService->search('*', array(), 0, NULL, $size);
+					$resultSet = $this->searchService->tagSearch($size);
 					$tags = $resultSet->getAggregation('tags');
 					if (!empty($tags['buckets'])) {
 						foreach ($tags['buckets'] as $tag) {
@@ -147,12 +151,10 @@ class SearchController extends ActionController {
 					if ($user !== NULL) {
 						$posts = $user->getFavorites();
 						/** @var \Doctrine\Common\Collections\ArrayCollection $posts */
-						$posts = $posts->slice(0, 1);
+						$posts = $posts->slice(0, $size);
 					}
 					break;
 				case 'related':
-					$pluginArguments = $this->request->getParentRequest()->getPluginArguments();
-					$post = Arrays::getValueByPath($pluginArguments, 'flowpack_snippets-search.post');
 					if ($post !== NULL) {
 						$resultSet = $this->searchService->moreLikeThisSearch($post['__identity'], $size);
 						$posts = $this->searchService->transformResultFromRawRequest($resultSet->getData());

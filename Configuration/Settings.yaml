@@ -189,9 +189,8 @@ Flowpack:
         port: 9200
       index: snippets
       type: post
-      hitsPerPage: 20
+      hitsPerPage: 10
       maximumNumberOfPages: 10
-      filteredQuery: true
       aggregations:
         - tags
         - category
@@ -220,6 +219,8 @@ Flowpack:
         defaultSize: 5
         defaultSortField: _id
         defaultOrder: desc
+        filter:
+          type: post
       moreLikeThis:
         term:
             type: post
