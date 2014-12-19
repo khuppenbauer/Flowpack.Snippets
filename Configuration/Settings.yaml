@@ -223,14 +223,14 @@ Flowpack:
           type: post
       moreLikeThis:
         term:
-            type: post
+          type: post
         fields:
           - category
           - tags
           - content
         params:
-            min_term_freq: 1
-            min_doc_freq: 1
+          min_term_freq: 1
+          min_doc_freq: 1
     notification:
       post:
         recipientAddress: null
