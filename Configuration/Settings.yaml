@@ -29,41 +29,41 @@ TYPO3:
         controller: \Flowpack\Snippets\Controller\Module\SnippetsController
         description: 'Manage Snippets'
         icon: icon-code
-        resource: Flowpack_Snippets_Backend_Module_Snippets
         submodules:
           posts:
             label: Post
             controller: \Flowpack\Snippets\Controller\Module\Snippets\PostsController
             description: 'Manage Posts'
             icon: icon-file
-            resource: Flowpack_Snippets_Backend_Module_Snippets_Posts
             widgetTemplatePathAndFileName: 'resource://TYPO3.Neos/Private/Templates/Module/Widget.html'
             actions:
               index:
                 label: 'Manage Posts'
                 title: 'Manage Posts'
+            privilegeTarget: Flowpack_Snippets_Backend_Module_Snippets_Posts
           categories:
             label: Category
             controller: \Flowpack\Snippets\Controller\Module\Snippets\CategoriesController
             description: 'Manage Categories'
             icon: icon-folder-open
-            resource: Flowpack_Snippets_Backend_Module_Snippets_Categories
             widgetTemplatePathAndFileName: 'resource://TYPO3.Neos/Private/Templates/Module/Widget.html'
             actions:
               index:
                 label: 'Manage Categories'
                 title: 'Manage Categories'
+            privilegeTarget: Flowpack_Snippets_Backend_Module_Snippets_Categories
           tags:
             label: Tag
             controller: \Flowpack\Snippets\Controller\Module\Snippets\TagsController
             description: 'Manage Tags'
             icon: icon-tags
-            resource: Flowpack_Snippets_Backend_Module_Snippets_Tags
             widgetTemplatePathAndFileName: 'resource://TYPO3.Neos/Private/Templates/Module/Widget.html'
             actions:
               index:
                 label: 'Manage Tags'
                 title: 'Manage Tags'
+            privilegeTarget: Flowpack_Snippets_Backend_Module_Snippets_Tags
+        privilegeTarget: Flowpack_Snippets_Backend_Module_Snippets
 Flowpack:
   ElasticSearch:
     realtimeIndexing:
