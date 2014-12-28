@@ -10,7 +10,7 @@ privilegeTargets:
     Flowpack_Snippets_FollowActions:
       matcher: method(Flowpack\Snippets\Controller\TeaserController->(followUser|followCategory|followTag)Action())
     Flowpack_Snippets_Post:
-      matcher: method(Flowpack\Snippets\Controller\PostController->(new|show|index)Action())
+      matcher: method(Flowpack\Snippets\Controller\PostController->(new|show|index|countViews)Action())
     Flowpack_Snippets_PostActions:
       matcher: method(Flowpack\Snippets\Controller\PostController->(create|voteUp|voteDown|favor)Action())
     Flowpack_Snippets_PostUpdateActions:
