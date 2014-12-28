@@ -4,7 +4,7 @@
 
 -
   name: 'Single Post Search Show'
-  uriPattern: '{node}/{--flowpack_snippets-search.post}.html'
+  uriPattern: '{--flowpack_snippets-search.post}.html'
   defaults:
     '@package': 'TYPO3.Neos'
     '@controller': 'Frontend\Node'
@@ -12,6 +12,7 @@
     '@action': 'show'
     '--flowpack_snippets-search':
       '@package': 'Flowpack.Snippets'
+      '@subpackage': ''
       '@controller': 'Post'
       '@action': 'show'
       '@format': 'html'
@@ -25,7 +26,7 @@
 
 -
   name: 'Single Post Teaser Show'
-  uriPattern: '{node}/{--flowpack_snippets-teaser.post}.html'
+  uriPattern: '{--flowpack_snippets-teaser.post}.html'
   defaults:
     '@package': 'TYPO3.Neos'
     '@controller': 'Frontend\Node'
@@ -54,6 +55,7 @@
     '@action': 'show'
     '--flowpack_snippets-search':
       '@package': 'Flowpack.Snippets'
+      '@subpackage': ''
       '@controller': 'Post'
       '@action': 'edit'
       '@format': 'html'
@@ -75,6 +77,7 @@
     '@action': 'show'
     '--flowpack_snippets-search':
       '@package': 'Flowpack.Snippets'
+      '@subpackage': ''
       '@controller': 'Search'
       '@action': 'search'
       '@format': 'html'
@@ -93,6 +96,7 @@
     '@action': 'show'
     '--flowpack_snippets-search':
       '@package': 'Flowpack.Snippets'
+      '@subpackage': ''
       '@controller': 'Search'
       '@action': 'search'
       '@format': 'html'
@@ -111,6 +115,7 @@
     '@action': 'show'
     '--flowpack_snippets-teaser':
       '@package': 'Flowpack.Snippets'
+      '@subpackage': ''
       '@controller': 'Search'
       '@action': 'search'
       '@format': 'html'
@@ -129,6 +134,7 @@
     '@action': 'show'
     '--flowpack_snippets-search':
       '@package': 'Flowpack.Snippets'
+      '@subpackage': ''
       '@controller': 'Search'
       '@action': 'search'
       '@format': 'html'
@@ -147,6 +153,7 @@
     '@action': 'show'
     '--flowpack_snippets-follow':
       '@package': 'Flowpack.Snippets'
+      '@subpackage': ''
       '@controller': 'Search'
       '@action': 'search'
       '@format': 'html'
@@ -165,6 +172,7 @@
     '@action': 'show'
     '--flowpack_snippets-follow':
       '@package': 'Flowpack.Snippets'
+      '@subpackage': ''
       '@controller': 'Search'
       '@action': 'search'
       '@format': 'html'
@@ -183,6 +191,7 @@
     '@action': 'show'
     '--flowpack_snippets-user':
       '@package': 'Flowpack.Snippets'
+      '@subpackage': ''
       '@controller': 'Search'
       '@action': 'search'
       '@format': 'html'
