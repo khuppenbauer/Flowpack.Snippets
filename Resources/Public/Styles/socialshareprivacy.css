@@ -59,7 +59,7 @@
 }
 /* Facebook begin */
 .social_share_privacy_area .facebook {
-    width: 180px;
+    width: 110px;
     display: inline-block;
 }
 .social_share_privacy_area.vertical .facebook {
@@ -71,19 +71,15 @@
 /* Facebook end */
 /* Twitter begin */
 .social_share_privacy_area .twitter {
-    width: 148px;
+    width: 106px;
 }
-.social_share_privacy_area li div.tweet {
-    width: 100px;
-}
+
 /* Twitter end */
 /* Google+ begin */
 .social_share_privacy_area .gplus {
-    width: 123px;
+    width: 100px;
 }
-.social_share_privacy_area li div.gplusone {
-    width: 75px;
-}
+
 /* Google+ end */
 /* Switch begin */
 .social_share_privacy_area li .switch {
@@ -215,7 +211,7 @@
     top: 0;
     width: 135px;
     z-index: 1000;
-    margin: 0;
+    margin: 7px;
     padding: 0;
 }
 .social_share_privacy_area li.settings_info .settings_info_menu.off {
