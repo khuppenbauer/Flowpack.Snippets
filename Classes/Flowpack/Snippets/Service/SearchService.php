@@ -6,6 +6,8 @@ namespace Flowpack\Snippets\Service;
  *                                                                        *
  *                                                                        */
 
+use Flowpack\Snippets\Aggregation\TopHits;
+use Flowpack\Snippets\Domain\Model\User;
 use TYPO3\Flow\Annotations as Flow;
 use Elastica\Aggregation\Terms;
 use Elastica\Aggregation\Filter;
@@ -29,11 +31,17 @@ use TYPO3\Flow\Utility\Arrays;
 class SearchService {
 
 	/**
-	 * The index name to be used for querying (by default "typo3cr")
+	 * The settings
 	 *
 	 * @var string
 	 */
 	protected $settings;
+
+	/**
+	 * @Flow\Inject
+	 * @var UserService
+	 */
+	protected $userService;
 
 	/**
 	 * @Flow\Inject
@@ -50,6 +58,12 @@ class SearchService {
 	 * @var integer
 	 */
 	protected $displayRangeEnd;
+
+	/**
+	 * @Flow\Inject
+	 * @var \TYPO3\Flow\Persistence\PersistenceManagerInterface
+	 */
+	protected $persistenceManager;
 
 	/**
 	 * @param array $settings
@@ -208,6 +222,143 @@ class SearchService {
 		$path = $elasticaIndex->getName() . '/' . $elasticaType->getName() . '/_search';
 		$result = $elasticaClient->request($path, Request::POST, $query);
 		return $result;
+	}
+
+	/**
+	 * @param User $user
+	 * @param string $state
+	 * @return ResultSet
+	 */
+	public function notificationCountSearch(User $user, $state) {
+		$elasticaClient = $this->createClient();
+		$elasticaIndex = $elasticaClient->getIndex($this->settings['index']);
+		$elasticaType = $elasticaIndex->getType('notification');
+
+		$elasticaQuery = $this->generateNotificationBaseQuery($user, $state);
+
+		// add aggregations
+		$termsAgg = new Aggregation\Terms('type');
+		$termsAgg->setField('type');
+		$elasticaQuery->addAggregation($termsAgg);
+
+		// search
+		$resultSet = $elasticaType->search($elasticaQuery);
+		return $resultSet;
+	}
+
+	/**
+	 * @param User $user
+	 * @param string $state
+	 * @return ResultSet
+	 */
+	public function notificationListSearch(User $user, $state) {
+		$elasticaClient = $this->createClient();
+		$elasticaIndex = $elasticaClient->getIndex($this->settings['index']);
+		$elasticaType = $elasticaIndex->getType('notification');
+
+		$elasticaQuery = $this->generateNotificationBaseQuery($user, $state);
+
+		// add aggregations
+		$termsAgg = new Aggregation\Terms('type');
+		$termsAgg->setField('type');
+		$termsAgg->setOrder('timestamp', 'desc');
+
+		$hitsAgg = new TopHits('hits');
+		$hitsAgg->setSource(array('include' => array('target', 'source', 'timestamp', 'user', 'post', 'state')));
+
+		$timestampAgg = new Aggregation\Max('timestamp');
+		$timestampAgg->setField('timestamp');
+
+		$termsAgg->addAggregation($hitsAgg);
+		$termsAgg->addAggregation($timestampAgg);
+
+		$elasticaQuery->addAggregation($termsAgg);
+
+		// search
+		$resultSet = $elasticaType->search($elasticaQuery);
+		return $resultSet;
+	}
+
+	/**
+	 * @param User $user
+	 * @param $state
+	 * @return Query
+	 */
+	public function generateNotificationBaseQuery(User $user, $state) {
+		$elasticaQuery = new Query();
+		$elasticaQuery->setSize(0);
+
+		// add filter
+		$elasticaFilterAnd = new Filter\Bool();
+
+		$elasticaFilter = new Filter\Term();
+		$elasticaFilter->setTerm('target', (string)$user);
+		$elasticaFilterAnd->addMust($elasticaFilter);
+
+		$elasticaFilter = new Filter\Term();
+		$elasticaFilter->setTerm('state', $state);
+		$elasticaFilterAnd->addMust($elasticaFilter);
+
+		$elasticaQueryFilter = new Filtered(NULL, $elasticaFilterAnd);
+		$elasticaQuery->setQuery($elasticaQueryFilter);
+		return $elasticaQuery;
+	}
+
+	/**
+	 */
+	public function followingSearch() {
+		$elasticaClient = $this->createClient();
+		$elasticaIndex = $elasticaClient->getIndex($this->settings['index']);
+		$elasticaType = $elasticaIndex->getType($this->settings['type']);
+
+		/** @var User $user */
+		$user = $this->userService->getUser();
+		$elasticaQuery = $this->generateFollowingQuery($user);
+
+		// search
+		$resultSet = $elasticaType->search($elasticaQuery);
+		return $resultSet;
+	}
+
+	/**
+	 * @param User $user
+	 * @return Query
+	 */
+	public function generateFollowingQuery(User $user) {
+		$elasticaQuery = new Query();
+
+		$followedCategories = $user->getFollowedCategories();
+		$followedTags = $user->getFollowedTags();
+		$followedAuthors = $user->getFollowedUsers();
+
+		$elasticaFilterAnd = new Filter\Bool();
+		if ($followedCategories->count() > 0) {
+			foreach ($followedCategories as $category) {
+				$categories[] = strtolower((string)$category);
+			}
+			$elasticaFilter = new Filter\Terms('category', $categories);
+			$elasticaFilterAnd->addShould($elasticaFilter);
+		}
+
+		if ($followedTags->count() > 0) {
+			foreach ($followedTags as $tag) {
+				$tags[] = strtolower((string)$tag);
+			}
+			$elasticaFilter = new Filter\Terms('tags', $tags);
+			$elasticaFilterAnd->addShould($elasticaFilter);
+		}
+
+		if ($followedAuthors->count() > 0) {
+			foreach ($followedAuthors as $author) {
+				$authors[] = strtolower((string)$author);
+			}
+			$elasticaFilter = new Filter\Terms('author', $authors);
+			$elasticaFilterAnd->addShould($elasticaFilter);
+		}
+
+		$elasticaQueryFilter = new Filtered(NULL, $elasticaFilterAnd);
+		$elasticaQuery->setQuery($elasticaQueryFilter);
+		return $elasticaQuery;
 	}
 
 	/**

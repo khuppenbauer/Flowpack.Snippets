@@ -37,60 +37,48 @@ $(".jq-favor").click(function (e) {
 
 $(".jq-follow-category").click(function (e) {
     e.preventDefault();
-    $.ajax({
-        type: 'POST',
-        url: '/Category/follow',
-        data: {category: $(this).data("category")},
-        dataType: 'json',
-        context: this,
-        success: function (data) {
-            $(this).toggleClass('secondary');
-            $(this).text(data.followed);
-        }
-    });
+    sendFollowRequest('/Category/follow', 'category=' + $(this).data('category'), this);
 });
 
 $(".jq-follow-tag").click(function (e) {
     e.preventDefault();
-    $.ajax({
-        type: 'POST',
-        url: '/Tag/follow',
-        data: {tag: $(this).data("tag")},
-        dataType: 'json',
-        context: this,
-        success: function (data) {
-            $(this).toggleClass('secondary');
-            $(this).text(data.followed);
-        }
-    });
+    sendFollowRequest('/Tag/follow', 'tag=' + $(this).data('tag'), this);
 });
 
 $(".jq-follow-user").click(function (e) {
     e.preventDefault();
+    sendFollowRequest('/User/follow', 'user=' + $(this).data('user'), this);
+});
+
+function sendFollowRequest(action, data, obj) {
     $.ajax({
         type: 'POST',
-        url: '/User/follow',
-        data: {user: $(this).data("user")},
+        url: action,
+        data: data,
         dataType: 'json',
-        context: this,
+        context: obj,
         success: function (data) {
             $(this).toggleClass('secondary');
-            $(this).text(data.followed);
+            if (data.followed === true) {
+                $(this).removeClass('icon-plus-squared').addClass('icon-minus-squared');
+            } else {
+                $(this).removeClass('icon-minus-squared').addClass('icon-plus-squared');
+            }
         }
     });
-});
+}
 
 function sendRequest(obj, action) {
     if (obj.data("post")) {
         $.ajax({
             type: 'POST',
             url: '/Post/' + action,
-            data: {post: obj.data("post")},
+            data: {post: obj.data('post')},
             dataType: 'json',
             success: function (data) {
-                $(".jq-upVotes").text(data.upVotes);
-                $(".jq-downVotes").text(data.downVotes);
-                $(".jq-favorites").text(data.favorites);
+                $('.jq-upVotes').text(data.upVotes);
+                $('.jq-downVotes').text(data.downVotes);
+                $('.jq-favorites').text(data.favorites);
                 switchIcon('favor', data.favor, 'fa-star-o', 'fa-star');
                 switchIcon('up', data.up, 'fa-thumbs-o-up', 'fa-thumbs-up');
                 switchIcon('down', data.down, 'fa-thumbs-o-down', 'fa-thumbs-down');

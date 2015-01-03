@@ -152,14 +152,15 @@ class TeaserController extends ActionController {
 	 * @return string
 	 */
 	public function followCategoryAction(Category $category) {
-		if ($category->isFollowed() === TRUE) {
-			$category->removeFollower();
-		} else {
-			$category->addFollower();
-		}
+		$category->isFollowed() === TRUE ? $category->removeFollower() : $category->addFollower();
 		$this->categoryRepository->update($category);
-		$followed = $category->isFollowed() === TRUE ? '-' : '+';
-		return json_encode(array('followed' => $followed));
+		$this->persistenceManager->persistAll();
+		if ($category->isFollowed() === TRUE) {
+			$this->emitCategoryFollowed($category);
+		} else {
+			$this->emitCategoryUnfollowed($category);
+		}
+		return json_encode(array('followed' => $category->isFollowed()));
 	}
 
 	/**
@@ -167,14 +168,15 @@ class TeaserController extends ActionController {
 	 * @return string
 	 */
 	public function followTagAction(Tag $tag) {
-		if ($tag->isFollowed() === TRUE) {
-			$tag->removeFollower();
-		} else {
-			$tag->addFollower();
-		}
+		$tag->isFollowed() === TRUE ? $tag->removeFollower() : $tag->addFollower();
 		$this->tagRepository->update($tag);
-		$followed = $tag->isFollowed() === TRUE ? '-' : '+';
-		return json_encode(array('followed' => $followed));
+		$this->persistenceManager->persistAll();
+		if ($tag->isFollowed() === TRUE) {
+			$this->emitTagFollowed($tag);
+		} else {
+			$this->emitTagUnfollowed($tag);
+		}
+		return json_encode(array('followed' => $tag->isFollowed()));
 	}
 
 	/**
@@ -182,14 +184,15 @@ class TeaserController extends ActionController {
 	 * @return string
 	 */
 	public function followUserAction(User $user) {
-		if ($user->isFollowed() === TRUE) {
-			$user->removeFollower();
-		} else {
-			$user->addFollower();
-		}
+		$user->isFollowed() === TRUE ? $user->removeFollower() : $user->addFollower();
 		$this->partyRepository->update($user);
-		$followed = $user->isFollowed() === TRUE ? '-' : '+';
-		return json_encode(array('followed' => $followed));
+		$this->persistenceManager->persistAll();
+		if ($user->isFollowed() === TRUE) {
+			$this->emitUserFollowed($user);
+		} else {
+			$this->emitUserUnfollowed($user);
+		}
+		return json_encode(array('followed' => $user->isFollowed()));
 	}
 
 	/**
@@ -206,5 +209,59 @@ class TeaserController extends ActionController {
 		$data['views'] = $post->getNumberOfViews();
 		return json_encode($data);
 	}
+
+	/**
+	 * Signal that a Category has been followed
+	 *
+	 * @Flow\Signal
+	 * @param Category $category
+	 * @return void
+	 */
+	protected function emitCategoryFollowed(Category $category) {}
+
+	/**
+	 * Signal that a Category has been unfollowed
+	 *
+	 * @Flow\Signal
+	 * @param Category $category
+	 * @return void
+	 */
+	protected function emitCategoryUnfollowed(Category $category) {}
+
+	/**
+	 * Signal that a Tag has been followed
+	 *
+	 * @Flow\Signal
+	 * @param Tag $tag
+	 * @return void
+	 */
+	protected function emitTagFollowed(Tag $tag) {}
+
+	/**
+	 * Signal that a Tag has been unfollowed
+	 *
+	 * @Flow\Signal
+	 * @param Tag $tag
+	 * @return void
+	 */
+	protected function emitTagUnfollowed(Tag $tag) {}
+
+	/**
+	 * Signal that a User has been followed
+	 *
+	 * @Flow\Signal
+	 * @param User $user
+	 * @return void
+	 */
+	protected function emitUserFollowed(User $user) {}
+
+	/**
+	 * Signal that a User has been unfollowed
+	 *
+	 * @Flow\Signal
+	 * @param User $user
+	 * @return void
+	 */
+	protected function emitUserUnfollowed(User $user) {}
 
 }

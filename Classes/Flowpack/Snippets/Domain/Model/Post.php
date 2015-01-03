@@ -273,6 +273,22 @@ class Post {
 	protected $userService;
 
 	/**
+	 * The post event
+	 *
+	 * @var Collection<\Flowpack\Snippets\Domain\Model\Event>
+	 * @ORM\OneToMany(mappedBy="post",cascade={"remove"})
+	 */
+	protected $event;
+
+	/**
+	 * The post notification
+	 *
+	 * @var Collection<\Flowpack\Snippets\Domain\Model\Notification>
+	 * @ORM\OneToMany(mappedBy="post",cascade={"remove"})
+	 */
+	protected $notification;
+
+	/**
 	 * Constructs this post
 	 */
 	public function __construct() {

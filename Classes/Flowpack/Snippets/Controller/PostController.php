@@ -228,8 +228,8 @@ class PostController extends ActionController {
 	 * @return void
 	 */
 	public function deleteAction(Post $post) {
-		$post->removeTags();
-		$this->postRepository->remove($post);
+		$post->setActive(FALSE);
+		$this->postRepository->update($post);
 		$this->emitPostRemoved($post);
 		$this->redirect('index');
 	}
@@ -241,14 +241,16 @@ class PostController extends ActionController {
 	public function voteUpAction(Post $post) {
 		if ($post->hasUpVote() === TRUE) {
 			$post->removeUpVote();
+			$this->emitPostVoteUpRemoved($post);
 		} else {
 			$post->addUpVote();
+			$this->emitPostVotedUp($post);
 			if ($post->hasDownVote() === TRUE) {
 				$post->removeDownVote();
+				$this->emitPostVoteDownRemoved($post);
 			}
 		}
 		$this->postRepository->update($post);
-		$this->emitPostUpdated($post);
 		return $this->responseData($post);
 	}
 
@@ -259,14 +261,16 @@ class PostController extends ActionController {
 	public function voteDownAction(Post $post) {
 		if ($post->hasDownVote() === TRUE) {
 			$post->removeDownVote();
+			$this->emitPostVoteDownRemoved($post);
 		} else {
 			$post->addDownVote();
+			$this->emitPostVotedDown($post);
 			if ($post->hasUpVote() === TRUE) {
 				$post->removeUpVote();
+				$this->emitPostVoteUpRemoved($post);
 			}
 		}
 		$this->postRepository->update($post);
-		$this->emitPostUpdated($post);
 		return $this->responseData($post);
 	}
 
@@ -277,11 +281,12 @@ class PostController extends ActionController {
 	public function favorAction(Post $post) {
 		if ($post->isFavorite() === TRUE) {
 			$post->removeFavorite();
+			$this->emitPostFavorRemoved($post);
 		} else {
 			$post->addFavorite();
+			$this->emitPostFavored($post);
 		}
 		$this->postRepository->update($post);
-		$this->emitPostUpdated($post);
 		return $this->responseData($post);
 	}
 
@@ -296,6 +301,7 @@ class PostController extends ActionController {
 			$tracking = new Tracking($post, $ipHash);
 			$post->addView($tracking);
 			$this->postRepository->update($post);
+			$this->emitPostCounted($post);
 		}
 		return $this->responseData($post);
 	}
@@ -322,8 +328,7 @@ class PostController extends ActionController {
 	 * @param Post $post
 	 * @return void
 	 */
-	protected function emitPostCreated(Post $post) {
-	}
+	protected function emitPostCreated(Post $post) {}
 
 	/**
 	 * Signals that a post was updated.
@@ -332,8 +337,7 @@ class PostController extends ActionController {
 	 * @param Post $post
 	 * @return void
 	 */
-	protected function emitPostUpdated(Post $post) {
-	}
+	protected function emitPostUpdated(Post $post) {}
 
 	/**
 	 * Signals that a post was removed.
@@ -342,8 +346,79 @@ class PostController extends ActionController {
 	 * @param Post $post
 	 * @return void
 	 */
-	protected function emitPostRemoved(Post $post) {
-	}
+	protected function emitPostRemoved(Post $post) {}
+
+	/**
+	 * Signals that a tag has been added
+	 *
+	 * @Flow\Signal
+	 * @param Tag $tag
+	 * @return void
+	 */
+	protected function emitTagAdded(Tag $tag) {}
+
+	/**
+	 * Signals that a post has been favored
+	 *
+	 * @Flow\Signal
+	 * @param Post $post
+	 * @return void
+	 */
+	protected function emitPostFavored(Post $post) {}
+
+	/**
+	 * Signals that a post has been favored
+	 *
+	 * @Flow\Signal
+	 * @param Post $post
+	 * @return void
+	 */
+	protected function emitPostFavorRemoved(Post $post) {}
+
+	/**
+	 * Signal that a post has been voted up
+	 *
+	 * @Flow\Signal
+	 * @param Post $post
+	 * @return void
+	 */
+	protected function emitPostVotedUp(Post $post) {}
+
+	/**
+	 * Signal that a post has been voted up
+	 *
+	 * @Flow\Signal
+	 * @param Post $post
+	 * @return void
+	 */
+	protected function emitPostVoteUpRemoved(Post $post) {}
+
+	/**
+	 * Signal that a post has been voted down
+	 *
+	 * @Flow\Signal
+	 * @param Post $post
+	 * @return void
+	 */
+	protected function emitPostVotedDown(Post $post) {}
+
+	/**
+	 * Signal that a post has been voted down
+	 *
+	 * @Flow\Signal
+	 * @param Post $post
+	 * @return void
+	 */
+	protected function emitPostVoteDownRemoved(Post $post) {}
+
+	/**
+	 * Signal that a post has been counted
+	 *
+	 * @Flow\Signal
+	 * @param Post $post
+	 * @return void
+	 */
+	protected function emitPostCounted(Post $post) {}
 
 	/**
 	 * @return boolean Disable the default error flash message

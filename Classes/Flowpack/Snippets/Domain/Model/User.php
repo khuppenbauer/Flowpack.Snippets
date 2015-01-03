@@ -198,4 +198,34 @@ class User extends Person {
 	public function getNumberOfFollowers() {
 		return count($this->followers);
 	}
+
+	/**
+	 * @return Collection<\Flowpack\Snippets\Domain\Model\User>
+	 */
+	public function getFollowedUsers() {
+		return clone $this->followedUsers;
+	}
+
+	/**
+	 * @return Collection<\Flowpack\Snippets\Domain\Model\Category>
+	 */
+	public function getFollowedCategories() {
+		return clone $this->followedCategories;
+	}
+
+	/**
+	 * @return Collection<\Flowpack\Snippets\Domain\Model\Tag>
+	 */
+	public function getFollowedTags() {
+		return clone $this->followedTags;
+	}
+
+	/**
+	 * Returns this tag as a string
+	 *
+	 * @return string
+	 */
+	public function __toString() {
+		return $this->getName()->getAlias();
+	}
 }

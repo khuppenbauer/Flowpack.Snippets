@@ -173,6 +173,54 @@
 			<trans-unit id="form.submit.snippet.update">
 				<source>Update Snippet</source>
 			</trans-unit>
+			<group restype="x-gettext-plurals" id="post.created">
+				<trans-unit id="post.created[0]">
+					<source>{0,number} new post</source>
+				</trans-unit>
+				<trans-unit id="post.created[1]">
+					<source>{0,number} new posts</source>
+				</trans-unit>
+			</group>
+			<group restype="x-gettext-plurals" id="user.followed">
+				<trans-unit id="user.followed[0]">
+					<source>{0,number} new follower</source>
+				</trans-unit>
+				<trans-unit id="user.followed[1]">
+					<source>{0,number} new followers</source>
+				</trans-unit>
+			</group>
+			<group restype="x-gettext-plurals" id="post.voted.up">
+				<trans-unit id="post.voted.up[0]">
+					<source>{0,number} new like</source>
+				</trans-unit>
+				<trans-unit id="post.voted.up[1]">
+					<source>{0,number} new likes</source>
+				</trans-unit>
+			</group>
+			<group restype="x-gettext-plurals" id="post.voted.down">
+				<trans-unit id="post.voted.down[0]">
+					<source>{0,number} new dislike</source>
+				</trans-unit>
+				<trans-unit id="post.voted.down[1]">
+					<source>{0,number} new dislikes</source>
+				</trans-unit>
+			</group>
+			<group restype="x-gettext-plurals" id="post.favored">
+				<trans-unit id="post.favored[0]">
+					<source>{0,number} new favorite</source>
+				</trans-unit>
+				<trans-unit id="post.favored[1]">
+					<source>{0,number} new favorites</source>
+				</trans-unit>
+			</group>
+			<group restype="x-gettext-plurals" id="comment.created">
+				<trans-unit id="comment.created[0]">
+					<source>{0,number} new comment</source>
+				</trans-unit>
+				<trans-unit id="comment.created[1]">
+					<source>{0,number} new comments</source>
+				</trans-unit>
+			</group>
 		</body>
 	</file>
 </xliff>

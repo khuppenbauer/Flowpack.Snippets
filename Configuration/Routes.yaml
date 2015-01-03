@@ -242,3 +242,10 @@
   routeParts:
     'tag':
       objectType: '\Flowpack\Snippets\Domain\Model\User'
+
+-
+  name: 'Notification list'
+  uriPattern: 'Notification/{@action}'
+  defaults:
+    @package: 'Flowpack.Snippets'
+    @controller: 'Notification'
