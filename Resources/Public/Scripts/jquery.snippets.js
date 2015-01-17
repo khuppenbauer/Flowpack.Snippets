@@ -52,11 +52,15 @@ function sendFollowRequest(action, data, obj) {
         dataType: 'json',
         context: obj,
         success: function (data) {
-            $(this).toggleClass('secondary');
             if (data.followed === true) {
-                $(this).removeClass('icon-plus-squared').addClass('icon-minus-squared');
+                $(this).removeClass('btn-default').addClass('btn-success');
+                $(this).text('Following');
             } else {
-                $(this).removeClass('icon-minus-squared').addClass('icon-plus-squared');
+                $(this).removeClass('btn-success').addClass('btn-default');
+                $(this).text('Follow');
+            }
+            if(data.followers) {
+                $("#jq-user-followers").text(data.followers);
             }
         }
     });

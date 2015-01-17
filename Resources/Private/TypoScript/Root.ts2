@@ -68,6 +68,18 @@ prototype(Flowpack.Snippets:Notification) < prototype(TYPO3.Neos:Plugin) {
 	action = 'count'
 }
 
+prototype(Flowpack.Snippets:User) < prototype(TYPO3.Neos:Plugin) {
+	package = 'Flowpack.Snippets'
+	controller = 'Teaser'
+	action = 'showUser'
+}
+
+prototype(Flowpack.Snippets:Follow) < prototype(TYPO3.Neos:Plugin) {
+	package = 'Flowpack.Snippets'
+	controller = 'Teaser'
+	action = 'follow'
+}
+
 prototype(Flowpack.Snippets:Packagist) < prototype(TYPO3.Neos:Plugin) {
 	package = 'Flowpack.Snippets'
 	controller = 'Packagist'

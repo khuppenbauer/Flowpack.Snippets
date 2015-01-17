@@ -200,6 +200,15 @@ class User extends Person {
 	}
 
 	/**
+	 * Returns the number of the User posts
+	 *
+	 * @return integer The number of posts
+	 */
+	public function getNumberOfFollowedUsers() {
+		return count($this->followedUsers);
+	}
+
+	/**
 	 * @return Collection<\Flowpack\Snippets\Domain\Model\User>
 	 */
 	public function getFollowedUsers() {

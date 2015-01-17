@@ -244,6 +244,17 @@
       objectType: '\Flowpack\Snippets\Domain\Model\User'
 
 -
+  name: 'User Action for Ajax Usage'
+  uriPattern: 'Teaser/showUser'
+  defaults:
+    @package: 'Flowpack.Snippets'
+    @controller: 'Teaser'
+    @action: 'showUser'
+  routeParts:
+    'post':
+      objectType: '\Flowpack\Snippets\Domain\Model\Post'
+
+-
   name: 'Notification list'
   uriPattern: 'Notification/{@action}'
   defaults:

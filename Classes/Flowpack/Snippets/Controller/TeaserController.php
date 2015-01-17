@@ -192,7 +192,7 @@ class TeaserController extends ActionController {
 		} else {
 			$this->emitUserUnfollowed($user);
 		}
-		return json_encode(array('followed' => $user->isFollowed()));
+		return json_encode(array('followed' => $user->isFollowed(), 'followers' => $user->getNumberOfFollowers()));
 	}
 
 	/**
