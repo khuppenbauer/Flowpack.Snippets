@@ -4,7 +4,7 @@
 
 -
   name: 'Single Post Search Show'
-  uriPattern: '{--flowpack_snippets-search.post}.html'
+  uriPattern: '{node}/{--flowpack_snippets-search.post}.html'
   defaults:
     '@package': 'TYPO3.Neos'
     '@controller': 'Frontend\Node'
@@ -21,12 +21,12 @@
       handler: TYPO3\Neos\Routing\FrontendNodeRoutePartHandler
     '--flowpack_snippets-search.post':
       objectType: '\Flowpack\Snippets\Domain\Model\Post'
-      uriPattern: '{date:Y}/{date:m}/{date:d}/{title}'
+      uriPattern: '{title}'
   appendExceedingArguments: TRUE
 
 -
   name: 'Single Post Teaser Show'
-  uriPattern: '{--flowpack_snippets-teaser.post}.html'
+  uriPattern: '{node}/{--flowpack_snippets-teaser.post}.html'
   defaults:
     '@package': 'TYPO3.Neos'
     '@controller': 'Frontend\Node'
@@ -42,7 +42,7 @@
       handler: TYPO3\Neos\Routing\FrontendNodeRoutePartHandler
     '--flowpack_snippets-teaser.post':
       objectType: '\Flowpack\Snippets\Domain\Model\Post'
-      uriPattern: '{date:Y}/{date:m}/{date:d}/{title}'
+      uriPattern: '{title}'
   appendExceedingArguments: TRUE
 
 -
@@ -64,7 +64,7 @@
       handler: TYPO3\Neos\Routing\FrontendNodeRoutePartHandler
     '--flowpack_snippets-search.post':
       objectType: '\Flowpack\Snippets\Domain\Model\Post'
-      uriPattern: '{date:Y}/{date:m}/{date:d}/{title}'
+      uriPattern: '{title}'
   appendExceedingArguments: TRUE
 
 -
