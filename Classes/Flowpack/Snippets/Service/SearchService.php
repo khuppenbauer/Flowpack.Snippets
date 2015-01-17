@@ -9,10 +9,8 @@ namespace Flowpack\Snippets\Service;
 use Flowpack\Snippets\Aggregation\TopHits;
 use Flowpack\Snippets\Domain\Model\User;
 use TYPO3\Flow\Annotations as Flow;
-use Elastica\Aggregation\Terms;
-use Elastica\Aggregation\Filter;
-use Elastica\Filter\Bool;
-use Elastica\Filter\Term;
+use Elastica\Aggregation;
+use Elastica\Filter;
 use Elastica\Request;
 use Elastica\Client;
 use Elastica\Query;
@@ -95,17 +93,21 @@ class SearchService {
 		$elasticaQuery->setQuery($elasticaQueryString);
 
 		// add aggregations
-		foreach ($this->settings['aggregations'] as $aggregation) {
-			$aggTerm = new Terms($aggregation);
+		$aggregations = call_user_func_array('array_merge', $this->settings['aggregations']);
+		foreach ($aggregations as $aggregation) {
+			$aggTerm = new Aggregation\Terms($aggregation);
 			$aggTerm->setField($aggregation . '.raw');
 			$aggTerm->setSize($aggregationSize);
 
-			$aggFilter = new Filter($aggregation);
-			$elasticaFilterBool = new Bool();
+			$aggFilter = new Aggregation\Filter($aggregation);
+			$elasticaFilterBool = new Filter\Bool();
 			foreach ($filter as $filterName => $filterValue) {
 				if (!empty($filterValue) && $filterName !== $aggregation) {
-					$elasticaFilter = new Term();
-					$elasticaFilter->setTerm($filterName, $filterValue);
+					if (is_string($filterValue)) {
+						$filterValue = array($filterValue);
+					}
+					$elasticaFilter = new Filter\Terms();
+					$elasticaFilter->setTerms($filterName, $filterValue);
 					$elasticaFilterBool->addMust($elasticaFilter);
 				}
 			}
@@ -120,11 +122,14 @@ class SearchService {
 		}
 
 		// add postfilter
-		$elasticaFilterBool = new Bool();
+		$elasticaFilterBool = new Filter\Bool();
 		foreach ($filter as $filterName => $filterValue) {
 			if (!empty($filterValue)) {
-				$elasticaFilter = new Term();
-				$elasticaFilter->setTerm($filterName, $filterValue);
+				if (is_string($filterValue)) {
+					$filterValue = array($filterValue);
+				}
+				$elasticaFilter = new Filter\Terms();
+				$elasticaFilter->setTerms($filterName, $filterValue);
 				$elasticaFilterBool->addMust($elasticaFilter);
 			}
 		}
@@ -157,10 +162,10 @@ class SearchService {
 		$elasticaQuery->setSize($size);
 
 		// add filter
-		$elasticaFilterAnd = new Bool();
+		$elasticaFilterAnd = new Filter\Bool();
 		foreach ($filter as $filterName => $filterValue) {
 			if (!empty($filterValue)) {
-				$elasticaFilter = new Term();
+				$elasticaFilter = new Filter\Term();
 				$elasticaFilter->setTerm($filterName, $filterValue);
 				$elasticaFilterAnd->addMust($elasticaFilter);
 			}
@@ -186,7 +191,7 @@ class SearchService {
 		$elasticaQuery->setSize(0);
 
 		// add aggregations
-		$termsAgg = new Terms('tags');
+		$termsAgg = new Aggregation\Terms('tags');
 		$termsAgg->setField('tags.raw');
 		$termsAgg->setSize($size);
 		$elasticaQuery->addAggregation($termsAgg);
@@ -406,11 +411,13 @@ class SearchService {
 
 	/**
 	 * @param array $aggregations
+	 * @param string $type
 	 * @return array
 	 */
-	public function transformAggregations($aggregations) {
+	public function transformAggregations($aggregations, $type) {
 		$options = array();
-		foreach ($this->settings['aggregations'] as $aggregation) {
+		$aggregationSettings = $this->settings['aggregations'][$type];
+		foreach ($aggregationSettings as $aggregation) {
 			$buckets = Arrays::getValueByPath($aggregations, $aggregation . '.buckets');
 			if (empty($buckets)) {
 				$buckets = Arrays::getValueByPath($aggregations, $aggregation . '.' . $aggregation . '.buckets');

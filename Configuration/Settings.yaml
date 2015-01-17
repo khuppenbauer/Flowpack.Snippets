@@ -215,11 +215,14 @@ Flowpack:
       hitsPerPage: 10
       maximumNumberOfPages: 10
       aggregations:
-        - tags
-        - category
-        - type
-        - providerName
-      aggregationSize: 10
+        filter:
+          - tags
+          - category
+          - type
+          - providerName
+        tab:
+          - postType
+      aggregationSize: 25
       sortings:
         -
           name: relevant

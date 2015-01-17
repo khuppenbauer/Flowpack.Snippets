@@ -34,6 +34,9 @@ class NotEmptyByTypeValidator extends AbstractValidator {
 			case 'link':
 				$property = 'url';
 				break;
+			case 'package':
+				$property = 'url';
+				break;
 		}
 		$val = ObjectAccess::getProperty($value, $property);
 		if (empty($val)) {

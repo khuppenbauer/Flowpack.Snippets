@@ -96,6 +96,17 @@ class Post {
 	protected $url;
 
 	/**
+	 * The post url
+	 *
+	 * @var string
+	 * @ElasticSearch\Transform("\Flowpack\Snippets\Indexer\Transform\PackagistTransformer")
+	 * @ElasticSearch\Indexable
+	 * @ElasticSearch\Mapping(index="not_analyzed")
+	 * @ORM\Column(length=2000, nullable=true)
+	 */
+	protected $package;
+
+	/**
 	 * The post capture resource
 	 *
 	 * @var Resource
@@ -138,6 +149,8 @@ class Post {
 	 * The post type // text or link
 	 *
 	 * @var string
+	 * @ElasticSearch\Indexable
+	 * @ElasticSearch\Mapping(analyzer="string_lowercase", fields={@Elasticsearch\Mapping(index_name="raw", type="string", index="not_analyzed")})
 	 */
 	protected $postType;
 
@@ -412,6 +425,21 @@ class Post {
 	 */
 	public function setUrl($url) {
 		$this->url = $url;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getPackage() {
+		return $this->package;
+	}
+
+	/**
+	 * @param string $package
+	 * @return void
+	 */
+	public function setPackage($package) {
+		$this->package = $package;
 	}
 
 	/**

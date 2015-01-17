@@ -1,9 +1,3 @@
-//submit form when filter has changed
-$("select.jq-select").change(function() {
-    $("input.jq-hidden").val('');
-    this.form.submit();
-});
-
 //reset all filter and submit form
 $(".jq-filter-reset").click(function() {
     $("select.jq-select").val('');
@@ -12,7 +6,7 @@ $(".jq-filter-reset").click(function() {
 });
 
 //set filter from links with data attribute
-$(document).on('click', 'a[data-currentPage], a[data-sortField]', function(){
+$(document).on('click', 'a[data-currentPage], a[data-sortField], a[data-postType]', function(){
     var attributes = $(this).data();
     $.each(attributes, function(k,v) {
         $('#'+k).val(v);

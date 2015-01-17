@@ -21,6 +21,13 @@
     label: 'Snippets New'
     icon: icon-code
     group: plugins
+'Flowpack.Snippets:Packagist':
+  superTypes:
+    - 'TYPO3.Neos:Plugin'
+  ui:
+    label: 'Snippets Packagist'
+    icon: icon-code
+    group: plugins
 'Flowpack.Snippets:Search':
   superTypes:
     - 'TYPO3.Neos:Plugin'

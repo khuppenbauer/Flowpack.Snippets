@@ -21,6 +21,8 @@ privilegeTargets:
       matcher: 'method(Flowpack\Snippets\Controller\CommentController->(delete)Action(comment.author == current.securityContext.party))'
     Flowpack_Snippets_Notification:
       matcher: method(Flowpack\Snippets\Controller\NotificationController->(list|count)Action())
+    Flowpack_Snippets_Packagist:
+      matcher: method(Flowpack\Snippets\Controller\PackagistController->(list|search)Action())
     Flowpack_Snippets_Backend_Module_Snippets:
       matcher: method(Flowpack\Snippets\Controller\Module\SnippetsController->indexAction())
     Flowpack_Snippets_Backend_Module_Snippets_Posts:
@@ -50,6 +52,9 @@ roles:
       -
         privilegeTarget: Flowpack_Snippets_Notification
         permission: GRANT
+      -
+        privilegeTarget: Flowpack_Snippets_Packagist
+        permission: GRANT
   'TYPO3.Flow:Everybody':
     privileges:
       -
@@ -77,4 +82,7 @@ roles:
         permission: GRANT
       -
         privilegeTarget: Flowpack_Snippets_Backend_Module_Snippets_Tags
+        permission: GRANT
+      -
+        privilegeTarget: Flowpack_Snippets_Packagist
         permission: GRANT

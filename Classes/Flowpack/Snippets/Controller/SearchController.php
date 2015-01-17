@@ -72,18 +72,14 @@ class SearchController extends ActionController {
 	public function initializeSearchAction() {
 		if ($this->request->hasArgument('category')) {
 			$search['filter']['category'] = $this->request->getArgument('category');
-			$this->request->setArgument('search', $search);
 		}
 		if ($this->request->hasArgument('tags')) {
 			$search['filter']['tags'] = $this->request->getArgument('tags');
-			$this->request->setArgument('search', $search);
 		}
 		if ($this->request->hasArgument('tag')) {
 			$search['filter']['tags'] = $this->request->getArgument('tag');
-			$this->request->setArgument('search', $search);
 		}
-		if ($this->request->hasArgument('author')) {
-			$search['filter']['author'] = $this->request->getArgument('author');
+		if (!empty($search)) {
 			$this->request->setArgument('search', $search);
 		}
 	}
@@ -100,9 +96,11 @@ class SearchController extends ActionController {
 		}
 		$offset = $this->searchService->calculateOffset($this->currentPage);
 		$sortField = !empty($search['sortField']) ? $search['sortField'] : $this->settings['defaultSortField'];
+		$postType = Arrays::getValueByPath($filter, 'postType');
 		$aggregationSize = $this->settings['aggregationSize'];
 		$resultSet = $this->searchService->fulltextSearch($query, $filter, $offset, $sortField, $aggregationSize);
-		$aggregations = $this->searchService->transformAggregations($resultSet->getAggregations());
+		$aggregations = $this->searchService->transformAggregations($resultSet->getAggregations(), 'filter');
+		$types = $this->searchService->transformAggregations($resultSet->getAggregations(), 'tab');
 		$posts = $this->searchService->transformResult($resultSet->getResults());
 		$last = $offset + count($posts);
 		$pagination = $this->searchService->buildPagination($this->currentPage, $resultSet->getTotalHits());
@@ -114,10 +112,12 @@ class SearchController extends ActionController {
 		$this->view->assign('search', $search);
 		$this->view->assign('posts', $posts);
 		$this->view->assign('aggregations', $aggregations);
+		$this->view->assign('types', $types);
 		$this->view->assign('filter', $filter);
 		$this->view->assign('pagination', $pagination);
 		$this->view->assign('sortings', $this->settings['sortings']);
 		$this->view->assign('sortField', $sortField);
+		$this->view->assign('postType', $postType);
 		$this->view->assign('user', $user);
 	}
 

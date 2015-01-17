@@ -249,3 +249,11 @@
   defaults:
     @package: 'Flowpack.Snippets'
     @controller: 'Notification'
+
+-
+  name: 'Packagist list'
+  uriPattern: 'Packagist/search'
+  defaults:
+    @package: 'Flowpack.Snippets'
+    @controller: 'Packagist'
+    @action: search

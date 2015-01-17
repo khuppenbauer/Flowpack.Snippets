@@ -12,6 +12,7 @@ use Goutte\Client as Goutte;
 use Guzzle\Http\Client as Guzzle;
 use TYPO3\Flow\Annotations as Flow;
 use Flowpack\ElasticSearch\Indexer\Object\Transform\TransformerInterface;
+use TYPO3\Flow\Utility\Arrays;
 
 /**
  * @Flow\Scope("singleton")
@@ -47,7 +48,11 @@ class EmbedTransformer implements TransformerInterface {
 			$data['providerName'] = $this->elasticSearch['index'];
 		} else {
 			$embed = Embed::create($source);
-			$data['content'] = $this->getContent($source);
+			if ($embed === FALSE) {
+				return;
+			}
+			$content = $this->getContent($source);
+			$data['content'] = $content;
 			$data['url'] = $source;
 			$data['type'] = $embed->getType();
 			$data['image'] = $embed->getImage();
@@ -69,6 +74,12 @@ class EmbedTransformer implements TransformerInterface {
 				}
 			}
 		}
+		if (empty($data['image'])) {
+			$openGraphImages = Arrays::getValueByPath($data, '_OpenGraph.image');
+			if (!empty($openGraphImages)) {
+				$data['image'] = $openGraphImages[0];
+			}
+		}
 		return $data;
 	}
 
@@ -82,9 +93,16 @@ class EmbedTransformer implements TransformerInterface {
 		$guzzle->setDefaultOption('verify', FALSE);
 		$client->setClient($guzzle);
 		$crawler = $client->request('GET', $source);
-		$statusCode = $client->getResponse()->getStatus();
+		$response = $client->getResponse();
+		$statusCode = $response->getStatus();
 		if ($statusCode === 200) {
-			return trim($crawler->filterXPath('html/body')->text());
+			$html = $crawler->filterXPath('html/body');
+			if (count($html) > 0) {
+				return trim($crawler->filterXPath('html/body')->text());
+			}
+		}
+		if (is_array(json_decode($response->getContent(), TRUE))) {
+			return json_decode($response->getContent(), TRUE);
 		}
 	}
 
