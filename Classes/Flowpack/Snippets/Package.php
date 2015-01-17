@@ -39,6 +39,11 @@ class Package extends BasePackage {
 		$dispatcher->connect('Flowpack\Snippets\Controller\Module\Snippets\PostsController', 'postUpdated', 'Flowpack\ElasticSearch\Indexer\Object\ObjectIndexer', 'indexObject');
 		$dispatcher->connect('Flowpack\Snippets\Controller\Module\Snippets\PostsController', 'postRemoved', 'Flowpack\ElasticSearch\Indexer\Object\ObjectIndexer', 'removeObject');
 
+		//Capture external Sites
+		$dispatcher->connect('Flowpack\Snippets\Controller\PostController', 'postCreated', 'Flowpack\Snippets\Service\CaptureService', 'createCapture');
+		$dispatcher->connect('Flowpack\Snippets\Controller\PostController', 'postUpdated', 'Flowpack\Snippets\Service\CaptureService', 'createCapture');
+		$dispatcher->connect('Flowpack\Snippets\Controller\Module\Snippets\PostsController', 'postUpdated', 'Flowpack\Snippets\Service\CaptureService', 'createCapture');
+
 		//Elasticsearch Perculator
 		$dispatcher->connect('Flowpack\Snippets\Controller\TeaserController', 'categoryFollowed', 'Flowpack\Snippets\Service\NotificationService', 'registerQuery');
 		$dispatcher->connect('Flowpack\Snippets\Controller\TeaserController', 'categoryUnfollowed', 'Flowpack\Snippets\Service\NotificationService', 'registerQuery');

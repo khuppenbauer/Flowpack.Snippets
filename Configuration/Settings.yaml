@@ -179,6 +179,25 @@ Flowpack:
           title: 'Redo - Ctrl+Y'
           icon: 'fa fa-repeat'
           active: true
+    phantomjsBinaryPathAndFilename: phantomjs
+    captureScript: resource://Flowpack.Snippets/Private/Scripts/capture.js
+    image:
+      defaultOptions:
+            # Image quality, from 0 to 100
+        quality: 90
+        format: 'jpeg'
+      relativeResize:
+        options:
+          heighten: 120
+      thumbnail:
+        options:
+          size: [315,237]
+          start: [0,0]
+          mode: outbound
+      crop:
+        options:
+          start: [0,0]
+          size: [160,120]
     embed:
       provider:
         OEmbed: true

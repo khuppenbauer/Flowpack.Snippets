@@ -14,6 +14,7 @@ use Flowpack\ElasticSearch\Annotations as ElasticSearch;
 use Flowpack\Snippets\Domain\Model\User;
 use Flowpack\Snippets\Service\UserService;
 use TYPO3\Flow\Security\Context;
+use TYPO3\Flow\Resource\Resource;
 
 /**
  * A Snippet post
@@ -93,6 +94,14 @@ class Post {
 	 * @ORM\Column(length=2000, nullable=true)
 	 */
 	protected $url;
+
+	/**
+	 * The post capture resource
+	 *
+	 * @var Resource
+	 * @ORM\ManyToOne
+	 */
+	protected $capture;
 
 	/**
 	 * The post category
@@ -403,6 +412,21 @@ class Post {
 	 */
 	public function setUrl($url) {
 		$this->url = $url;
+	}
+
+	/**
+	 * @return Resource
+	 */
+	public function getCapture() {
+		return $this->capture;
+	}
+
+	/**
+	 * @param Resource $capture
+	 * @return void
+	 */
+	public function setCapture(Resource $capture) {
+		$this->capture = $capture;
 	}
 
 	/**
