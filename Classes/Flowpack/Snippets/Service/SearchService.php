@@ -203,6 +203,18 @@ class SearchService {
 
 	/**
 	 * @param string $id
+	 * @return array
+	 */
+	public function idSearch($id) {
+		$elasticaClient = $this->createClient();
+		$elasticaIndex = $elasticaClient->getIndex($this->settings['index']);
+		$elasticaType = $elasticaIndex->getType($this->settings['type']);
+		$result = $elasticaType->getDocument($id);
+		return $result->getData();
+	}
+
+	/**
+	 * @param string $id
 	 * @param integer $size
 	 * @return array
 	 */
