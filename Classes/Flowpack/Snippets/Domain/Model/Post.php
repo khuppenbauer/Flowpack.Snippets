@@ -281,6 +281,26 @@ class Post {
 	protected $providerIcon;
 
 	/**
+	 * The embed authorName
+	 *
+	 * @var string
+	 * @Flow\Transient
+	 * @ElasticSearch\Indexable
+	 * @ElasticSearch\Mapping(index="no")
+	 */
+	protected $authorName;
+
+	/**
+	 * The embed authorUrl
+	 *
+	 * @var string
+	 * @Flow\Transient
+	 * @ElasticSearch\Indexable
+	 * @ElasticSearch\Mapping(index="no")
+	 */
+	protected $authorUrl;
+
+	/**
 	 * The embed providerIcon
 	 *
 	 * @var User
@@ -879,6 +899,34 @@ class Post {
 	 */
 	public function setProviderIcon($providerIcon) {
 		$this->providerIcon = $providerIcon;
+	}
+
+	/**
+	 * @param string $authorName
+	 */
+	public function setAuthorName($authorName) {
+		$this->authorName = $authorName;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getAuthorName() {
+		return $this->authorName;
+	}
+
+	/**
+	 * @param string $authorUrl
+	 */
+	public function setAuthorUrl($authorUrl) {
+		$this->authorUrl = $authorUrl;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getAuthorUrl() {
+		return $this->authorUrl;
 	}
 
 }

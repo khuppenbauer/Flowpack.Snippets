@@ -80,6 +80,12 @@ class EmbedTransformer implements TransformerInterface {
 				$data['image'] = $openGraphImages[0];
 			}
 		}
+		if (empty($data['_embed_authorName'])) {
+			$data['_embed_authorName'] = Arrays::getValueByPath($data, '_OEmbed.author-name');
+		}
+		if (empty($data['_embed_authorUrl'])) {
+			$data['_embed_authorUrl'] = Arrays::getValueByPath($data, '_OEmbed.author-url');
+		}
 		return $data;
 	}
 

@@ -396,6 +396,8 @@ class SearchService {
 					$post->setProviderIcon($data['providerIcon']);
 					$post->setProviderName($data['providerName']);
 					$post->setProviderUrl($data['providerUrl']);
+					$post->setAuthorName($data['_embed_authorName']);
+					$post->setAuthorUrl($data['_embed_authorUrl']);
 				}
 				$posts[] = $post;
 			}
