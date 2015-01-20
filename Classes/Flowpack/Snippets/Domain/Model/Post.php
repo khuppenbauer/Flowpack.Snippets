@@ -134,10 +134,19 @@ class Post {
 	/**
 	 * The post views
 	 *
+	 * @var Collection<\Flowpack\Snippets\Domain\Model\Tracking>
+	 * @ORM\OneToMany(mappedBy="post", cascade={"persist"})
+	 */
+	protected $views;
+
+	/**
+	 * The post numberOf unique views
+	 *
 	 * @var integer
+	 * @Flow\Transient
 	 * @ElasticSearch\Indexable
 	 */
-	protected $views = 0;
+	protected $numberOfViews;
 
 	/**
 	 * The post upVotes
@@ -281,6 +290,7 @@ class Post {
 		$this->downVotes = new ArrayCollection();
 		$this->favorites = new ArrayCollection();
 		$this->comments = new ArrayCollection();
+		$this->views = new ArrayCollection();
 	}
 
 	/**
@@ -660,18 +670,23 @@ class Post {
 	}
 
 	/**
-	 * @return integer
+	 * Adds a tracking to this post
+	 *
+	 * @param Tracking $tracking
+	 * @return void
 	 */
-	public function getViews() {
-		return $this->views;
+	public function addView(Tracking $tracking) {
+		$tracking->setPost($this);
+		$this->views->add($tracking);
 	}
 
 	/**
-	 * @param integer $views
-	 * @return void
+	 * Returns the number of views
+	 *
+	 * @return integer The number of views
 	 */
-	public function setViews($views) {
-		$this->views = $views;
+	public function getNumberOfViews() {
+		return count($this->views);
 	}
 
 	/**

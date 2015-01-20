@@ -6,6 +6,7 @@ namespace Flowpack\Snippets\Controller;
  *                                                                        *
  *                                                                        */
 
+use Flowpack\Snippets\Domain\Model\Tracking;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Mvc\Controller\ActionController;
 use TYPO3\Flow\Security\Context;
@@ -15,6 +16,7 @@ use Flowpack\Snippets\Domain\Model\Tag;
 use Flowpack\Snippets\Domain\Repository\PostRepository;
 use Flowpack\Snippets\Domain\Repository\CategoryRepository;
 use Flowpack\Snippets\Domain\Repository\TagRepository;
+use Flowpack\Snippets\Domain\Repository\TrackingRepository;
 
 /**
  * Class PostController
@@ -27,6 +29,7 @@ class PostController extends ActionController {
 	 * @var Context
 	 */
 	protected $securityContext;
+
 	/**
 	 * @Flow\Inject
 	 * @var PostRepository
@@ -44,6 +47,12 @@ class PostController extends ActionController {
 	 * @var TagRepository
 	 */
 	protected $tagRepository;
+
+	/**
+	 * @Flow\Inject
+	 * @var TrackingRepository
+	 */
+	protected $trackingRepository;
 
 	/**
 	 * @Flow\Inject
@@ -157,12 +166,6 @@ class PostController extends ActionController {
 	 */
 	public function showAction(Post $post) {
 		$user = $this->securityContext->getPartyByType('Flowpack\Snippets\Domain\Model\User');
-		if ($user !== $post->getAuthor()) {
-			$views = $post->getViews() + 1;
-			$post->setViews($views);
-			$this->postRepository->update($post);
-			$this->emitPostUpdated($post);
-		}
 		$this->view->assign('user', $user);
 		$this->view->assign('post', $post);
 	}
@@ -226,7 +229,7 @@ class PostController extends ActionController {
 
 	/**
 	 * @param Post $post
-	 * @return integer
+	 * @return string
 	 */
 	public function voteUpAction(Post $post) {
 		if ($post->hasUpVote() === TRUE) {
@@ -244,7 +247,7 @@ class PostController extends ActionController {
 
 	/**
 	 * @param Post $post
-	 * @return integer
+	 * @return string
 	 */
 	public function voteDownAction(Post $post) {
 		if ($post->hasDownVote() === TRUE) {
@@ -262,7 +265,7 @@ class PostController extends ActionController {
 
 	/**
 	 * @param Post $post
-	 * @return boolean
+	 * @return string
 	 */
 	public function favorAction(Post $post) {
 		if ($post->isFavorite() === TRUE) {
@@ -279,6 +282,21 @@ class PostController extends ActionController {
 	 * @param Post $post
 	 * @return string
 	 */
+	public function countViewsAction(Post $post) {
+		$ipHash = sha1($_SERVER['REMOTE_ADDR']);
+		$tracking = $this->trackingRepository->findByPostAndIpHash($post, $ipHash);
+		if ($tracking === NULL) {
+			$tracking = new Tracking($post, $ipHash);
+			$post->addView($tracking);
+			$this->postRepository->update($post);
+		}
+		return $this->responseData($post);
+	}
+
+	/**
+	 * @param Post $post
+	 * @return string
+	 */
 	protected function responseData(Post $post) {
 		$data['upVotes'] = $post->getNumberOfUpVotes();
 		$data['downVotes'] = $post->getNumberOfDownVotes();
@@ -286,6 +304,7 @@ class PostController extends ActionController {
 		$data['up'] = $post->hasUpVote();
 		$data['down'] = $post->hasDownVote();
 		$data['favorites'] = $post->getNumberOfFavorites();
+		$data['views'] = $post->getNumberOfViews();
 		return json_encode($data);
 	}
 

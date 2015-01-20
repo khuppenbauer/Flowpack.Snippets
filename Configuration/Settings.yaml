@@ -209,7 +209,7 @@ Flowpack:
           icon: calendar
         -
           name: popular
-          key: views
+          key: numberOfViews
           icon: eye
         -
           name: liked

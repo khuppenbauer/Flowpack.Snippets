@@ -80,7 +80,7 @@
                 label: default
               _timestamp:
                 label: date
-              views:
+              numberOfViews:
                 label: views
               numberOfVotes:
                 label: votes
