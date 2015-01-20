@@ -1,4 +1,12 @@
-
+'TYPO3.Neos:PluginView':
+  properties:
+    title:
+      type: string
+      ui:
+        label: Title
+        reloadIfChanged: true
+        inspector:
+          group: pluginViews
 'Flowpack.Snippets:List':
   superTypes:
     - 'TYPO3.Neos:Plugin'
@@ -27,11 +35,21 @@
         controllerActions:
           Flowpack\Snippets\Controller\PostController:
             - show
+      UserView:
+        label: 'User Snippet'
+        controllerActions:
+          Flowpack\Snippets\Controller\TeaserController:
+            - showUser
+      FollowView:
+        label: 'Follow Snippet'
+        controllerActions:
+          Flowpack\Snippets\Controller\TeaserController:
+            - follow
 'Flowpack.Snippets:Teaser':
   superTypes:
     - 'TYPO3.Neos:Plugin'
   ui:
-    label: 'Snippets Teaser'
+    label: 'Snippets Teaser List'
     icon: icon-code
     group: plugins
     inspector:
@@ -102,6 +120,46 @@
       type: string
       ui:
         label: size
+        reloadIfChanged: true
+        inspector:
+          group: settings
+'Flowpack.Snippets:User':
+  superTypes:
+    - 'TYPO3.Neos:Plugin'
+  ui:
+    label: 'Snippets Teaser User'
+    icon: icon-code
+    group: plugins
+    inspector:
+      groups:
+        settings:
+          label: 'Plugin Settings'
+          position: 100
+  properties:
+    title:
+      type: string
+      ui:
+        label: title
+        reloadIfChanged: true
+        inspector:
+          group: settings
+'Flowpack.Snippets:Follow':
+  superTypes:
+    - 'TYPO3.Neos:Plugin'
+  ui:
+    label: 'Snippets Teaser Follow'
+    icon: icon-code
+    group: plugins
+    inspector:
+      groups:
+        settings:
+          label: 'Plugin Settings'
+          position: 100
+  properties:
+    title:
+      type: string
+      ui:
+        label: title
         reloadIfChanged: true
         inspector:
           group: settings

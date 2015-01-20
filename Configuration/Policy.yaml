@@ -5,6 +5,10 @@ privilegeTargets:
       matcher: 'method(TYPO3\Flow\Security\Authentication\Controller\AbstractAuthenticationController->(?<!initialize).*Action()) || method(Flowpack\Snippets\Controller\LoginController->(index|authenticate)Action())'
     Flowpack_Snippets_Search:
       matcher: method(Flowpack\Snippets\Controller\SearchController->(search|teaser|searchCategory|searchTag|searchAuthor)Action())
+    Flowpack_Snippets_Teaser:
+      matcher: method(Flowpack\Snippets\Controller\TeaserController->(showUser|follow)Action())
+    Flowpack_Snippets_FollowActions:
+      matcher: method(Flowpack\Snippets\Controller\TeaserController->(followUser|followCategory|followTag)Action())
     Flowpack_Snippets_Post:
       matcher: method(Flowpack\Snippets\Controller\PostController->(new|show|index)Action())
     Flowpack_Snippets_PostActions:
@@ -30,6 +34,9 @@ roles:
         privilegeTarget: Flowpack_Snippets_PostActions
         permission: GRANT
       -
+        privilegeTarget: Flowpack_Snippets_FollowActions
+        permission: GRANT
+      -
         privilegeTarget: Flowpack_Snippets_PostUpdateActions
         permission: GRANT
       -
@@ -48,6 +55,9 @@ roles:
         permission: GRANT
       -
         privilegeTarget: Flowpack_Snippets_Post
+        permission: GRANT
+      -
+        privilegeTarget: Flowpack_Snippets_Teaser
         permission: GRANT
   'TYPO3.Neos:Administrator':
     privileges:

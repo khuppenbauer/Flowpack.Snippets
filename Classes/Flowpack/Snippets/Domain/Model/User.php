@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use TYPO3\Flow\Annotations as Flow;
+use Flowpack\Snippets\Service\UserService;
 
 /**
  * Domain Model of a User
@@ -46,6 +47,55 @@ class User extends Person {
 	protected $favorites;
 
 	/**
+	 * The posts written by the User
+	 *
+	 * @var Collection<\Flowpack\Snippets\Domain\Model\Post>
+	 * @ORM\OneToMany(mappedBy="author")
+	 * @ORM\OrderBy({"date" = "DESC"})
+	 */
+	protected $posts;
+
+	/**
+	 * The category followed by the User
+	 *
+	 * @var Collection<\Flowpack\Snippets\Domain\Model\Category>
+	 * @ORM\ManyToMany(mappedBy="followers")
+	 */
+	protected $followedCategories;
+
+	/**
+	 * The category followed by the User
+	 *
+	 * @var Collection<\Flowpack\Snippets\Domain\Model\Tag>
+	 * @ORM\ManyToMany(mappedBy="followers")
+	 */
+	protected $followedTags;
+
+	/**
+	 * The category followed by the User
+	 *
+	 * @var Collection<\Flowpack\Snippets\Domain\Model\User>
+	 * @ORM\ManyToMany(mappedBy="followers")
+	 */
+	protected $followedUsers;
+
+	/**
+	 * The users following this user
+	 *
+	 * @var Collection<\Flowpack\Snippets\Domain\Model\User>
+	 * @ORM\ManyToMany(inversedBy="followedUsers")
+	 * @ORM\JoinTable(inverseJoinColumns={@ORM\JoinColumn(name="related_user")})
+	 */
+	protected $followers;
+
+	/**
+	 * @Flow\Inject
+	 * @var UserService
+	 */
+	protected $userService;
+
+
+	/**
 	 * Constructs this User object
 	 *
 	 */
@@ -54,6 +104,11 @@ class User extends Person {
 		$this->upVotes = new ArrayCollection();
 		$this->downVotes = new ArrayCollection();
 		$this->favorites = new ArrayCollection();
+		$this->posts = new ArrayCollection();
+		$this->followedCategories = new ArrayCollection();
+		$this->followedTags = new ArrayCollection();
+		$this->followedUsers = new ArrayCollection();
+		$this->followers = new ArrayCollection();
 	}
 
 	/**
@@ -79,4 +134,68 @@ class User extends Person {
 		return $isFavorite;
 	}
 
+	/**
+	 * Returns the Users posts
+	 *
+	 * @return Collection<\Flowpack\Snippets\Domain\Model\Post> The category posts
+	 */
+	public function getPosts() {
+		return clone $this->posts;
+	}
+
+	/**
+	 * Returns the number of the User posts
+	 *
+	 * @return integer The number of posts
+	 */
+	public function getNumberOfPosts() {
+		return count($this->posts);
+	}
+
+	/**
+	 * Add follower to this user
+	 *
+	 * @return void
+	 */
+	public function addFollower() {
+		$follower = $this->userService->getUser();
+		$this->followers->add($follower);
+	}
+
+	/**
+	 * Removes follower from this user
+	 *
+	 * @return void
+	 */
+	public function removeFollower() {
+		$follower = $this->userService->getUser();
+		$this->followers->removeElement($follower);
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isFollowed() {
+		$isFollowed = FALSE;
+		$user = $this->userService->getUser();
+		if ($user !== NULL) {
+			$followers = clone $this->followers;
+			foreach ($followers as $follower) {
+				if($follower === $user) {
+					$isFollowed = TRUE;
+					break;
+				}
+			}
+		}
+		return $isFollowed;
+	}
+
+	/**
+	 * Returns the number of the User posts
+	 *
+	 * @return integer The number of posts
+	 */
+	public function getNumberOfFollowers() {
+		return count($this->followers);
+	}
 }

@@ -50,7 +50,7 @@ class Post {
 	 * @ElasticSearch\Transform(type="\Flowpack\Snippets\Indexer\Transform\ObjectAccessTransformer", options={"propertyPath"="name.alias"})
 	 * @ElasticSearch\Indexable
 	 * @ElasticSearch\Mapping(index="not_analyzed")
-	 * @ORM\ManyToOne
+	 * @ORM\ManyToOne(inversedBy="posts")
 	 */
 	protected $author;
 

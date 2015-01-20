@@ -35,6 +35,51 @@ $(".jq-favor").click(function (e) {
     sendRequest($(this), 'favor');
 });
 
+$(".jq-follow-category").click(function (e) {
+    e.preventDefault();
+    $.ajax({
+        type: 'POST',
+        url: '/Category/follow',
+        data: {category: $(this).data("category")},
+        dataType: 'json',
+        context: this,
+        success: function (data) {
+            $(this).toggleClass('secondary');
+            $(this).text(data.followed);
+        }
+    });
+});
+
+$(".jq-follow-tag").click(function (e) {
+    e.preventDefault();
+    $.ajax({
+        type: 'POST',
+        url: '/Tag/follow',
+        data: {tag: $(this).data("tag")},
+        dataType: 'json',
+        context: this,
+        success: function (data) {
+            $(this).toggleClass('secondary');
+            $(this).text(data.followed);
+        }
+    });
+});
+
+$(".jq-follow-user").click(function (e) {
+    e.preventDefault();
+    $.ajax({
+        type: 'POST',
+        url: '/User/follow',
+        data: {user: $(this).data("user")},
+        dataType: 'json',
+        context: this,
+        success: function (data) {
+            $(this).toggleClass('secondary');
+            $(this).text(data.followed);
+        }
+    });
+});
+
 function sendRequest(obj, action) {
     if (obj.data("post")) {
         $.ajax({

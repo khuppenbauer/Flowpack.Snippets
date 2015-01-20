@@ -1,0 +1,18 @@
+{namespace snippets=Flowpack\Snippets\ViewHelpers}
+<f:if condition="{post}">
+    <div class="widget widget_list">
+        <f:if condition="{title}"><h5 class="widget_title">{title}</h5></f:if>
+        <ul class="no-bullet">
+            <li>
+                <span class="left" style="width: 50%"><f:link.action action="search" arguments="{category: post.category.name}" controller="Search">{post.category.name}</f:link.action> ({post.category.numberOfPosts})</span>
+                <span><a href="#" class="jq-follow-category button{f:if(condition:post.category.followed, then: ' secondary', else: '')}" data-category="{post.category -> f:format.identifier()}">{f:if(condition:post.category.followed, then: '-', else: '+')}</a></span>
+            </li>
+            <f:for each="{post.tags}" as="tag">
+                <li>
+                    <span class="left" style="width: 50%"><f:link.action action="search" arguments="{tag: tag.name}" controller="Search">{tag}</f:link.action> ({tag.numberOfPosts})</span>
+                    <span><a href="#" class="jq-follow-tag button{f:if(condition:tag.followed, then: ' secondary', else: '')}" data-tag="{tag -> f:format.identifier()}">{f:if(condition:tag.followed, then: '-', else: '+')}</a></span>
+                </li>
+            </f:for>
+        </ul>
+    </div>
+</f:if>

@@ -1,0 +1,13 @@
+{namespace snippets=Flowpack\Snippets\ViewHelpers}
+<f:if condition="{post}">
+    <div class="widget widget_list">
+        <f:if condition="{title}"><h5 class="widget_title">{title}</h5></f:if>
+        <f:link.action action="search" arguments="{author: post.author.name.alias}" controller="Search">{post.author.name.alias}</f:link.action>
+        <f:if condition="{user}">
+            <a href="#" class="jq-follow-user button{f:if(condition:post.author.followed, then: ' secondary', else: '')}" data-user="{post.author -> f:format.identifier()}">{f:if(condition:post.author.followed, then: '-', else: '+')}</a>
+        </f:if>
+        <br />
+        {post.author.numberOfPosts} Snippets<br />
+        {post.author.numberOfFollowers} Follower
+    </div>
+</f:if>

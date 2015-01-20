@@ -10,11 +10,12 @@ use TYPO3\Flow\Annotations as Flow;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Flowpack\Snippets\Service\UserService;
 
 /**
  * A Snippet tag
  *
- * @Flow\ValueObject
+ * @Flow\Entity
  */
 class Tag {
 
@@ -36,6 +37,21 @@ class Tag {
 	protected $posts;
 
 	/**
+	 * The users following this tag
+	 *
+	 * @var Collection<\Flowpack\Snippets\Domain\Model\User>
+	 * @ORM\ManyToMany(inversedBy="followedTags")
+	 */
+	protected $followers;
+
+	/**
+	 * @Flow\Inject
+	 * @var UserService
+	 */
+	protected $userService;
+
+
+	/**
 	 * Constructs this tag
 	 *
 	 * @param string $name
@@ -43,6 +59,7 @@ class Tag {
 	public function __construct($name) {
 		$this->name = $name;
 		$this->posts = new ArrayCollection();
+		$this->followers = new ArrayCollection();
 	}
 
 	/**
@@ -52,6 +69,62 @@ class Tag {
 	 */
 	public function getName() {
 		return $this->name;
+	}
+
+	/**
+	 * Returns the tags children
+	 *
+	 * @return Collection<\Flowpack\Snippets\Domain\Model\Post> The category posts
+	 */
+	public function getPosts() {
+		return clone $this->posts;
+	}
+
+	/**
+	 * Returns the number of posts
+	 *
+	 * @return integer The number of posts
+	 */
+	public function getNumberOfPosts() {
+		return count($this->posts);
+	}
+
+	/**
+	 * Add follower to this category
+	 *
+	 * @return void
+	 */
+	public function addFollower() {
+		$follower = $this->userService->getUser();
+		$this->followers->add($follower);
+	}
+
+	/**
+	 * Removes follower from this category
+	 *
+	 * @return void
+	 */
+	public function removeFollower() {
+		$follower = $this->userService->getUser();
+		$this->followers->removeElement($follower);
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isFollowed() {
+		$isFollowed = FALSE;
+		$user = $this->userService->getUser();
+		if ($user !== NULL) {
+			$followers = clone $this->followers;
+			foreach ($followers as $follower) {
+				if($follower === $user) {
+					$isFollowed = TRUE;
+					break;
+				}
+			}
+		}
+		return $isFollowed;
 	}
 
 	/**

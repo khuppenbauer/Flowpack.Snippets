@@ -138,6 +138,60 @@
   appendExceedingArguments: TRUE
 
 -
+  name: 'Categories'
+  uriPattern: '{node}/category/{--flowpack_snippets-follow.category}'
+  defaults:
+    '@package': 'TYPO3.Neos'
+    '@controller': 'Frontend\Node'
+    '@format': 'html'
+    '@action': 'show'
+    '--flowpack_snippets-follow':
+      '@package': 'Flowpack.Snippets'
+      '@controller': 'Search'
+      '@action': 'search'
+      '@format': 'html'
+  routeParts:
+    node:
+      handler: TYPO3\Neos\Routing\FrontendNodeRoutePartHandler
+  appendExceedingArguments: TRUE
+
+-
+  name: 'Tag'
+  uriPattern: '{node}/tag/{--flowpack_snippets-follow.tag}'
+  defaults:
+    '@package': 'TYPO3.Neos'
+    '@controller': 'Frontend\Node'
+    '@format': 'html'
+    '@action': 'show'
+    '--flowpack_snippets-follow':
+      '@package': 'Flowpack.Snippets'
+      '@controller': 'Search'
+      '@action': 'search'
+      '@format': 'html'
+  routeParts:
+    node:
+      handler: TYPO3\Neos\Routing\FrontendNodeRoutePartHandler
+  appendExceedingArguments: TRUE
+
+-
+  name: 'Author'
+  uriPattern: '{node}/author/{--flowpack_snippets-user.author}'
+  defaults:
+    '@package': 'TYPO3.Neos'
+    '@controller': 'Frontend\Node'
+    '@format': 'html'
+    '@action': 'show'
+    '--flowpack_snippets-user':
+      '@package': 'Flowpack.Snippets'
+      '@controller': 'Search'
+      '@action': 'search'
+      '@format': 'html'
+  routeParts:
+    node:
+      handler: TYPO3\Neos\Routing\FrontendNodeRoutePartHandler
+  appendExceedingArguments: TRUE
+
+-
   name: 'Post Action for Ajax Usage'
   uriPattern: 'Post/{@action}'
   defaults:
@@ -146,3 +200,36 @@
   routeParts:
     'post':
       objectType: '\Flowpack\Snippets\Domain\Model\Post'
+
+-
+  name: 'Category Action for Ajax Usage'
+  uriPattern: 'Category/follow'
+  defaults:
+    @package: 'Flowpack.Snippets'
+    @controller: 'Teaser'
+    @action: 'followCategory'
+  routeParts:
+    'category':
+      objectType: '\Flowpack\Snippets\Domain\Model\Category'
+
+-
+  name: 'Tag Action for Ajax Usage'
+  uriPattern: 'Tag/follow'
+  defaults:
+    @package: 'Flowpack.Snippets'
+    @controller: 'Teaser'
+    @action: 'followTag'
+  routeParts:
+    'tag':
+      objectType: '\Flowpack\Snippets\Domain\Model\Tag'
+
+-
+  name: 'User Action for Ajax Usage'
+  uriPattern: 'User/follow'
+  defaults:
+    @package: 'Flowpack.Snippets'
+    @controller: 'Teaser'
+    @action: 'followUser'
+  routeParts:
+    'tag':
+      objectType: '\Flowpack\Snippets\Domain\Model\User'

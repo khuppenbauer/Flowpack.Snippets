@@ -10,6 +10,7 @@ use TYPO3\Flow\Annotations as Flow;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Flowpack\Snippets\Service\UserService;
 
 /**
  * A Snippet category
@@ -52,11 +53,27 @@ class Category {
 	protected $posts;
 
 	/**
+	 * The users following this category
+	 *
+	 * @var Collection<\Flowpack\Snippets\Domain\Model\User>
+	 * @ORM\ManyToMany(inversedBy="followedCategories")
+	 */
+	protected $followers;
+
+	/**
+	 * @Flow\Inject
+	 * @var UserService
+	 */
+	protected $userService;
+
+
+	/**
 	 * Constructs this category
 	 */
 	public function __construct() {
 		$this->children = new ArrayCollection();
 		$this->posts = new ArrayCollection();
+		$this->followers = new ArrayCollection();
 	}
 
 	/**
@@ -103,7 +120,7 @@ class Category {
 	 * @return Collection<\Flowpack\Snippets\Domain\Model\Post> The category posts
 	 */
 	public function getPosts() {
-		return clone $this->children;
+		return clone $this->posts;
 	}
 
 	/**
@@ -113,6 +130,44 @@ class Category {
 	 */
 	public function getNumberOfPosts() {
 		return count($this->posts);
+	}
+
+	/**
+	 * Add follower to this category
+	 *
+	 * @return void
+	 */
+	public function addFollower() {
+		$follower = $this->userService->getUser();
+		$this->followers->add($follower);
+	}
+
+	/**
+	 * Removes follower from this category
+	 *
+	 * @return void
+	 */
+	public function removeFollower() {
+		$follower = $this->userService->getUser();
+		$this->followers->removeElement($follower);
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function isFollowed() {
+		$isFollowed = FALSE;
+		$user = $this->userService->getUser();
+		if ($user !== NULL) {
+			$followers = clone $this->followers;
+			foreach ($followers as $follower) {
+				if($follower === $user) {
+					$isFollowed = TRUE;
+					break;
+				}
+			}
+		}
+		return $isFollowed;
 	}
 
 	/**
