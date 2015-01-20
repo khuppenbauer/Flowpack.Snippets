@@ -64,6 +64,9 @@ TYPO3:
                 title: 'Manage Tags'
             privilegeTarget: Flowpack_Snippets_Backend_Module_Snippets_Tags
         privilegeTarget: Flowpack_Snippets_Backend_Module_Snippets
+  TypoScript:
+    defaultContext:
+      TitleTag: Flowpack\Snippets\Eel\TitleTagHelper
 Flowpack:
   ElasticSearch:
     realtimeIndexing:
