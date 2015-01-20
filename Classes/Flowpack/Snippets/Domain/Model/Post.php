@@ -36,7 +36,7 @@ class Post {
 	 * The post date
 	 *
 	 * @var \DateTime
-	 * @ElasticSearch\Transform("Date")
+	 * @ElasticSearch\Transform("Date", options={"format"="c"})
 	 * @ElasticSearch\Indexable
 	 * @ElasticSearch\Mapping(index="no")
 	 */

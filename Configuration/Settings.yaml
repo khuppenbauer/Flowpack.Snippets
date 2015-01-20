@@ -74,6 +74,7 @@ Flowpack:
           _timestamp:
             enabled: true
             store: true
+            path: date
           _all:
             index_analyzer: nGram_analyzer
             search_analyzer: whitespace_analyzer
