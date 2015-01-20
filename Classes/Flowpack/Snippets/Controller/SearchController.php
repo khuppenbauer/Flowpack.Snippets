@@ -82,6 +82,10 @@ class SearchController extends ActionController {
 			$search['filter']['tags'] = $this->request->getArgument('tag');
 			$this->request->setArgument('search', $search);
 		}
+		if ($this->request->hasArgument('author')) {
+			$search['filter']['author'] = $this->request->getArgument('author');
+			$this->request->setArgument('search', $search);
+		}
 	}
 
 	/**
