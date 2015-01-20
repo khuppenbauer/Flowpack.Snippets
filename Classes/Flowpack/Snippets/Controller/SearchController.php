@@ -12,6 +12,7 @@ use TYPO3\Flow\Security\Context;
 use TYPO3\Flow\Utility\Arrays;
 use TYPO3\TYPO3CR\Domain\Model\NodeInterface;
 use Flowpack\Snippets\Service\SearchService;
+use Flowpack\Snippets\Service\UserService;
 
 /**
  * Class SearchController
@@ -30,6 +31,12 @@ class SearchController extends ActionController {
 	 * @var SearchService
 	 */
 	protected $searchService;
+
+	/**
+	 * @Flow\Inject
+	 * @var UserService
+	 */
+	protected $userService;
 
 	/**
 	 * @var integer
@@ -90,13 +97,12 @@ class SearchController extends ActionController {
 		$offset = $this->searchService->calculateOffset($this->currentPage);
 		$sortField = !empty($search['sortField']) ? $search['sortField'] : $this->settings['defaultSortField'];
 		$aggregationSize = $this->settings['aggregationSize'];
-
 		$resultSet = $this->searchService->fulltextSearch($query, $filter, $offset, $sortField, $aggregationSize);
 		$aggregations = $this->searchService->transformAggregations($resultSet->getAggregations());
 		$posts = $this->searchService->transformResult($resultSet->getResults());
 		$last = $offset + count($posts);
 		$pagination = $this->searchService->buildPagination($this->currentPage, $resultSet->getTotalHits());
-		$user = $this->securityContext->getPartyByType('Flowpack\Snippets\Domain\Model\User');
+		$user = $this->userService->getUser();
 
 		$this->view->assign('totalHits', $resultSet->getTotalHits());
 		$this->view->assign('first', $offset + 1);
@@ -146,7 +152,7 @@ class SearchController extends ActionController {
 					}
 					break;
 				case 'favorites':
-					$user = $this->securityContext->getPartyByType('Flowpack\Snippets\Domain\Model\User');
+					$user = $this->userService->getUser();
 					/** @var  $posts \Flowpack\Snippets\Domain\Model\User $user */
 					if ($user !== NULL) {
 						$posts = $user->getFavorites();

@@ -9,6 +9,7 @@ namespace Flowpack\Snippets\Controller;
 use Flowpack\Snippets\Domain\Model\Comment;
 use Flowpack\Snippets\Domain\Model\Post;
 use Flowpack\Snippets\Domain\Repository\PostRepository;
+use Flowpack\Snippets\Service\UserService;
 use TYPO3\Flow\Security\Context;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Mvc\Controller\ActionController;
@@ -31,6 +32,13 @@ class CommentController extends ActionController {
 	protected $postRepository;
 
 	/**
+	 * @Flow\Inject
+	 * @var UserService
+	 */
+	protected $userService;
+
+
+	/**
 	 * Injects the Security Context
 	 *
 	 * @param Context $securityContext
@@ -48,7 +56,7 @@ class CommentController extends ActionController {
 	 * @return void
 	 */
 	public function createAction(Post $post, Comment $newComment) {
-		$author = $this->securityContext->getPartyByType('Flowpack\Snippets\Domain\Model\User');
+		$author = $this->userService->getUser();
 		$newComment->setAuthor($author);
 		$post->addComment($newComment);
 		$this->postRepository->update($post);

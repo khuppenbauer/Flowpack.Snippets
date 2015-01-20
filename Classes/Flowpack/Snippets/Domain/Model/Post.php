@@ -12,6 +12,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Flowpack\ElasticSearch\Annotations as ElasticSearch;
 use Flowpack\Snippets\Domain\Model\User;
+use Flowpack\Snippets\Service\UserService;
 use TYPO3\Flow\Security\Context;
 
 /**
@@ -266,19 +267,10 @@ class Post {
 	protected $user;
 
 	/**
-	 * @var Context
+	 * @Flow\Inject
+	 * @var UserService
 	 */
-	protected $securityContext;
-
-	/**
-	 * Injects the Security Context
-	 *
-	 * @param Context $securityContext
-	 * @return void
-	 */
-	public function injectSecurityContext(Context $securityContext) {
-		$this->securityContext = $securityContext;
-	}
+	protected $userService;
 
 	/**
 	 * Constructs this post
@@ -504,7 +496,7 @@ class Post {
 	 * @return void
 	 */
 	public function addUpVote() {
-		$upVote = $this->getUser();
+		$upVote = $this->userService->getUser();
 		$this->upVotes->add($upVote);
 	}
 
@@ -514,7 +506,7 @@ class Post {
 	 * @return void
 	 */
 	public function removeUpVote() {
-		$upVote = $this->getUser();
+		$upVote = $this->userService->getUser();
 		$this->upVotes->removeElement($upVote);
 	}
 
@@ -523,7 +515,7 @@ class Post {
 	 */
 	public function hasUpVote() {
 		$hasUpVote = FALSE;
-		$user = $this->getUser();
+		$user = $this->userService->getUser();
 		if ($user !== NULL) {
 			$upVotes = clone $this->upVotes;
 			foreach ($upVotes as $upVote) {
@@ -566,7 +558,7 @@ class Post {
 	 * @return void
 	 */
 	public function addDownVote() {
-		$downVote = $this->getUser();
+		$downVote = $this->userService->getUser();
 		$this->downVotes->add($downVote);
 	}
 
@@ -576,7 +568,7 @@ class Post {
 	 * @return void
 	 */
 	public function removeDownVote() {
-		$downVote = $this->getUser();
+		$downVote = $this->userService->getUser();
 		$this->downVotes->removeElement($downVote);
 	}
 
@@ -585,7 +577,7 @@ class Post {
 	 */
 	public function hasDownVote() {
 		$hasDownVote = FALSE;
-		$user = $this->getUser();
+		$user = $this->userService->getUser();
 		if ($user !== NULL) {
 			$downVotes = clone $this->downVotes;
 			foreach ($downVotes as $downVote) {
@@ -628,7 +620,7 @@ class Post {
 	 * @return void
 	 */
 	public function addFavorite() {
-		$favorite = $this->getUser();
+		$favorite = $this->userService->getUser();
 		$this->favorites->add($favorite);
 	}
 
@@ -638,7 +630,7 @@ class Post {
 	 * @return void
 	 */
 	public function removeFavorite() {
-		$favorite = $this->getUser();
+		$favorite = $this->userService->getUser();
 		$this->favorites->removeElement($favorite);
 	}
 
@@ -647,7 +639,7 @@ class Post {
 	 */
 	public function isFavorite() {
 		$isFavorite = FALSE;
-		$user = $this->getUser();
+		$user = $this->userService->getUser();
 		if ($user !== NULL) {
 			$favorites = clone $this->favorites;
 			foreach ($favorites as $favorite) {
@@ -820,13 +812,5 @@ class Post {
 	public function setProviderIcon($providerIcon) {
 		$this->providerIcon = $providerIcon;
 	}
-
-	/**
-	 * @return User
-	 */
-	public function getUser() {
-		return $this->securityContext->getPartyByType('Flowpack\Snippets\Domain\Model\User');
-	}
-
 
 }

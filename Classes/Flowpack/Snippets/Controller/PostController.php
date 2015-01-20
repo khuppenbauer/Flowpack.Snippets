@@ -11,6 +11,7 @@ use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Mvc\Controller\ActionController;
 use TYPO3\Flow\Security\Context;
 use TYPO3\Flow\Property\PropertyMapper;
+use Flowpack\Snippets\Service\UserService;
 use Flowpack\Snippets\Domain\Model\Post;
 use Flowpack\Snippets\Domain\Model\Tag;
 use Flowpack\Snippets\Domain\Repository\PostRepository;
@@ -53,6 +54,12 @@ class PostController extends ActionController {
 	 * @var TrackingRepository
 	 */
 	protected $trackingRepository;
+
+	/**
+	 * @Flow\Inject
+	 * @var UserService
+	 */
+	protected $userService;
 
 	/**
 	 * @Flow\Inject
@@ -156,7 +163,7 @@ class PostController extends ActionController {
 	 * @return void
 	 */
 	public function indexAction() {
-		$author = $this->securityContext->getPartyByType('Flowpack\Snippets\Domain\Model\User');
+		$author = $this->userService->getUser();
 		$this->view->assign('posts', $this->postRepository->findByAuthor($author));
 	}
 
@@ -165,7 +172,7 @@ class PostController extends ActionController {
 	 * @return void
 	 */
 	public function showAction(Post $post) {
-		$user = $this->securityContext->getPartyByType('Flowpack\Snippets\Domain\Model\User');
+		$user = $this->userService->getUser();
 		$this->view->assign('user', $user);
 		$this->view->assign('post', $post);
 	}
@@ -186,7 +193,7 @@ class PostController extends ActionController {
 	 * @return void
 	 */
 	public function createAction(Post $newPost) {
-		$author = $this->securityContext->getPartyByType('Flowpack\Snippets\Domain\Model\User');
+		$author = $this->userService->getUser();
 		$newPost->setAuthor($author);
 		$this->postRepository->add($newPost);
 		$this->emitPostCreated($newPost);
