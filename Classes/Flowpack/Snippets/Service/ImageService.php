@@ -198,7 +198,7 @@ class ImageService {
 			$startPoint = $this->parsePoint($commandOptions['start']);
 			$size = $image->getSize();
 			$command = 'widen';
-			$parameter = $commandOptions['size'][0];
+			$parameter = self::is_assoc($commandOptions['size']) ? $commandOptions['size']['width'] : $commandOptions['size'][0];
 			return $image->resize(call_user_func(array($size, $command), $parameter))->crop($startPoint, $dimensions);
 		} else {
 			return $image->thumbnail($dimensions, $mode);
