@@ -53,10 +53,10 @@ function sendFollowRequest(action, data, obj) {
         context: obj,
         success: function (data) {
             if (data.followed === true) {
-                $(this).removeClass('btn-default').addClass('btn-success');
+                $(this).removeClass('btn-default').addClass('btn theme');
                 $(this).text('Following');
             } else {
-                $(this).removeClass('btn-success').addClass('btn-default');
+                $(this).removeClass('btn theme').addClass('btn-default');
                 $(this).text('Follow');
             }
             if(data.followers) {
