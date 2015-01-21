@@ -257,6 +257,11 @@ Flowpack:
         params:
           min_term_freq: 1
           min_doc_freq: 1
+    mandatory:
+      text: [content]
+      link: [url]
+      package: [url]
+      reference: [url]
     notification:
       post:
         recipientAddress: null

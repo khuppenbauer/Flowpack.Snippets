@@ -8,6 +8,7 @@ namespace Flowpack\Snippets\Validation\Validator;
 
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Reflection\ObjectAccess;
+use TYPO3\Flow\Utility\Arrays;
 use TYPO3\Flow\Validation\Error;
 use TYPO3\Flow\Validation\Validator\AbstractValidator;
 
@@ -20,6 +21,20 @@ use TYPO3\Flow\Validation\Validator\AbstractValidator;
 class NotEmptyByTypeValidator extends AbstractValidator {
 
 	/**
+	 * The settings
+	 *
+	 * @var string
+	 */
+	protected $settings;
+
+	/**
+	 * @param array $settings
+	 */
+	public function injectSettings(array $settings) {
+		$this->settings = $settings;
+	}
+
+	/**
 	 * Checks if the given value is not empty by type
 	 *
 	 * @param mixed $value The value that should be validated
@@ -27,20 +42,14 @@ class NotEmptyByTypeValidator extends AbstractValidator {
 	 * @api
 	 */
 	protected function isValid($value) {
-		switch($value->getPostType()) {
-			case 'text':
-				$property = 'content';
-				break;
-			case 'link':
-				$property = 'url';
-				break;
-			case 'package':
-				$property = 'url';
-				break;
-		}
-		$val = ObjectAccess::getProperty($value, $property);
-		if (empty($val)) {
-			$this->result->forProperty($property)->addError(new Error('This property is required', 1416154237));
+		$mandatory = Arrays::getValueByPath($this->settings['mandatory'], $value->getPostType());
+		if (!empty($mandatory)) {
+			foreach ($mandatory as $property) {
+				$val = ObjectAccess::getProperty($value, $property);
+				if (empty($val)) {
+					$this->result->forProperty($property)->addError(new Error('This property is required', 1416154237));
+				}
+			}
 		}
 	}
 
