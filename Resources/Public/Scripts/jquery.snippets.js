@@ -9,6 +9,9 @@ $(".jq-filter-reset").click(function() {
 $(document).on('click', 'a[data-currentPage], a[data-sortField], a[data-postType]', function(){
     var attributes = $(this).data();
     $.each(attributes, function(k,v) {
+        if (k == 'posttype') {
+            $("#currentpage").val('');
+        }
         $('#'+k).val(v);
         $("#search").submit();
     });
