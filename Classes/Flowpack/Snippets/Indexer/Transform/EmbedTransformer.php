@@ -10,6 +10,7 @@ use Embed\Embed;
 use Embed\Request;
 use Goutte\Client as Goutte;
 use Guzzle\Http\Client as Guzzle;
+use Smalot\PdfParser\Parser;
 use TYPO3\Flow\Annotations as Flow;
 use Flowpack\ElasticSearch\Indexer\Object\Transform\TransformerInterface;
 use TYPO3\Flow\Utility\Arrays;
@@ -57,7 +58,7 @@ class EmbedTransformer implements TransformerInterface {
 			$data['type'] = $embed->getType();
 			$data['image'] = $embed->getImage();
 			$data['code'] = $embed->getCode();
-			$data['providerName'] = $embed->getProviderName();
+			$data['providerName'] = str_replace(' ', '', $embed->getProviderName());
 			$data['providerUrl'] = $embed->getProviderUrl();
 			$data['providerIcon'] = $embed->getProviderIcon();
 			$data['_embed_title'] = $embed->getTitle();
@@ -65,7 +66,7 @@ class EmbedTransformer implements TransformerInterface {
 			$data['_embed_authorName'] = $embed->getAuthorName();
 			$data['_embed_authorUrl'] = $embed->getAuthorUrl();
 
-			foreach($embed->providers as $key => $value) {
+			foreach($embed->getAllProviders() as $key => $value) {
 				if (isset($this->provider[$key]) && $this->provider[$key] === TRUE) {
 					$params = $value->get();
 					foreach ($params as $k => $v) {
@@ -104,7 +105,14 @@ class EmbedTransformer implements TransformerInterface {
 		if ($statusCode === 200) {
 			$html = $crawler->filterXPath('html/body');
 			if (count($html) > 0) {
-				return trim($crawler->filterXPath('html/body')->text());
+				$text = trim($crawler->filterXPath('html/body')->text());
+				$link = $crawler->selectLink('Download PDF');
+				if ($link->getNode(0) !== NULL) {
+					$parser = new Parser();
+					$pdf = $parser->parseFile($link->link()->getUri());
+					$text = $text . ' ' . $pdf->getText();
+				}
+				return $text;
 			}
 		}
 		if (is_array(json_decode($response->getContent(), TRUE))) {
