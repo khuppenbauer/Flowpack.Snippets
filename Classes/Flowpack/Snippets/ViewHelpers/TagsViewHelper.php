@@ -17,6 +17,14 @@ use TYPO3\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class TagsViewHelper extends AbstractViewHelper {
 
+	
+	/**
+	 * NOTE: This property has been introduced via code migration to ensure backwards-compatibility.
+	 * @see AbstractViewHelper::isOutputEscapingEnabled()
+	 * @var boolean
+	 */
+	protected $escapeOutput = FALSE;
+
 	/**
 	 * @Flow\Inject
 	 * @var \TYPO3\Flow\Persistence\PersistenceManagerInterface

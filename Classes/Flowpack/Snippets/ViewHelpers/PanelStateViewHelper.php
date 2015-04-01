@@ -19,6 +19,14 @@ use TYPO3\Flow\Mvc\ActionRequest;
  */
 class PanelStateViewHelper extends AbstractViewHelper {
 
+	
+	/**
+	 * NOTE: This property has been introduced via code migration to ensure backwards-compatibility.
+	 * @see AbstractViewHelper::isOutputEscapingEnabled()
+	 * @var boolean
+	 */
+	protected $escapeOutput = FALSE;
+
 	/**
 	 * Shortcut for retrieving the request from the controller context
 	 *

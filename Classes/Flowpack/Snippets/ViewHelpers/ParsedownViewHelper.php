@@ -25,6 +25,14 @@ use TYPO3\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class ParsedownViewHelper extends AbstractViewHelper {
 
+	
+	/**
+	 * NOTE: This property has been introduced via code migration to ensure backwards-compatibility.
+	 * @see AbstractViewHelper::isOutputEscapingEnabled()
+	 * @var boolean
+	 */
+	protected $escapeOutput = FALSE;
+
 	/**
 	 * @param string $text
 	 * @return string
