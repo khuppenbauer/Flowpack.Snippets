@@ -60,13 +60,6 @@ class TruncateTextViewHelper extends AbstractViewHelper {
 			class_exists('Multibyte');
 		}
 		if ($html) {
-			
-	/**
-	 * NOTE: This property has been introduced via code migration to ensure backwards-compatibility.
-	 * @see AbstractViewHelper::isOutputEscapingEnabled()
-	 * @var boolean
-	 */
-	protected $escapeOutput = FALSE;
 			if (mb_strlen(preg_replace('/<.*?>/', '', $text)) <= $length) {
 				return $text;
 			}
