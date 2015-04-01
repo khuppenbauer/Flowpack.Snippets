@@ -59,7 +59,7 @@ function sendFollowRequest(action, data, obj) {
                 $(this).removeClass('btn-default').addClass('btn theme');
                 $(this).text('Following');
             } else {
-                $(this).removeClass('btn theme').addClass('btn-default');
+                $(this).removeClass('theme').addClass('btn-default');
                 $(this).text('Follow');
             }
             if(data.followers) {
