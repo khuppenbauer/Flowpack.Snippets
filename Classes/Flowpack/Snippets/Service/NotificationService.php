@@ -295,12 +295,14 @@ class NotificationService {
 	 * @return array
 	 */
 	public function getUserFavoredPosts() {
-		$user = $this->userService->getUser();
-		$type = EventService::POST_FAVORED;
-		$notifications = $this->notificationRepository->findByUserAndType($user, 'source', $type);
 		$posts = array();
-		foreach ($notifications as $notification) {
-			$posts[] = $notification->getPost();
+		$user = $this->userService->getUser();
+		if ($user !== NULL) {
+			$type = EventService::POST_FAVORED;
+			$notifications = $this->notificationRepository->findByUserAndType($user, 'source', $type);
+			foreach ($notifications as $notification) {
+				$posts[] = $notification->getPost();
+			}
 		}
 		return $posts;
 	}
@@ -309,12 +311,14 @@ class NotificationService {
 	 * @return array
 	 */
 	public function getFollowers() {
-		$user = $this->userService->getUser();
-		$type = EventService::USER_FOLLOWED;
-		$notifications = $this->notificationRepository->findByUserAndType($user, 'target', $type);
 		$posts = array();
-		foreach ($notifications as $notification) {
-			$posts[] = $notification->getSource();
+		$user = $this->userService->getUser();
+		if ($user !== NULL) {
+			$type = EventService::USER_FOLLOWED;
+			$notifications = $this->notificationRepository->findByUserAndType($user, 'target', $type);
+			foreach ($notifications as $notification) {
+				$posts[] = $notification->getSource();
+			}
 		}
 		return $posts;
 	}
@@ -323,12 +327,14 @@ class NotificationService {
 	 * @return array
 	 */
 	public function getFollowing() {
-		$user = $this->userService->getUser();
-		$type = EventService::USER_FOLLOWED;
-		$notifications = $this->notificationRepository->findByUserAndType($user, 'source', $type);
 		$posts = array();
-		foreach ($notifications as $notification) {
-			$posts[] = $notification->getTarget();
+		$user = $this->userService->getUser();
+		if ($user !== NULL) {
+			$type = EventService::USER_FOLLOWED;
+			$notifications = $this->notificationRepository->findByUserAndType($user, 'source', $type);
+			foreach ($notifications as $notification) {
+				$posts[] = $notification->getTarget();
+			}
 		}
 		return $posts;
 	}
