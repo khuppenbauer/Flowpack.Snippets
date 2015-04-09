@@ -109,3 +109,15 @@ prototype(Flowpack.Snippets:Following) < prototype(TYPO3.Neos:Plugin) {
 	controller = 'Profile'
 	action = 'listFollowing'
 }
+
+prototype(Flowpack.Snippets:Categories) < prototype(TYPO3.Neos:Plugin) {
+	package = 'Flowpack.Snippets'
+	controller = 'Profile'
+	action = 'listCategories'
+}
+
+prototype(Flowpack.Snippets:Tags) < prototype(TYPO3.Neos:Plugin) {
+	package = 'Flowpack.Snippets'
+	controller = 'Profile'
+	action = 'listTags'
+}

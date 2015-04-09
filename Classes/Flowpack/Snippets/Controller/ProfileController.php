@@ -10,6 +10,8 @@ use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Mvc\Controller\ActionController;
 use Flowpack\Snippets\Service\UserService;
 use Flowpack\Snippets\Service\NotificationService;
+use Flowpack\Snippets\Domain\Repository\CategoryRepository;
+use Flowpack\Snippets\Domain\Repository\TagRepository;
 
 /**
  * Class PostController
@@ -31,6 +33,18 @@ class ProfileController extends ActionController {
 	protected $notificationService;
 
 	/**
+	 * @Flow\Inject
+	 * @var CategoryRepository
+	 */
+	protected $categoryRepository;
+
+	/**
+	 * @Flow\Inject
+	 * @var TagRepository
+	 */
+	protected $tagRepository;
+
+	/**
 	 * @return void
 	 */
 	public function listFavoritesAction() {
@@ -49,5 +63,19 @@ class ProfileController extends ActionController {
 	 */
 	public function listFollowingAction() {
 		$this->view->assign('following', $this->notificationService->getFollowing());
+	}
+
+	/**
+	 * @return void
+	 */
+	public function listCategoriesAction() {
+		$this->view->assign('categories', $this->categoryRepository->findAll());
+	}
+
+	/**
+	 * @return void
+	 */
+	public function listTagsAction() {
+		$this->view->assign('tags', $this->tagRepository->findAll());
 	}
 }

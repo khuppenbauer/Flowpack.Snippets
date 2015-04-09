@@ -42,6 +42,20 @@
     label: 'Snippets Following'
     icon: icon-code
     group: plugins
+'Flowpack.Snippets:Categories':
+  superTypes:
+    - 'TYPO3.Neos:Plugin'
+  ui:
+    label: 'Snippets Categories'
+    icon: icon-code
+    group: plugins
+'Flowpack.Snippets:Tags':
+  superTypes:
+    - 'TYPO3.Neos:Plugin'
+  ui:
+    label: 'Snippets Tags'
+    icon: icon-code
+    group: plugins
 'Flowpack.Snippets:New':
   superTypes:
     - 'TYPO3.Neos:Plugin'
