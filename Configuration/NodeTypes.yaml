@@ -14,6 +14,13 @@
     label: 'Snippets List'
     icon: icon-code
     group: plugins
+'Flowpack.Snippets:Notifications':
+  superTypes:
+    - 'TYPO3.Neos:Plugin'
+  ui:
+    label: 'Snippets Notifications'
+    icon: icon-code
+    group: plugins
 'Flowpack.Snippets:New':
   superTypes:
     - 'TYPO3.Neos:Plugin'

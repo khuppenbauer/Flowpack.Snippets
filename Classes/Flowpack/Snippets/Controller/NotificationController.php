@@ -51,6 +51,16 @@ class NotificationController extends ActionController {
 	/**
 	 *
 	 */
+	public function indexAction() {
+		/** @var User $user */
+		$user = $this->userService->getUser();
+		$notifications = $this->notificationRepository->findByTarget($user);
+		$this->view->assign('notifications', $notifications);
+	}
+
+	/**
+	 *
+	 */
 	public function countAction() {
 		/** @var User $user */
 		$user = $this->userService->getUser();

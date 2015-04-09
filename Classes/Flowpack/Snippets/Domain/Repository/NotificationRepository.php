@@ -7,6 +7,7 @@ namespace Flowpack\Snippets\Domain\Repository;
  *                                                                        */
 
 use TYPO3\Flow\Annotations as Flow;
+use TYPO3\Flow\Persistence\QueryInterface;
 use TYPO3\Flow\Persistence\Repository;
 use Flowpack\Snippets\Domain\Model\User;
 use Flowpack\Snippets\Domain\Model\Post;
@@ -43,6 +44,22 @@ class NotificationRepository extends Repository {
 			)
 		);
 		return $query->execute()->getFirst();
+	}
+
+	/**
+	 * @param User $target
+	 * @return \TYPO3\Flow\Persistence\QueryResultInterface
+	 */
+	public function findByTarget(User $target) {
+		$query = $this->createQuery();
+		$query->matching(
+				$query->logicalAnd(
+						$query->equals('target', $target)
+				)
+		);
+		$query->setLimit(20);
+		$query->setOrderings(array('timestamp' => QueryInterface::ORDER_DESCENDING));
+		return $query->execute();
 	}
 
 	/**

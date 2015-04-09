@@ -221,6 +221,24 @@
 					<source>{0,number} new comments</source>
 				</trans-unit>
 			</group>
+			<trans-unit id="Notification.User.Followed">
+				<source>{0} now follows you</source>
+			</trans-unit>
+			<trans-unit id="Notification.Post.Created">
+				<source>{0} published a new post "{1}"</source>
+			</trans-unit>
+			<trans-unit id="Notification.Post.Voted.Up">
+				<source>{0} voted your post "{1}"</source>
+			</trans-unit>
+			<trans-unit id="Notification.Post.Voted.Down">
+				<source>{0} voted your post "{1}"</source>
+			</trans-unit>
+			<trans-unit id="Notification.Post.Favored">
+				<source>{0} favored your post "{1}"</source>
+			</trans-unit>
+			<trans-unit id="Notification.Comment.Created">
+				<source>{0} commented your post "{1}"</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

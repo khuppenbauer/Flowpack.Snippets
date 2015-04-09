@@ -25,6 +25,28 @@
   appendExceedingArguments: TRUE
 
 -
+  name: 'Single Post Search Show'
+  uriPattern: 'search/{--flowpack_snippets-notifications.post}.html'
+  defaults:
+    '@package': 'TYPO3.Neos'
+    '@controller': 'Frontend\Node'
+    '@format': 'html'
+    '@action': 'show'
+    '--flowpack_snippets-notifications':
+      '@package': 'Flowpack.Snippets'
+      '@subpackage': ''
+      '@controller': 'Post'
+      '@action': 'show'
+      '@format': 'html'
+  routeParts:
+    node:
+      handler: TYPO3\Neos\Routing\FrontendNodeRoutePartHandler
+    '--flowpack_snippets-notifications.post':
+      objectType: '\Flowpack\Snippets\Domain\Model\Post'
+      uriPattern: '{title}'
+  appendExceedingArguments: TRUE
+
+-
   name: 'Single Post Teaser Show'
   uriPattern: '{node}/{--flowpack_snippets-teaser.post}.html'
   defaults:

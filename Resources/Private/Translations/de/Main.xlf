@@ -288,6 +288,30 @@
 					<target>{0,number} neue Kommentare</target>
 				</trans-unit>
 			</group>
+			<trans-unit id="Notification.User.Followed">
+				<source>{0} now follows you</source>
+				<target>{0} folgt Dir jetzt</target>
+			</trans-unit>
+			<trans-unit id="Notification.Post.Created">
+				<source>{0} published a new post "{1}"</source>
+				<target>{0} hat einen neuen Beitrag "{1}" veröffentlicht</target>
+			</trans-unit>
+			<trans-unit id="Notification.Post.Voted.Up">
+				<source>{0} voted your post "{1}"</source>
+				<target>{0} hat deinen Beitrag "{1}" bewertet</target>
+			</trans-unit>
+			<trans-unit id="Notification.Post.Voted.Down">
+				<source>{0} voted your post "{1}"</source>
+				<target>{0} hat deinen Beitrag "{1}" bewertet</target>
+			</trans-unit>
+			<trans-unit id="Notification.Post.Favored">
+				<source>{0} favored your post "{1}"</source>
+				<target>{0} hat deinen Beitrag "{1}" favorisiert</target>
+			</trans-unit>
+			<trans-unit id="Notification.Comment.Created">
+				<source>{0} commented your post "{1}"</source>
+				<target>{0} hat deinen Beitrag "{1}" kommentiert</target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
