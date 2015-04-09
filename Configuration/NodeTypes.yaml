@@ -21,6 +21,27 @@
     label: 'Snippets Notifications'
     icon: icon-code
     group: plugins
+'Flowpack.Snippets:Favorites':
+  superTypes:
+    - 'TYPO3.Neos:Plugin'
+  ui:
+    label: 'Snippets Favorites'
+    icon: icon-code
+    group: plugins
+'Flowpack.Snippets:Followers':
+  superTypes:
+    - 'TYPO3.Neos:Plugin'
+  ui:
+    label: 'Snippets Followers'
+    icon: icon-code
+    group: plugins
+'Flowpack.Snippets:Following':
+  superTypes:
+    - 'TYPO3.Neos:Plugin'
+  ui:
+    label: 'Snippets Following'
+    icon: icon-code
+    group: plugins
 'Flowpack.Snippets:New':
   superTypes:
     - 'TYPO3.Neos:Plugin'

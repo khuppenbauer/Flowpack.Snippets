@@ -157,7 +157,7 @@ class SearchController extends ActionController {
 					break;
 				case 'favorites':
 					$user = $this->userService->getUser();
-					/** @var  $posts \Flowpack\Snippets\Domain\Model\User $user */
+					/** @var \Flowpack\Snippets\Domain\Model\User $user */
 					if ($user !== NULL) {
 						$posts = $user->getFavorites();
 						/** @var \Doctrine\Common\Collections\ArrayCollection $posts */

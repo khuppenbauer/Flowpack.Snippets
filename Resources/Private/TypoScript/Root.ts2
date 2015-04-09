@@ -91,3 +91,21 @@ prototype(Flowpack.Snippets:Notifications) < prototype(TYPO3.Neos:Plugin) {
 	controller = 'Notification'
 	action = 'index'
 }
+
+prototype(Flowpack.Snippets:Favorites) < prototype(TYPO3.Neos:Plugin) {
+	package = 'Flowpack.Snippets'
+	controller = 'Profile'
+	action = 'listFavorites'
+}
+
+prototype(Flowpack.Snippets:Followers) < prototype(TYPO3.Neos:Plugin) {
+	package = 'Flowpack.Snippets'
+	controller = 'Profile'
+	action = 'listFollowers'
+}
+
+prototype(Flowpack.Snippets:Following) < prototype(TYPO3.Neos:Plugin) {
+	package = 'Flowpack.Snippets'
+	controller = 'Profile'
+	action = 'listFollowing'
+}

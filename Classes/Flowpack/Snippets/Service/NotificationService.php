@@ -292,6 +292,48 @@ class NotificationService {
 	}
 
 	/**
+	 * @return array
+	 */
+	public function getUserFavoredPosts() {
+		$user = $this->userService->getUser();
+		$type = EventService::POST_FAVORED;
+		$notifications = $this->notificationRepository->findByUserAndType($user, 'source', $type);
+		$posts = array();
+		foreach ($notifications as $notification) {
+			$posts[] = $notification->getPost();
+		}
+		return $posts;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getFollowers() {
+		$user = $this->userService->getUser();
+		$type = EventService::USER_FOLLOWED;
+		$notifications = $this->notificationRepository->findByUserAndType($user, 'target', $type);
+		$posts = array();
+		foreach ($notifications as $notification) {
+			$posts[] = $notification->getSource();
+		}
+		return $posts;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getFollowing() {
+		$user = $this->userService->getUser();
+		$type = EventService::USER_FOLLOWED;
+		$notifications = $this->notificationRepository->findByUserAndType($user, 'source', $type);
+		$posts = array();
+		foreach ($notifications as $notification) {
+			$posts[] = $notification->getTarget();
+		}
+		return $posts;
+	}
+
+	/**
 	 * Signal that a notification has been created
 	 *
 	 * @Flow\Signal

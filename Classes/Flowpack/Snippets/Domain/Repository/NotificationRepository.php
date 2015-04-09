@@ -63,6 +63,24 @@ class NotificationRepository extends Repository {
 	}
 
 	/**
+	 * @param User $user
+	 * @param string $userProperty
+	 * @param string $type
+	 * @return \TYPO3\Flow\Persistence\QueryResultInterface
+	 */
+	public function findByUserAndType(User $user, $userProperty, $type) {
+		$query = $this->createQuery();
+		$query->matching(
+				$query->logicalAnd(
+						$query->equals($userProperty, $user),
+						$query->equals('type', $type)
+				)
+		);
+		$query->setOrderings(array('timestamp' => QueryInterface::ORDER_DESCENDING));
+		return $query->execute();
+	}
+
+	/**
 	 * Deletes all Notification for the post
 	 *
 	 * @param Post $post
