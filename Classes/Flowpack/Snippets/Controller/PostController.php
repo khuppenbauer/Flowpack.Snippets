@@ -241,13 +241,13 @@ class PostController extends ActionController {
 	public function voteUpAction(Post $post) {
 		if ($post->hasUpVote() === TRUE) {
 			$post->removeUpVote();
-			$this->emitPostVoteUpRemoved($post);
+			$this->emitPostVoteUpRemoved($post, array('numberOfVotes'));
 		} else {
 			$post->addUpVote();
-			$this->emitPostVotedUp($post);
+			$this->emitPostVotedUp($post, array('numberOfVotes'));
 			if ($post->hasDownVote() === TRUE) {
 				$post->removeDownVote();
-				$this->emitPostVoteDownRemoved($post);
+				$this->emitPostVoteDownRemoved($post, array('numberOfVotes'));
 			}
 		}
 		$this->postRepository->update($post);
@@ -261,13 +261,13 @@ class PostController extends ActionController {
 	public function voteDownAction(Post $post) {
 		if ($post->hasDownVote() === TRUE) {
 			$post->removeDownVote();
-			$this->emitPostVoteDownRemoved($post);
+			$this->emitPostVoteDownRemoved($post, array('numberOfVotes'));
 		} else {
 			$post->addDownVote();
-			$this->emitPostVotedDown($post);
+			$this->emitPostVotedDown($post, array('numberOfVotes'));
 			if ($post->hasUpVote() === TRUE) {
 				$post->removeUpVote();
-				$this->emitPostVoteUpRemoved($post);
+				$this->emitPostVoteUpRemoved($post, array('numberOfVotes'));
 			}
 		}
 		$this->postRepository->update($post);
@@ -281,10 +281,10 @@ class PostController extends ActionController {
 	public function favorAction(Post $post) {
 		if ($post->isFavorite() === TRUE) {
 			$post->removeFavorite();
-			$this->emitPostFavorRemoved($post);
+			$this->emitPostFavorRemoved($post, array('numberOfFavorites'));
 		} else {
 			$post->addFavorite();
-			$this->emitPostFavored($post);
+			$this->emitPostFavored($post, array('numberOfFavorites'));
 		}
 		$this->postRepository->update($post);
 		return $this->responseData($post);
@@ -301,7 +301,7 @@ class PostController extends ActionController {
 			$tracking = new Tracking($post, $ipHash);
 			$post->addView($tracking);
 			$this->postRepository->update($post);
-			$this->emitPostCounted($post);
+			$this->emitPostCounted($post, array('numberOfViews'));
 		}
 		return $this->responseData($post);
 	}
@@ -362,63 +362,70 @@ class PostController extends ActionController {
 	 *
 	 * @Flow\Signal
 	 * @param Post $post
+	 * @param array $properties
 	 * @return void
 	 */
-	protected function emitPostFavored(Post $post) {}
+	protected function emitPostFavored(Post $post, $properties) {}
 
 	/**
 	 * Signals that a post has been favored
 	 *
 	 * @Flow\Signal
 	 * @param Post $post
+	 * @param array $properties
 	 * @return void
 	 */
-	protected function emitPostFavorRemoved(Post $post) {}
+	protected function emitPostFavorRemoved(Post $post, $properties) {}
 
 	/**
 	 * Signal that a post has been voted up
 	 *
 	 * @Flow\Signal
 	 * @param Post $post
+	 * @param array $properties
 	 * @return void
 	 */
-	protected function emitPostVotedUp(Post $post) {}
+	protected function emitPostVotedUp(Post $post, $properties) {}
 
 	/**
 	 * Signal that a post has been voted up
 	 *
 	 * @Flow\Signal
 	 * @param Post $post
+	 * @param array $properties
 	 * @return void
 	 */
-	protected function emitPostVoteUpRemoved(Post $post) {}
+	protected function emitPostVoteUpRemoved(Post $post, $properties) {}
 
 	/**
 	 * Signal that a post has been voted down
 	 *
 	 * @Flow\Signal
 	 * @param Post $post
+	 * @param array $properties
 	 * @return void
 	 */
-	protected function emitPostVotedDown(Post $post) {}
+	protected function emitPostVotedDown(Post $post, $properties) {}
 
 	/**
 	 * Signal that a post has been voted down
 	 *
 	 * @Flow\Signal
 	 * @param Post $post
+	 * @param array $properties
 	 * @return void
 	 */
-	protected function emitPostVoteDownRemoved(Post $post) {}
+	protected function emitPostVoteDownRemoved(Post $post, $properties) {}
 
 	/**
 	 * Signal that a post has been counted
 	 *
 	 * @Flow\Signal
 	 * @param Post $post
+	 * @param array $properties
 	 * @return void
 	 */
-	protected function emitPostCounted(Post $post) {}
+	protected function emitPostCounted(Post $post, $properties) {}
 
 	/**
 	 * @return boolean Disable the default error flash message
