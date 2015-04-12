@@ -21,8 +21,12 @@ privilegeTargets:
       matcher: 'method(Flowpack\Snippets\Controller\CommentController->(delete)Action(comment.author == current.securityContext.party))'
     Flowpack_Snippets_Notification:
       matcher: method(Flowpack\Snippets\Controller\NotificationController->(list|count)Action())
+    Flowpack_Snippets_NotificationIndex:
+      matcher: method(Flowpack\Snippets\Controller\NotificationController->(index)Action())
     Flowpack_Snippets_Packagist:
       matcher: method(Flowpack\Snippets\Controller\PackagistController->(list|search)Action())
+    Flowpack_Snippets_Profile:
+      matcher: method(Flowpack\Snippets\Controller\ProfileController->list(Favorites|Followers|Following|Categories|Tags)Action())
     Flowpack_Snippets_Backend_Module_Snippets:
       matcher: method(Flowpack\Snippets\Controller\Module\SnippetsController->indexAction())
     Flowpack_Snippets_Backend_Module_Snippets_Posts:
@@ -65,6 +69,12 @@ roles:
         permission: GRANT
       -
         privilegeTarget: Flowpack_Snippets_Post
+        permission: GRANT
+      -
+        privilegeTarget: Flowpack_Snippets_Profile
+        permission: GRANT
+      -
+        privilegeTarget: Flowpack_Snippets_NotificationIndex
         permission: GRANT
       -
         privilegeTarget: Flowpack_Snippets_Teaser
