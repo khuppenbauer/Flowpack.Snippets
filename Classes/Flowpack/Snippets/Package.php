@@ -34,7 +34,7 @@ class Package extends BasePackage {
 		$dispatcher->connect('Flowpack\Snippets\Controller\PostController', 'postVotedUp', 'Flowpack\ElasticSearch\Indexer\Object\ObjectIndexer', 'updateObject');
 		$dispatcher->connect('Flowpack\Snippets\Controller\PostController', 'postVoteUpRemoved', 'Flowpack\ElasticSearch\Indexer\Object\ObjectIndexer', 'updateObject');
 		$dispatcher->connect('Flowpack\Snippets\Controller\PostController', 'postVotedDown', 'Flowpack\ElasticSearch\Indexer\Object\ObjectIndexer', 'updateObject');
-		$dispatcher->connect('Flowpack\Snippets\Controller\PostController', 'postVoteDownRemoved', 'Flowpack\ElasticSearch\Indexer\Object\ObjectIndexer', 'updatebject');
+		$dispatcher->connect('Flowpack\Snippets\Controller\PostController', 'postVoteDownRemoved', 'Flowpack\ElasticSearch\Indexer\Object\ObjectIndexer', 'updateObject');
 		$dispatcher->connect('Flowpack\Snippets\Controller\PostController', 'postCounted', 'Flowpack\ElasticSearch\Indexer\Object\ObjectIndexer', 'updateObject');
 		$dispatcher->connect('Flowpack\Snippets\Controller\Module\Snippets\PostsController', 'postUpdated', 'Flowpack\ElasticSearch\Indexer\Object\ObjectIndexer', 'indexObject');
 		$dispatcher->connect('Flowpack\Snippets\Controller\Module\Snippets\PostsController', 'postRemoved', 'Flowpack\ElasticSearch\Indexer\Object\ObjectIndexer', 'removeObject');
