@@ -34,17 +34,17 @@ $(".jq-favor").click(function (e) {
 
 $(".jq-follow-category").click(function (e) {
     e.preventDefault();
-    sendFollowRequest('/Category/follow', 'category=' + $(this).data('category'), this);
+    sendFollowRequest('/Category/follow', 'category=' + $(this).data('category') + '&__csrfToken=' + $(this).data('csrfToken'), this);
 });
 
 $(".jq-follow-tag").click(function (e) {
     e.preventDefault();
-    sendFollowRequest('/Tag/follow', 'tag=' + $(this).data('tag'), this);
+    sendFollowRequest('/Tag/follow', 'tag=' + $(this).data('tag') + '&__csrfToken=' + $(this).data('csrfToken'), this);
 });
 
 $(".jq-follow-user").click(function (e) {
     e.preventDefault();
-    sendFollowRequest('/User/follow', 'user=' + $(this).data('user'), this);
+    sendFollowRequest('/User/follow', 'user=' + $(this).data('user') + '&__csrfToken=' + $(this).data('csrfToken'), this);
 });
 
 function sendFollowRequest(action, data, obj) {
@@ -74,7 +74,7 @@ function sendRequest(obj, action) {
         $.ajax({
             type: 'POST',
             url: '/Post/' + action,
-            data: {post: obj.data('post')},
+            data: {post: obj.data('post'), __csrfToken: obj.data('csrfToken')},
             dataType: 'json',
             success: function (data) {
                 $('.jq-upVotes').text(data.upVotes);
