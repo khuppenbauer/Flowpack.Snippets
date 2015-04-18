@@ -222,6 +222,12 @@ Flowpack:
           - providerName
         tab:
           - postType
+      aggregationSorting:
+        tab:
+          - text
+          - link
+          - package
+          - reference
       aggregationSize: 25
       sortings:
         -

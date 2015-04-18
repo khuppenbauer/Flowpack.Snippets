@@ -442,6 +442,16 @@ class SearchService {
 					$value = $item['key'] . ' (' . $item['doc_count'] . ')';
 					$options[$aggregation][$key] = $value;
 				}
+				$sortingArray = Arrays::getValueByPath($this->settings, 'aggregationSorting.' . $type);
+				if (!empty($sortingArray)) {
+					$sortedOptions = array();
+					foreach ($sortingArray as $item) {
+						if (array_key_exists($item, $options[$aggregation])) {
+							$sortedOptions[$item] = $options[$aggregation][$item];
+						}
+					}
+					$options[$aggregation] = $sortedOptions;
+				}
 			}
 		}
 		return $options;
