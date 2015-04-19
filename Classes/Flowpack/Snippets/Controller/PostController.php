@@ -98,13 +98,15 @@ class PostController extends ActionController {
 	 */
 	public function initializeUpdateAction() {
 		$post = $this->request->getArgument('post');
-		$tags = $this->convertTags($post['tags']);
-		if (!empty($tags)) {
-			$post['tags'] = $tags;
-		} else {
-			$post['tags'] = '';
+		if (isset($post['tags'])) {
+			$tags = $this->convertTags($post['tags']);
+			if (!empty($tags)) {
+				$post['tags'] = $tags;
+			} else {
+				$post['tags'] = '';
+			}
+			$this->request->setArgument('post', $post);
 		}
-		$this->request->setArgument('post', $post);
 		$this->arguments['post']->getPropertyMappingConfiguration()->allowProperties('tags');
 		$this->arguments['post']->getPropertyMappingConfiguration()->setTypeConverterOption('TYPO3\Flow\Property\TypeConverter\PersistentObjectConverter', \TYPO3\Flow\Property\TypeConverter\PersistentObjectConverter::CONFIGURATION_MODIFICATION_ALLOWED, TRUE);
 		$this->arguments['post']->getPropertyMappingConfiguration()->forProperty('tags')->allowAllProperties();
@@ -228,8 +230,7 @@ class PostController extends ActionController {
 	 * @return void
 	 */
 	public function deleteAction(Post $post) {
-		$post->setActive(FALSE);
-		$this->postRepository->update($post);
+		$this->postRepository->remove($post);
 		$this->emitPostRemoved($post);
 		$this->redirect('index');
 	}

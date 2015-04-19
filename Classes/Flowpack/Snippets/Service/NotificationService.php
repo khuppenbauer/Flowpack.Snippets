@@ -6,6 +6,7 @@ namespace Flowpack\Snippets\Service;
  *                                                                        *
  *                                                                        */
 
+use Elastica\Query;
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\I18n\Translator;
 use Flowpack\Snippets\Domain\Model\Comment;
@@ -125,8 +126,11 @@ class NotificationService {
 	 * @param Post $post
 	 */
 	public function postRemoved(Post $post) {
+		$notifications = $this->notificationRepository->findByPost($post);
+		foreach ($notifications as $notification) {
+			$this->emitNotificationRemoved($notification);
+		}
 		$this->notificationRepository->deleteByPost($post);
-		// @TODO: remove elastic index
 	}
 
 	/**

@@ -32,7 +32,7 @@ class Tag {
 	 * The posts tagged with this tag
 	 *
 	 * @var Collection<\Flowpack\Snippets\Domain\Model\Post>
-	 * @ORM\ManyToMany(mappedBy="tags")
+	 * @ORM\ManyToMany(mappedBy="tags",cascade={"remove"})
 	 */
 	protected $posts;
 

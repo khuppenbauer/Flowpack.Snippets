@@ -25,7 +25,7 @@ class User extends Person {
 	 * The posts voted up by the User
 	 *
 	 * @var Collection<\Flowpack\Snippets\Domain\Model\Post>
-	 * @ORM\ManyToMany(mappedBy="upVotes")
+	 * @ORM\ManyToMany(mappedBy="upVotes",cascade={"remove"})
 	 */
 	protected $upVotes;
 
@@ -33,7 +33,7 @@ class User extends Person {
 	 * The posts voted down by the User
 	 *
 	 * @var Collection<\Flowpack\Snippets\Domain\Model\Post>
-	 * @ORM\ManyToMany(mappedBy="downVotes")
+	 * @ORM\ManyToMany(mappedBy="downVotes",cascade={"remove"})
 	 */
 	protected $downVotes;
 
@@ -41,7 +41,7 @@ class User extends Person {
 	 * The posts favorited by the User
 	 *
 	 * @var Collection<\Flowpack\Snippets\Domain\Model\Post>
-	 * @ORM\ManyToMany(mappedBy="favorites")
+	 * @ORM\ManyToMany(mappedBy="favorites",cascade={"remove"})
 	 * @ORM\OrderBy({"date" = "DESC"})
 	 */
 	protected $favorites;

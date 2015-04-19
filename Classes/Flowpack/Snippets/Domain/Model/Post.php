@@ -158,7 +158,7 @@ class Post {
 	 * The post views
 	 *
 	 * @var Collection<\Flowpack\Snippets\Domain\Model\Tracking>
-	 * @ORM\OneToMany(mappedBy="post", cascade={"persist"})
+	 * @ORM\OneToMany(mappedBy="post", cascade={"persist","remove"})
 	 */
 	protected $views;
 
@@ -215,7 +215,7 @@ class Post {
 
 	/**
 	 * @var Collection<\Flowpack\Snippets\Domain\Model\Comment>
-	 * @ORM\OneToMany(mappedBy="post")
+	 * @ORM\OneToMany(mappedBy="post",cascade={"persist","remove"})
 	 * @ORM\OrderBy({"date" = "DESC"})
 	 */
 	protected $comments;
@@ -326,7 +326,7 @@ class Post {
 	 * The post notification
 	 *
 	 * @var Collection<\Flowpack\Snippets\Domain\Model\Notification>
-	 * @ORM\OneToMany(mappedBy="post",cascade={"remove"})
+	 * @ORM\OneToMany(mappedBy="post")
 	 */
 	protected $notification;
 

@@ -55,7 +55,6 @@ class Package extends BasePackage {
 		//Eventlog
 		$dispatcher->connect('Flowpack\Snippets\Controller\PostController', 'postCreated', 'Flowpack\Snippets\Service\EventService', 'postCreated');
 		$dispatcher->connect('Flowpack\Snippets\Controller\PostController', 'postUpdated', 'Flowpack\Snippets\Service\EventService', 'postUpdated');
-		$dispatcher->connect('Flowpack\Snippets\Controller\PostController', 'postRemoved', 'Flowpack\Snippets\Service\EventService', 'postRemoved');
 		$dispatcher->connect('Flowpack\Snippets\Controller\PostController', 'postFavored', 'Flowpack\Snippets\Service\EventService', 'postFavored');
 		$dispatcher->connect('Flowpack\Snippets\Controller\PostController', 'postFavorRemoved', 'Flowpack\Snippets\Service\EventService', 'postFavorRemoved');
 		$dispatcher->connect('Flowpack\Snippets\Controller\PostController', 'postVotedUp', 'Flowpack\Snippets\Service\EventService', 'postVotedUp');
