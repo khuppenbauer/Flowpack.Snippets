@@ -9,7 +9,7 @@ namespace Flowpack\Snippets\Indexer\Transform;
 use Embed\Embed;
 use Embed\Request;
 use Goutte\Client as Goutte;
-use Guzzle\Http\Client as Guzzle;
+use GuzzleHttp\Client as Guzzle;
 use Smalot\PdfParser\Parser;
 use TYPO3\Flow\Annotations as Flow;
 use Flowpack\ElasticSearch\Indexer\Object\Transform\TransformerInterface;
