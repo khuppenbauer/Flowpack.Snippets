@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file original="" source-language="en" datatype="plaintext">
+		<body>
+			<trans-unit id="snippets.label" xml:space="preserve" approved="yes">
+				<source>Snippets</source>
+				<target xml:lang="de">Snippets</target>
+				<alt-trans>
+					<target xml:lang="de">Snippets</target>
+				</alt-trans>
+				<alt-trans>
+					<target xml:lang="de">Snippets</target>
+				</alt-trans>
+			</trans-unit>
+			<trans-unit id="snippets.description" xml:space="preserve" approved="yes">
+				<source>Snippets Management</source>
+				<target xml:lang="de">Snippets Management</target>
+				<alt-trans>
+					<target xml:lang="de">Snippets Management</target>
+				</alt-trans>
+				<alt-trans>
+					<target xml:lang="de">Snippets Management</target>
+				</alt-trans>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

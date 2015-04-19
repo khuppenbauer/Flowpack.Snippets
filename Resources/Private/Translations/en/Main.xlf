@@ -239,6 +239,27 @@
 			<trans-unit id="Notification.Comment.Created">
 				<source>{0} commented your post "{1}"</source>
 			</trans-unit>
+			<trans-unit id="profile.noPosts">
+				<source> </source>
+			</trans-unit>
+			<trans-unit id="profile.noFavorites">
+				<source> </source>
+			</trans-unit>
+			<trans-unit id="profile.noCategories">
+				<source> </source>
+			</trans-unit>
+			<trans-unit id="profile.noTags">
+				<source> </source>
+			</trans-unit>
+			<trans-unit id="profile.noFollowing">
+				<source> </source>
+			</trans-unit>
+			<trans-unit id="profile.noFollowers">
+				<source> </source>
+			</trans-unit>
+			<trans-unit id="profile.noNotifications">
+				<source> </source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

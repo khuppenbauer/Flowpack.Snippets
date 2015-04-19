@@ -312,6 +312,34 @@
 				<source>{0} commented your post "{1}"</source>
 				<target>{0} hat deinen Beitrag "{1}" kommentiert</target>
 			</trans-unit>
+			<trans-unit id="profile.noPosts">
+				<source> </source>
+				<target> </target>
+			</trans-unit>
+			<trans-unit id="profile.noFavorites">
+				<source> </source>
+				<target> </target>
+			</trans-unit>
+			<trans-unit id="profile.noCategories">
+				<source> </source>
+				<target> </target>
+			</trans-unit>
+			<trans-unit id="profile.noTags">
+				<source> </source>
+				<target> </target>
+			</trans-unit>
+			<trans-unit id="profile.noFollowing">
+				<source> </source>
+				<target> </target>
+			</trans-unit>
+			<trans-unit id="profile.noFollowers">
+				<source> </source>
+				<target> </target>
+			</trans-unit>
+			<trans-unit id="profile.noNotifications">
+				<source> </source>
+				<target> </target>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
