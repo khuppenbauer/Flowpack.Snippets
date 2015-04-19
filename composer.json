@@ -5,7 +5,7 @@
     "require": {
         "typo3/neos": "*",
         "flowpack/elasticsearch": "*",
-        "fabpot/goutte": "~1.0.6",
+        "fabpot/goutte": "~2.0.3",
         "embed/embed": "*",
         "ruflin/Elastica": "*",
         "typo3/swiftmailer": "*",
