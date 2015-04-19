@@ -86,7 +86,7 @@ function sendRequest(obj, action) {
             }
         });
     } else {
-        $('#login').foundation('reveal', 'open', '');
+        $('#login').modal('show');
     }
 }
 
