@@ -8,12 +8,16 @@ namespace Flowpack\Snippets\Domain\Repository;
 
 use TYPO3\Flow\Annotations as Flow;
 use TYPO3\Flow\Persistence\Repository;
+use TYPO3\Flow\Persistence\QueryInterface;
 
 /**
  * @Flow\Scope("singleton")
  */
 class CategoryRepository extends Repository {
 
-	// add customized methods here
+	/**
+	 * @var array
+	 */
+	protected $defaultOrderings = array('name' => QueryInterface::ORDER_ASCENDING);
 
 }
