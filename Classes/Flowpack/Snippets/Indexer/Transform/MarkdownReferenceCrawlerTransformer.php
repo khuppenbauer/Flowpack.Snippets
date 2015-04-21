@@ -8,7 +8,7 @@ namespace Flowpack\Snippets\Indexer\Transform;
 
 use TYPO3\Flow\Annotations as Flow;
 use Goutte\Client as Goutte;
-use Guzzle\Http\Client as Guzzle;
+use GuzzleHttp\Client as Guzzle;
 use Flowpack\ElasticSearch\Indexer\Object\Transform\TransformerInterface;
 
 /**
