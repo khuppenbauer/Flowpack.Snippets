@@ -55,7 +55,7 @@ class CaptureService {
 	 */
 	public function createCapture(Post $post) {
 		$url = $post->getUrl();
-		if (!empty($url)) {
+		if (!empty($url) && $post->getPostType() !== 'package') {
 			$phantomjsBinaryPathAndFilename = $this->settings['phantomjsBinaryPathAndFilename'];
 			$captureScript = $this->settings['captureScript'];
 			list($packageKey, $resourcePath) = explode('/', substr($captureScript, 11), 2);
