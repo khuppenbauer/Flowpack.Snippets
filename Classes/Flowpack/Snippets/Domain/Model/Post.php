@@ -130,6 +130,7 @@ class Post {
 	 * The post tags
 	 *
 	 * @var Collection<\Flowpack\Snippets\Domain\Model\Tag>
+	 * @Flow\Validate(type="notEmpty")
 	 * @ElasticSearch\Transform("CollectionStringCast")
 	 * @ElasticSearch\Indexable
 	 * @ElasticSearch\Mapping(analyzer="string_lowercase", fields={@Elasticsearch\Mapping(index_name="raw", type="string", index="not_analyzed")})
