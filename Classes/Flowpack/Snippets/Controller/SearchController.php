@@ -119,6 +119,7 @@ class SearchController extends ActionController {
 		$this->view->assign('sortField', $sortField);
 		$this->view->assign('postType', $postType);
 		$this->view->assign('user', $user);
+		$this->view->assign('embed', FALSE);
 	}
 
 	/**

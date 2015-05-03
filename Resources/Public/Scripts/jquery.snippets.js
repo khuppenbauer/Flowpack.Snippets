@@ -5,6 +5,10 @@ $(".jq-filter-reset").click(function() {
     $("#search").submit();
 });
 
+$("#embed").click(function() {
+    $("#search").submit();
+});
+
 //set filter from links with data attribute
 $(document).on('click', 'a[data-currentPage], a[data-sortField], a[data-postType]', function(){
     var attributes = $(this).data();
