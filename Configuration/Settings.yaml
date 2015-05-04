@@ -228,6 +228,11 @@ Flowpack:
           - link
           - package
           - reference
+      postTypeIcons:
+        text: file-text
+        link: external-link-square
+        package: archive
+        reference: globe
       aggregationSize: 25
       sortings:
         -
